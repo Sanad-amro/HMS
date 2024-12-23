@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane onMouseClicked="#blankClicked" prefHeight="623.0" prefWidth="600.0" styleClass="page" stylesheets="@styles/add.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.MakeAppointment">
+    <children>
+        <Label layoutX="13.0" layoutY="24.0" prefHeight="36.0" prefWidth="118.0" text="Name" textFill="WHITE">
+            <font>
+                <Font name="AppleMyungjo Regular" size="13.0" />
+            </font></Label>
+        <TextField fx:id="name" layoutX="138.0" layoutY="29.0" styleClass="textField" />
+        <Label layoutX="308.0" layoutY="24.0" prefHeight="36.0" prefWidth="118.0" text="Id" textFill="WHITE">
+            <font>
+                <Font name="AppleMyungjo Regular" size="13.0" />
+            </font></Label>
+        <TextField fx:id="id" layoutX="433.0" layoutY="29.0" styleClass="textField" />
+        <Button fx:id="set" layoutX="451.0" layoutY="558.0" mnemonicParsing="false" onAction="#set" prefHeight="46.0" prefWidth="103.0" styleClass="addButton" text="set" />
+        <Button fx:id="close" layoutX="45.0" layoutY="558.0" mnemonicParsing="false" onAction="#close" prefHeight="46.0" prefWidth="103.0" styleClass="addButton" text="Close" />
+        <Spinner fx:id="spinnerSM" layoutX="218.0" layoutY="465.0" prefHeight="30.0" prefWidth="75.0" />
+        <Spinner fx:id="spinnerSH" layoutX="151.0" layoutY="465.0" prefHeight="30.0" prefWidth="60.0" />
+        <Label layoutX="161.0" layoutY="434.0" text="hours" textFill="WHITE" />
+        <Label layoutX="104.0" layoutY="470.0" text="from:" textFill="WHITE" />
+        <Label layoutX="232.0" layoutY="434.0" text="minuets" textFill="WHITE" />
+        <Label layoutX="327.0" layoutY="470.0" text="to" textFill="WHITE" />
+        <Spinner fx:id="spinnerFM" layoutX="438.0" layoutY="466.0" prefHeight="30.0" prefWidth="75.0" />
+        <Spinner fx:id="spinnerFH" layoutX="371.0" layoutY="466.0" prefHeight="30.0" prefWidth="60.0" />
+        <Label layoutX="381.0" layoutY="435.0" text="hours" textFill="WHITE" />
+        <Label layoutX="452.0" layoutY="435.0" text="minuets" textFill="WHITE" />
+        <ComboBox fx:id="dayComBox" layoutX="84.0" layoutY="195.0" prefHeight="30.0" prefWidth="135.0" promptText="chose day" />
+      <TableView fx:id="doctorsTable" layoutX="247.0" layoutY="137.0" prefHeight="175.0" prefWidth="339.0">
+         <columns>
+            <TableColumn fx:id="idC" prefWidth="136.0" text="id" />
+            <TableColumn fx:id="nameC" prefWidth="120.0" text="name" />
+            <TableColumn fx:id="isWorking" prefWidth="75.0" text="is working" />
+         </columns>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TableView>
+      <TextField fx:id="searchField" layoutX="16.0" layoutY="137.0" prefHeight="30.0" prefWidth="209.0" promptText="Doctor Name/Id" styleClass="textField" />
+      <Label fx:id="error" layoutX="204.0" layoutY="564.0" prefHeight="36.0" prefWidth="236.0" text="there is already an appointment" textFill="#f80000" visible="false">
+         <font>
+            <Font name="AppleMyungjo Regular" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="succes" layoutX="279.0" layoutY="564.0" prefHeight="36.0" prefWidth="161.0" text="appointment addes succefuly " textFill="#00ff33" visible="false">
+         <font>
+            <Font name="AppleMyungjo Regular" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="oparation" layoutX="98.0" layoutY="257.0" styleClass="textField" />
+      <Label layoutX="-1.0" layoutY="256.0" prefHeight="36.0" prefWidth="118.0" text="operation:" textFill="WHITE">
+         <font>
+            <Font name="AppleMyungjo Regular" size="13.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>
