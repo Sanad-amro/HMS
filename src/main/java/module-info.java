@@ -3,6 +3,8 @@ module HMS {
     requires javafx.fxml;
     requires javafx.graphics;
     requires com.google.gson;
+    requires java.sql;
+    requires javafx.swt;
 
     opens org.example.hms to javafx.fxml;
     opens org.example.hms.controllers to javafx.fxml;

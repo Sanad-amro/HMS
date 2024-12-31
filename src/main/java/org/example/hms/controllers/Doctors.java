@@ -78,8 +78,6 @@ public class Doctors {
     @FXML
     Button setWork;
     @FXML
-    TableColumn<Doctor, String> isWorking;
-    @FXML
     AnchorPane anchB;
 
 
@@ -134,27 +132,6 @@ public class Doctors {
         idC.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameC.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailC.setCellValueFactory(new PropertyValueFactory<>("email"));
-        isWorking.setCellValueFactory(data ->{
-            if(data.getValue() !=null)
-                return new SimpleStringProperty(data.getValue().isHeWorking(data.getValue().getId()) ? "Yes":"No");
-
-            else return new SimpleStringProperty("No");
-        });
-        isWorking.setCellFactory(column -> new javafx.scene.control.TableCell<>() {
-            @Override
-            protected void updateItem(String isWorking, boolean empty) {
-                super.updateItem(isWorking, empty);
-
-                if (empty || isWorking == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    Text text = new Text(isWorking);
-                    text.setFill("Yes".equals(isWorking) ? Color.GREEN : Color.RED);
-                    setGraphic(text);
-                }
-            }
-        });
 
 
 
@@ -363,16 +340,17 @@ public class Doctors {
 
 
     public void patientClicked(MouseEvent event) throws IOException {
+        System.out.println(doctor.getName());
         FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Patent.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Patients patients= loader.getController();
-        if (doctor!=null){
-            System.out.println("user is null");
+        if (doctor==null){
+            System.out.println("this is a user ");
             patients.setUser(user);
         }else {
-            System.out.println("doctor is null");
+            System.out.println("this is a docotr");
             patients.setDoctor(doctor);
         }
         stage.close();

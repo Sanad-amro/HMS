@@ -4,10 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.example.hms.classes.Doctor;
-import org.example.hms.classes.Patient;
 import org.example.hms.classes.Patient;
 
 import java.io.IOException;
@@ -24,15 +22,14 @@ public class AddPatient {
     @FXML
     TextField address;
     @FXML
-    TextField email;
+    TextField addedBy;
+
     @FXML
     TextArea medical;
     @FXML
     TextField age;
     @FXML
-    ComboBox<String> sector;
-
-
+    TextField phone;
     @FXML
     Label fields_fill;
     @FXML
@@ -43,36 +40,32 @@ public class AddPatient {
     Button add;
     boolean wannaUpdate=false;
     boolean addhim=true;
+    Doctor doctor;
+    public AddPatient(){}
+    public void setDoctor(Doctor doctor){this.doctor=doctor; nigga();}
+    private void nigga(){
 
-
+        addedBy.setText(doctor.getName());
+    }
 
     @FXML
     public void add_doctor() throws IOException {
         String dname= name.getText();
         String did= id.getText();
         String daddress= address.getText();
-        String demail= email.getText();
-        String dsector=sector.getValue();
+        String dsector= phone.getText();
 
         succsess.setText("Patient added successfully!");
         addhim=true;
 
 
-        if((dname.isEmpty() || did.isEmpty() || daddress.isEmpty() || dsector.isEmpty() || age.getText().isEmpty() || medical.getText().isEmpty())){
+        if((dname.isEmpty() || did.isEmpty() || daddress.isEmpty() || dsector.isEmpty() || age.getText().isEmpty() )){
             succsess.setVisible(false);
             pass_match.setVisible(false);
             fields_fill.setVisible(true);
             addhim=false;
         }
-        if(!email.getText().isEmpty()){
-            System.out.println("i was here ");
-            if(!demail.contains("@") || !demail.contains(".") || demail.length()<8){
-                fields_fill.setText("Enter a valid Email address");
-                fields_fill.setVisible(true);
-                addhim=false;
-            }
 
-        }
 
 
         if(Patient.doesIdExists(Integer.parseInt(did)) && !wannaUpdate){
@@ -86,12 +79,9 @@ public class AddPatient {
                 add.setText("Update");
                 Patient patient=Patient.getPatient((Integer.parseInt(did)));
                 name.setText(patient.getName());
-                id.setText(String.valueOf(patient.getId()));
-                email.setText(patient.getEmail());
+                id.setText(String.valueOf(patient.getPatientId()));
                 address.setText(patient.getAddress());
-                sector.setValue(patient.getSector());
                 age.setText(String.valueOf(patient.getAge()));
-                medical.setText(patient.getMedicalRecord());
                 wannaUpdate=true;
             }
             addhim=false;
@@ -106,25 +96,19 @@ public class AddPatient {
             List<Patient> patients = new ArrayList<>();
             Patient patient;
 
-            if (email.getText().isEmpty()){
-                patient=new Patient(dname, Integer.parseInt(did), daddress, dsector,medical.getText(), Integer.parseInt(age.getText()) );
+            patient = new Patient( Integer.parseInt(did),dname,dsector, daddress, Integer.parseInt(age.getText()), doctor.getName());
 
-            }else {
-                patient=new Patient(dname, Integer.parseInt(did),email.getText(), daddress, dsector,medical.getText(), Integer.parseInt(age.getText()) );
-            }
             patients.add(patient);
-            Patient.addOrUpdatePatient(new ArrayList<>(patients));
+            Patient.addPatient(new ArrayList<>(patients));
             if(wannaUpdate){
                 succsess.setText("Patient updated successfully ");
             }
             succsess.setVisible(true);
             name.setText("");
             id.setText("");
-            email.setText("");
             address.setText("");
-            sector.setPromptText("Sector");
+            phone.setText("");
             age.setText("");
-            medical.setText("");
             add.setText("Add");
         }
     }
@@ -136,13 +120,11 @@ public class AddPatient {
     }
     @FXML
     public void initialize(){
-        sector.getItems().addAll("Cardiology", "Orthopedics", "Neurology", "Pediatrics", "General Surgery", "Dermatology", "Radiology", "Psychiatry", "Emergency Medicine", "Internal Medicine", "Anesthesiology", "Ophthalmology", "Oncology", "Obstetrics & Gynecology", "Urology", "Endocrinology", "Nephrology", "Hematology", "Gastroenterology", "Pulmonology");
         name.setOnAction(e -> id.requestFocus());
         id.setOnAction(e -> address.requestFocus());
-        address.setOnAction(e -> sector.requestFocus());
-        sector.setOnAction(e -> email.requestFocus());
-        email.setOnAction(e -> age.requestFocus());
-        age.setOnAction(event -> medical.requestFocus());
+        address.setOnAction(e -> phone.requestFocus());
+        phone.setOnAction(e -> age.requestFocus());
+        age.setOnAction(event -> add.fire());
 
         id.textProperty().addListener(((observableValue, s, t1) -> {
             if (!t1.matches("\\d*")) {
@@ -151,6 +133,12 @@ public class AddPatient {
 
         }));
         age.textProperty().addListener(((observableValue, s, t1) -> {
+            if (!t1.matches("\\d*")) {
+                age.setText(s);
+            }
+
+        }));
+        phone.textProperty().addListener(((observableValue, s, t1) -> {
             if (!t1.matches("\\d*")) {
                 age.setText(s);
             }

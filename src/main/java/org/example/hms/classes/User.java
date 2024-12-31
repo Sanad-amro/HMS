@@ -491,6 +491,14 @@ public class User {
         }
     }
 
+    public boolean isDoctors_admin() {
+        return Doctors_admin;
+    }
+
+    public void setDoctors_admin(boolean doctors_admin) {
+        Doctors_admin = doctors_admin;
+    }
+
     public boolean isHeWorking(int id){
         User user= User.getUser(id);
         int hours= LocalTime.now().getHour();

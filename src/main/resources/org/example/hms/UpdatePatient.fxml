@@ -29,7 +29,7 @@
                 <Font name="AppleMyungjo Regular" size="13.0" />
             </font></Label>
         <TextField fx:id="email" layoutX="139.0" layoutY="150.0" styleClass="textField" />
-        <Label layoutX="309.0" layoutY="95.0" prefHeight="36.0" prefWidth="118.0" text="Sector" textFill="WHITE">
+        <Label layoutX="309.0" layoutY="95.0" prefHeight="36.0" prefWidth="118.0" text="phone number" textFill="WHITE">
             <font>
                 <Font name="AppleMyungjo Regular" size="13.0" />
             </font></Label>

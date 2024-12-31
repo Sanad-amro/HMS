@@ -57,14 +57,20 @@ public class Patients {
     @FXML
     TableColumn<Patient, String> nameC;
     @FXML
-    TableColumn<Patient, String> emailC;
+    TableColumn<Patient, String> doctorC;
     @FXML
     TextField searchField;
+    @FXML
+    TextField searchField1;
     @FXML
     private VBox buttons;
 
     private int idOfSlectedPatient=0;
     public void blankClicked(MouseEvent event) {
+        searchField.getParent().requestFocus();
+        searchField1.getParent().requestFocus();
+
+
     }
 
     public void hideButtons(MouseEvent event) {
@@ -73,9 +79,13 @@ public class Patients {
     public void showButtons(MouseEvent event) {
     }
 
+
     public void addPatient(ActionEvent event) throws IOException {
+        System.out.println(doctor.getName());
         FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/add_patient.fxml"));
         Parent root = window.load();
+        AddPatient addPatient= window.getController();
+        addPatient.setDoctor(doctor);
         Scene scene = new Scene(root);
         Stage stage1 = new Stage();
         stage1.setScene(scene);
@@ -140,9 +150,9 @@ public class Patients {
         searchField.clear();
         searchField.getParent().requestFocus();
         buttons.setOpacity(0);
-        idC.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idC.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         nameC.setCellValueFactory(new PropertyValueFactory<>("name"));
-        emailC.setCellValueFactory(new PropertyValueFactory<>("email"));
+        doctorC.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
 
         if (new File("src/main/java/org/example/hms/dataBase/patientsInfo.json").exists()){
             System.out.println("Heeeeyyy!!! (:");
@@ -156,7 +166,20 @@ public class Patients {
                     }
                     String lowerFilter = newValue.toLowerCase();
 
-                    if ( patient1.getName().toLowerCase().contains(lowerFilter) ||  String.valueOf(patient1.getId()).contains(newValue))
+                    if ( patient1.getName().toLowerCase().contains(lowerFilter) ||  String.valueOf(patient1.getPatientId()).contains(newValue))
+                        return true;
+                    else return false;
+                });
+            });
+
+            searchField1.textProperty().addListener((observable, oldValue, newValue)->{
+                filteredList.setPredicate(patient1 -> {
+                    if(newValue==null || newValue.isEmpty()){
+                        return true;
+                    }
+                    String lowerFilter = newValue.toLowerCase();
+
+                    if ( patient1.getAddedBy().toLowerCase().contains(lowerFilter))
                         return true;
                     else return false;
                 });
@@ -166,7 +189,7 @@ public class Patients {
                 @Override
                 public void changed(ObservableValue<? extends Patient> observableValue, Patient patient, Patient storedpatient) {
                     if(storedpatient != null){
-                        idOfSlectedPatient = storedpatient.getId();
+                        idOfSlectedPatient = storedpatient.getPatientId();
 
                     }
                     else {

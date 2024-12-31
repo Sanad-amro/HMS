@@ -78,13 +78,8 @@ public class UpdatePatient {
             pass_match.setVisible(false);
             List<Patient> patients = new ArrayList<>();
             Patient patient1;
-            if (email.getText().isEmpty()){
-                 patient1 = new Patient(dname, Integer.parseInt(did), daddress,  dsector, medical.getText(), Integer.parseInt(age.getText()));
+            patient1 = new Patient( Integer.parseInt(did),dname,dsector, daddress, Integer.parseInt(age.getText()), patient.getAddedBy());
 
-            }else {
-                patient1 = new Patient(dname, Integer.parseInt(did),email.getText(), daddress, dsector, medical.getText(), Integer.parseInt(age.getText()));
-
-            }
             patients.add(patient1);
             Patient.UpdatePatientInfo(new ArrayList<>(patients));
             succsess.setText("Patient updated successfully ");
@@ -104,12 +99,10 @@ public class UpdatePatient {
     public void populateFields(){
         System.out.println(patient.getName());
         name.setText(patient.getName());
-        id.setText(String.valueOf(patient.getId()));
-        email.setText(patient.getEmail());
+        id.setText(String.valueOf(patient.getPatientId()));
         address.setText(patient.getAddress());
-        sector.setText(patient.getSector());
         age.setText(String.valueOf(patient.getAge()));
-        medical.setText(patient.getMedicalRecord());
+
 
 
     }

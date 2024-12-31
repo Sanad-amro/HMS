@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane onMouseClicked="#blankClicked" prefHeight="519.0" prefWidth="852.0" styleClass="mainPage" stylesheets="@styles/startUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.Doctors">
+<AnchorPane onMouseClicked="#blankClicked" prefHeight="519.0" prefWidth="1029.0" styleClass="mainPage" stylesheets="@styles/startUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.Doctors">
    <children>
       <TextField fx:id="searchField" layoutX="93.0" layoutY="50.0" prefHeight="30.0" prefWidth="209.0" promptText="Doctor Name/Id" styleClass="textField" />
       <AnchorPane fx:id="anchB" layoutX="71.0" layoutY="-3.0" onMouseExited="#hideButtons" prefHeight="583.0" prefWidth="19.0" styleClass="vBox">
@@ -114,7 +114,6 @@
                 <TableColumn fx:id="idC" prefWidth="136.0" text="id" />
                 <TableColumn fx:id="nameC" prefWidth="120.0" text="name" />
                   <TableColumn fx:id="emailC" prefWidth="154.0" text="email" />
-                  <TableColumn fx:id="isWorking" prefWidth="75.0" text="is working" />
               </columns>
                <opaqueInsets>
                   <Insets />

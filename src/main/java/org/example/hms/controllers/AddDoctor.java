@@ -124,7 +124,7 @@ public class AddDoctor {
             if (wannaUpdate){
                 Doctor.UpdateDoctorInfo(new ArrayList<>(doctor));
             }else {
-                Doctor.addOrUpdateDoctor(new ArrayList<>(doctor));
+                Doctor.addDoctor(new ArrayList<>(doctor));
 
             }
             System.out.println(doctor1.getId());

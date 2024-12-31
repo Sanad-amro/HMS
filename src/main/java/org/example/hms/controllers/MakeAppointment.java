@@ -73,7 +73,7 @@ public class MakeAppointment {
     }
     private void pop(){
         name.setText(patient.getName());
-        id.setText(String.valueOf(patient.getId()));
+        id.setText(String.valueOf(patient.getPatientId()));
     }
 
     public void initialize() throws IOException {
@@ -195,14 +195,14 @@ public class MakeAppointment {
             add=false;
         }
         List<Appointment> appointments= new ArrayList<>();
-        Appointment appointment = new Appointment(doctor.getName(), patient.getName(), dayComBox.getValue(), oparation.getText(), doctor.getId(),patient.getId(), spinnerSH.getValue(), spinnerSM.getValue(), spinnerFH.getValue(), spinnerFM.getValue());
+        Appointment appointment = new Appointment(doctor.getName(), patient.getName(), dayComBox.getValue(), oparation.getText(), doctor.getId(),patient.getPatientId(), spinnerSH.getValue(), spinnerSM.getValue(), spinnerFH.getValue(), spinnerFM.getValue());
 
-        if(!Appointment.isTheDoctorAvailable(idOfSelectedDoctor,appointment)){
+       /* if(!Appointment.isTheDoctorAvailable(idOfSelectedDoctor,appointment)){
             error.setText("the doctor that time either doesn't work or already have an operation!!");
             error.setVisible(true);
             succes.setVisible(false);
             add=false;
-        }
+        }*/
         if (add){
             appointments.add(appointment);
             Appointment.addOrUpdateAppointment(new ArrayList<>(appointments));

@@ -20,6 +20,7 @@
             <PasswordField fx:id="PTF" styleClass="TextField" />
             <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleSubmit" text="Log in" />
             <Label fx:id="error" text="Error: invailed password or username" textFill="RED" visible="false" />
+            <Button fx:id="tryC" mnemonicParsing="false" onAction="#tryC" prefHeight="41.0" prefWidth="369.0" text="Log in" />
          </children>
       </VBox>
    </children>

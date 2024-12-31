@@ -1,71 +1,65 @@
 package org.example.hms.classes;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import org.example.hms.controllers.Patients;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Patient {
+
+        // Database connection details
+        private static final String DB_URL = "jdbc:mysql://195.123.166.125:3306/akram";
+        private static final String DB_USER = "sanad";
+        private static final String DB_PASSWORD = "sanad";
+
+        // Patient fields
+        private int patientId;
         private String name;
-        private int id;
-        private String email;
+        private String phoneNumber;
         private String address;
-        private String sector;
-        private String medicalRecord;
+        private String addedBy;
+
         private int age;
 
-        public Patient(){}
-        public Patient(String name, int id, String email, String address, String sector, String medicalRecord, int age) {
+        // Constructor
+        public Patient(int patientId, String name, String phoneNumber, String address, int age,String addedBy) {
+                this.patientId = patientId;
                 this.name = name;
-                this.id = id;
-                this.email = email;
+                this.phoneNumber = phoneNumber;
                 this.address = address;
-                this.sector = sector;
-                this.medicalRecord = medicalRecord;
                 this.age = age;
-        }
-        public Patient(String name, int id, String address, String sector, String medicalRecord, int age) {
-                this.name = name;
-                this.id = id;
-                this.address = address;
-                this.sector = sector;
-                this.medicalRecord = medicalRecord;
-                this.age = age;
+                this.addedBy = addedBy;
         }
 
+        // Getter and Setter methods
+        public int getPatientId() {
+                return patientId;
+        }
+
+        public void setPatientId(int patientId) {
+                this.patientId = patientId;
+        }
 
         public String getName() {
                 return name;
+        }
+
+        public String getAddedBy() {
+                return addedBy;
+        }
+
+        public void setAddedBy(String addedBy) {
+                this.addedBy = addedBy;
         }
 
         public void setName(String name) {
                 this.name = name;
         }
 
-        public int getId() {
-                return id;
+        public String getPhoneNumber() {
+                return phoneNumber;
         }
 
-        public void setId(int id) {
-                this.id = id;
-        }
-
-        public String getEmail() {
-                return email;
-        }
-
-        public void setEmail(String email) {
-                this.email = email;
+        public void setPhoneNumber(String phoneNumber) {
+                this.phoneNumber = phoneNumber;
         }
 
         public String getAddress() {
@@ -76,22 +70,6 @@ public class Patient {
                 this.address = address;
         }
 
-        public String getSector() {
-                return sector;
-        }
-
-        public void setSector(String sector) {
-                this.sector = sector;
-        }
-
-        public String getMedicalRecord() {
-                return medicalRecord;
-        }
-
-        public void setMedicalRecord(String medicalRecord) {
-                this.medicalRecord = medicalRecord;
-        }
-
         public int getAge() {
                 return age;
         }
@@ -100,193 +78,129 @@ public class Patient {
                 this.age = age;
         }
 
+        // Function to check the connection and ensure necessary tables exist
+        private static Connection getConnection() throws SQLException {
+                return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        }
 
-        private static final String FILE_PATH = "src/main/java/org/example/hms/dataBase/patientsInfo.json";
+        // Method to create the 'patients' table if it doesn't exist
+        private static void checkConnection() {
+                try (Connection conn = getConnection()) {
+                        Statement stmt = conn.createStatement();
 
-        public static void addOrUpdatePatient(ArrayList<Patient> updatedList) {
-                try {
-                        // Create the Path object
-                        Path filepath = Paths.get(FILE_PATH);
+                        // Check if the database exists
+                        stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS akram");
 
-                        // Ensure the parent directories exist
-                        if (!Files.exists(filepath.getParent())) {
-                                Files.createDirectories(filepath.getParent());
-                                System.out.println("Directories created at: " + filepath.getParent());
-                        }
+                        // Create the 'patients' table if it doesn't exist
+                        String createTableSQL = "CREATE TABLE IF NOT EXISTS patients (" +
+                                "id INT PRIMARY KEY, " +
+                                "name VARCHAR(100), " +
+                                "phone_number VARCHAR(15), " +
+                                "address VARCHAR(255), " +
+                                "age INT,"+"added_By VARCHAR(255));";
+                        stmt.executeUpdate(createTableSQL);
 
-                        // Check if the file exists, if not, create it
-                        if (!Files.exists(filepath)) {
-                                Files.createFile(filepath);
-                                System.out.println("File created at: " + filepath);
-                        }
-
-                        // Read the existing data from the file into an ArrayList
-                        Gson gson = new Gson();
-                        ArrayList<Patient> existingList = new ArrayList<>();
-                        if (Files.size(filepath) > 0) { // Check if file is not empty
-                                try (FileReader reader = new FileReader(filepath.toFile())) {
-                                        Type listType = new TypeToken<ArrayList<Patient>>() {}.getType();
-                                        existingList = gson.fromJson(reader, listType);
-                                }
-                        }
-
-                        // Update or add Patients based on the ID
-                        for (Patient updatedPatient : updatedList) {
-                                boolean found = false;
-                                for (int i = 0; i < existingList.size(); i++) {
-                                        if (existingList.get(i).getId() == updatedPatient.getId()) {
-                                                existingList.set(i, updatedPatient); // Update the existing Patient
-                                                found = true;
-                                                break;
-                                        }
-                                }
-
-                                // If the Patient is not found, add the updated Patient to the list
-                                if (!found) {
-                                        existingList.add(updatedPatient);
-                                }
-                        }
-
-                        // Write the updated list back to the JSON file
-                        try (FileWriter writer = new FileWriter(filepath.toFile())) {
-                                gson.toJson(existingList, writer);
-                                System.out.println("Updated ArrayList has been written to " + filepath + " successfully.");
-                        }
-
-                } catch (IOException e) {
-                        System.err.println("Error while handling the file: " + e.getMessage());
-                        throw new RuntimeException("An error occurred while updating the Patient data.", e);
+                } catch (SQLException e) {
+                        e.printStackTrace();
                 }
         }
 
-        public static Patient getPatient(int id){
-                Path filepath = Paths.get(FILE_PATH);
-                Gson gson = new Gson();
-                ArrayList<Patient> existingList = new ArrayList<>();
-                try (FileReader reader = new FileReader(filepath.toFile())) {
-                        Type listType = new TypeToken<ArrayList<Patient>>() {}.getType();
-                        existingList = gson.fromJson(reader, listType);
-                }catch (IOException e){e.printStackTrace();}
-
-                for (Patient patient : existingList) {
-                        if (patient.getId() != 0 && patient.getId()==id) {
-                                return patient;
-                        }
-                }
-                System.out.println("Patient with Id " + id + " not found.");
-                return null;
-        }
-
-        public static List<Patient> getAllPatients() throws IOException {
-                Path filepath = Paths.get(FILE_PATH);
-                //check if file is empty or doesn't exists
-                if (!Files.exists(filepath) || Files.size(filepath) == 0) {
-                        System.out.println("No patients found in the file.");
-                }
-                //reads the file
-                Gson gson = new Gson();
-                try (FileReader reader = new FileReader(filepath.toFile())) {
-                        Type listType = new TypeToken<ArrayList<Patient>>() {}.getType();
-                        return gson.fromJson(reader, listType);
-                } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
+        // Add a new patient
+        public static void addPatient(ArrayList<Patient> patients) {
+                Patient patient=patients.get(0);
+                checkConnection();
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, age) VALUES (?, ?, ?, ?, ?, ?)";
+                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setInt(1, patient.getPatientId());
+                        stmt.setString(2, patient.getName());
+                        stmt.setString(3, patient.getPhoneNumber());
+                        stmt.setString(4, patient.getAddress());
+                        stmt.setString(5, patient.getAddedBy());
+                        stmt.setInt(6, patient.getAge());
+                        stmt.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
                 }
         }
 
+        // Delete a patient by ID
+        public static void deletePatient(int patientId) {
+                checkConnection();
+                String query = "DELETE FROM patients WHERE id = ?";
+                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setInt(1, patientId);
+                        stmt.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
 
-        public static boolean doesIdExists(int id){
-                Path filepath = Paths.get(FILE_PATH);
-                Gson gson =new Gson();
-                ArrayList<Patient> patients= new ArrayList<>();
-                try (FileReader reader = new FileReader(filepath.toFile())) {
-                        Type listType = new TypeToken<ArrayList<Patient>>() {}.getType();
-                        patients = gson.fromJson(reader, listType);
-                }catch (IOException e){e.printStackTrace();}
-                for (Patient patient : patients){
-                        if(patient.getId()!= 0 && patient.getId()==id){
-                                return true;
+        // Update a patient's information
+        public static void UpdatePatientInfo(ArrayList<Patient> patients) {
+                Patient patient=patients.get(0);
+                checkConnection();
+                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By=?, age = ? WHERE id = ?";
+                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setString(1, patient.getName());
+                        stmt.setString(2, patient.getPhoneNumber());
+                        stmt.setString(3, patient.getAddress());
+                        stmt.setInt(4, patient.getAge());
+                        stmt.setString(5, patient.getAddedBy());
+                        stmt.setInt(6, patient.getPatientId());
+                        stmt.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
+
+        // Get all patients
+        public static ArrayList<Patient> getAllPatients() {
+                checkConnection();
+                ArrayList<Patient> patientsList = new ArrayList<>();
+                String query = "SELECT * FROM patients";
+                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        ResultSet rs = stmt.executeQuery();
+                        while (rs.next()) {
+                                Patient patient = new Patient(rs.getInt("id"), rs.getString("name"),
+                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"));
+                                patientsList.add(patient);
                         }
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+                return patientsList;
+        }
+
+        // Check if a patient ID exists
+        public static boolean doesIdExists(int patientId) {
+                checkConnection();
+                String query = "SELECT COUNT(*) FROM patients WHERE id = ?";
+                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setInt(1, patientId);
+                        ResultSet rs = stmt.executeQuery();
+                        if (rs.next()) {
+                                return rs.getInt(1) > 0; // If count is greater than 0, ID exists
+                        }
+                } catch (SQLException e) {
+                        e.printStackTrace();
                 }
                 return false;
         }
-        public static void UpdatePatientInfo(ArrayList<Patient> list) throws IOException {
-                // Read the existing data from the file into an ArrayList
-                Path filepath = Paths.get(FILE_PATH);
 
-                Gson gson = new Gson();
-                ArrayList<Patient> existingList = new ArrayList<>();
-                if (Files.size(filepath) > 0) { // Check if file is not empty
-                        try (FileReader reader = new FileReader(filepath.toFile())) {
-                                Type listType = new TypeToken<ArrayList<Patient>>() {}.getType();
-                                existingList = gson.fromJson(reader, listType);
+        // Get a patient by ID
+        public static Patient getPatient(int patientId) {
+                checkConnection();
+                String query = "SELECT * FROM patients WHERE id = ?";
+                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setInt(1, patientId);
+                        ResultSet rs = stmt.executeQuery();
+                        if (rs.next()) {
+                                return new Patient(rs.getInt("id"), rs.getString("name"),
+                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"));
                         }
+                } catch (SQLException e) {
+                        e.printStackTrace();
                 }
-                Patient patient;
-                for (int i = 0; i< existingList.size();i++){
-                        patient=existingList.get(i);
-                        if(patient.getId()==list.get(0).getId()){
-                                existingList.get(i).setName(list.get(0).getName());
-                                existingList.get(i).setId(list.get(0).getId());
-                                existingList.get(i).setAddress(list.get(0).getAddress());
-                                existingList.get(i).setSector(list.get(0).getSector());
-                                existingList.get(i).setEmail(list.get(0).getEmail());
-                                existingList.get(i).setMedicalRecord(list.get(0).getMedicalRecord());
-                                existingList.get(i).setAge(list.get(0).getAge());
-
-                        }
-                }
-
-
-                try (FileWriter writer = new FileWriter(filepath.toFile())) {
-                        gson.toJson(existingList, writer);
-                        System.out.println("Updated ArrayList has been written to " + filepath + " successfully.");
-                }
-                catch (IOException e) {
-                        System.err.println("Error while handling the file: " + e.getMessage());
-                        throw new RuntimeException("An error occurred while updating the Patinet data.", e);
-                }
+                return null; // Return null if patient does not exist
         }
-
-        public static void deletePatient(int id) throws IOException {
-                List<Patient> patient=Patient.getAllPatients();
-                for (int i = patient.size() - 1; i >= 0; i--) {
-                        if (patient.get(i).getId() == id) {
-                                patient.remove(i);
-                                break;
-                        }
-                }
-                Patient.addPatient((ArrayList<Patient>) patient);
-
-        }
-        public static void addPatient(ArrayList<Patient> list) {
-                try {
-                        Path filepath = Paths.get(FILE_PATH);
-
-                        if (!Files.exists(filepath.getParent())) {
-                                Files.createDirectories(filepath.getParent());
-                                System.out.println("Directories created at: " + filepath.getParent());
-                        }
-
-                        if (!Files.exists(filepath)) {
-                                Files.createFile(filepath);
-                                System.out.println("File created at: " + filepath);
-                        }
-                        //read the file
-                        Gson gson = new Gson();
-                        try (FileWriter writer = new FileWriter(filepath.toFile())) {
-                                gson.toJson(list, writer);
-                                System.out.println("ArrayList has been written to " + filepath + " successfully.");
-                        } catch (IOException e) {
-                                System.err.println("Error while writing to file: " + e.getMessage());
-                        }
-
-                } catch (IOException e) {
-                        System.err.println("Error: " + e.getMessage());
-                        throw new RuntimeException("An error occurred while handling the file.", e);
-                }
-        }
-
-
-        
-        
 }
