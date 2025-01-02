@@ -12,7 +12,7 @@
 
 <AnchorPane onMouseClicked="#blankClicked" prefHeight="603.0" prefWidth="1127.0" styleClass="mainPage" stylesheets="@styles/startUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.Appointments">
    <children>
-      <TextField fx:id="searchField" layoutX="93.0" layoutY="50.0" prefHeight="30.0" prefWidth="209.0" promptText="Doctor Name/Id" styleClass="textField" />
+      <TextField fx:id="searchField" layoutX="93.0" layoutY="50.0" prefHeight="30.0" prefWidth="209.0" promptText="search by who added it" styleClass="textField" />
       <AnchorPane fx:id="anchB" layoutX="71.0" layoutY="-3.0" onMouseExited="#hideButtons" prefHeight="583.0" prefWidth="19.0" styleClass="vBox">
          <children>
             <VBox fx:id="buttons" onMouseEntered="#showButtons" onMouseExited="#hideButtons" opacity="0.62" prefHeight="415.0" prefWidth="135.0" styleClass="vBox">
@@ -109,15 +109,13 @@
       </AnchorPane>
       <AnchorPane layoutX="238.0" layoutY="14.0" prefHeight="200.0" prefWidth="518.0">
          <children>
-            <TableView fx:id="appTable" layoutX="75.0" prefHeight="396.0" prefWidth="796.0">
+            <TableView fx:id="appTable" layoutX="75.0" prefHeight="542.0" prefWidth="796.0">
                <columns>
-                  <TableColumn fx:id="doctorId" prefWidth="136.0" text="Doctor id" />
-                  <TableColumn fx:id="doctorName" prefWidth="136.27114868164062" text="doctor name" />
-                  <TableColumn fx:id="patientName" prefWidth="137.7288818359375" text="patient name" />
-                  <TableColumn fx:id="patientId" prefWidth="145.81341552734375" text="patinet id" />
-                  <TableColumn fx:id="day" prefWidth="95.46630859375" text="day" />
-                  <TableColumn fx:id="hour" prefWidth="69.3572998046875" text="hour" />
-                  <TableColumn fx:id="min" prefWidth="69.3572998046875" text="min" />
+                  <TableColumn fx:id="id" prefWidth="151.0" text="patient id" />
+                  <TableColumn fx:id="name" prefWidth="196.0" text="patient name" />
+                  <TableColumn fx:id="diagnosis" prefWidth="173.0" text="diagnosis" />
+                  <TableColumn fx:id="created_at" minWidth="7.0" prefWidth="129.0" text="created at" />
+                  <TableColumn fx:id="added_by" minWidth="4.0" prefWidth="134.0" text="added by" />
                </columns>
                <opaqueInsets>
                   <Insets />
@@ -125,8 +123,6 @@
             </TableView>
          </children>
       </AnchorPane>
-      <Button fx:id="delete" layoutX="931.0" layoutY="441.0" mnemonicParsing="false" onAction="#delete" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="Abort Appointment" />
       <TextField fx:id="searchField2" layoutX="92.0" layoutY="125.0" prefHeight="30.0" prefWidth="209.0" promptText="Patient Name/Id" styleClass="textField" />
-      <Button fx:id="createBill" layoutX="770.0" layoutY="441.0" mnemonicParsing="false" onAction="#createBill" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="createBill" />
    </children>
 </AnchorPane>

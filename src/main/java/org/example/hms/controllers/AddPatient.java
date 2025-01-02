@@ -31,6 +31,8 @@ public class AddPatient {
     @FXML
     TextField phone;
     @FXML
+    TextField height;
+    @FXML
     Label fields_fill;
     @FXML
     Label pass_match;
@@ -96,7 +98,7 @@ public class AddPatient {
             List<Patient> patients = new ArrayList<>();
             Patient patient;
 
-            patient = new Patient( Integer.parseInt(did),dname,dsector, daddress, Integer.parseInt(age.getText()), doctor.getName());
+            patient = new Patient( Integer.parseInt(did),dname,dsector, daddress, Integer.parseInt(age.getText()), doctor.getName(),Double.parseDouble(height.getText()));
 
             patients.add(patient);
             Patient.addPatient(new ArrayList<>(patients));

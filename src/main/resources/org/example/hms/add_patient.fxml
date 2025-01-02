@@ -39,11 +39,17 @@
         <Button fx:id="close" layoutX="62.0" layoutY="420.0" mnemonicParsing="false" onAction="#close" prefHeight="46.0" prefWidth="103.0" styleClass="addButton" text="Close" />
       <TextField fx:id="age" layoutX="434.0" layoutY="150.0" styleClass="textField" />
       <TextField fx:id="phone" layoutX="434.0" layoutY="100.0" styleClass="textField" />
-      <Label fx:id="addedByd" layoutX="15.0" layoutY="149.0" prefHeight="36.0" prefWidth="118.0" text="Added by" textFill="WHITE">
+      <Label fx:id="addedByd" layoutX="179.0" layoutY="251.0" prefHeight="36.0" prefWidth="118.0" text="Added by" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />
          </font>
       </Label>
-      <TextField fx:id="addedBy" disable="true" layoutX="140.0" layoutY="154.0" styleClass="textField" />
+      <TextField fx:id="addedBy" disable="true" layoutX="304.0" layoutY="256.0" styleClass="textField" />
+      <Label layoutX="15.0" layoutY="148.0" prefHeight="36.0" prefWidth="118.0" text="Height" textFill="WHITE">
+         <font>
+            <Font name="AppleMyungjo Regular" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="height" layoutX="140.0" layoutY="153.0" styleClass="textField" />
     </children>
 </AnchorPane>

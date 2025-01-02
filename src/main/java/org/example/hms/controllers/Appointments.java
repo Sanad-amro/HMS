@@ -1,9 +1,5 @@
 package org.example.hms.controllers;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,23 +14,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.example.hms.classes.Appointment;
-import org.example.hms.classes.Doctor;
-import org.example.hms.classes.User;
+import org.example.hms.classes.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Appointments {
-    int idOfSelectedAppointment=0;
+    int idOfSelectedSession =0;
     Parent root;
     Stage stage;
     private User user;
@@ -55,32 +43,28 @@ public class Appointments {
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
-    ////////////////// pleas don't touch the upper part pleasse///////////////
+    ////////////////////////////////////  pleas don't touch the upper part please ////////////////// ////////////////// ////////////////// ///////////////
     @FXML
-    TableView<Appointment> appTable;
+    TableView<Session> appTable;
     @FXML
-    TableColumn<Appointment, Integer> doctorId ;
+    TableColumn<Session, Integer> id ;
     @FXML
-    TableColumn<Appointment, String> doctorName;
+    TableColumn<Session, String> name;
     @FXML
-    TableColumn<Appointment, String> patientName;
+    TableColumn<Session, String> diagnosis;
     @FXML
-    TableColumn<Appointment, Integer> patientId;
+    TableColumn<Session, String> created_at;
     @FXML
-    TableColumn<Appointment, String> day;
-    @FXML
-    TableColumn<Appointment, Integer> hour;
-    @FXML
-    TableColumn<Appointment, Integer> min;
+    TableColumn<Session, String> added_by;
 
     @FXML
     TextField searchField;
     @FXML
     TextField searchField2;
     @FXML
-    private VBox buttons;
-    @FXML
-    AnchorPane anchB;
+
+    private Map<Integer, String> patientNamesMap = new HashMap<>();
+
 
 
     public void blankClicked(MouseEvent event) {
@@ -90,25 +74,11 @@ public class Appointments {
 
     public void hideButtons(MouseEvent event) {
 
-        KeyValue widthValue = new KeyValue(buttons.prefWidthProperty(), 0);
 
-        KeyFrame frame = new KeyFrame(Duration.millis(300), widthValue); // 300ms animation
-
-        Timeline timeline = new Timeline(frame);
-        timeline.play();
-        anchB.setOpacity(0);
     }
 
     public void showButtons(MouseEvent event) {
-        buttons.setOpacity(1);
-        anchB.setOpacity(0.6);
 
-        KeyValue widthValue = new KeyValue(buttons.prefWidthProperty(), 135.0);
-
-        KeyFrame frame = new KeyFrame(Duration.millis(300), widthValue); // 300ms animation
-
-        Timeline timeline = new Timeline(frame);
-        timeline.play();
     }
 
 
@@ -140,51 +110,61 @@ public class Appointments {
     }
 
     public void initialize() throws IOException {
+
         searchField.clear();
         searchField.getParent().requestFocus();
-        buttons.setOpacity(0);
-        doctorId.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
-        doctorName.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
-        patientId.setCellValueFactory(new PropertyValueFactory<>("patientId"));
-        patientName.setCellValueFactory(new PropertyValueFactory<>("PatientName"));
-        day.setCellValueFactory(new PropertyValueFactory<>("day"));
-        hour.setCellValueFactory(new PropertyValueFactory<>("sHour"));
-        min.setCellValueFactory(new PropertyValueFactory<>("sMin"));
+        id.setCellValueFactory(new PropertyValueFactory<>("patientId"));
+        name.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        diagnosis.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
+        created_at.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        added_by.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
 
 
-        List<Appointment> appointments= Appointment.getAllAppointments();
-        ObservableList<Appointment> doctorsList= FXCollections.observableArrayList(appointments);
-        FilteredList<Appointment> filteredList=new FilteredList<>(doctorsList, d -> true);
+        ArrayList<Patient> patients= Patient.getAllPatients();
+        for (Patient patient : patients) {
+            patientNamesMap.put(patient.getPatientId(), patient.getName().toLowerCase());
+        }
+        List<Session> sessions= Session.getAllSessions();
+        ObservableList<Session> sessionObservableList= FXCollections.observableArrayList(sessions);
+        FilteredList<Session> filteredList=new FilteredList<>(sessionObservableList, d -> true);
         searchField.textProperty().addListener((observable, oldValue, newValue)->{
-            filteredList.setPredicate(appointment -> {
+            filteredList.setPredicate(session -> {
                 if(newValue==null || newValue.isEmpty()){
                     return true;
                 }
                 String lowerFilter = newValue.toLowerCase();
+                String patientName = patientNamesMap.get(session.getPatientId());
 
-                if ( appointment.getDoctorName().toLowerCase().contains(lowerFilter) ||  String.valueOf(appointment.getDoctorId()).contains(newValue))
-                    return true;
-                else return false;
+
+                return (patientName != null && patientName.contains(lowerFilter)) ||
+                        String.valueOf(session.getPatientId()).contains(newValue);
             });
         });
+        boolean nigga=true;
         searchField2.textProperty().addListener((observable, oldValue, newValue)->{
-            filteredList.setPredicate(appointment -> {
+            filteredList.setPredicate(session -> {
                 if(newValue==null || newValue.isEmpty()){
                     return true;
                 }
                 String lowerFilter = newValue.toLowerCase();
 
-                if ( appointment.getPatientName().toLowerCase().contains(lowerFilter) ||  String.valueOf(appointment.getPatientId()).contains(newValue))
-                    return true;
-                else return false;
+                for (Patient patient : patients) {
+                    if (patient.getName().toLowerCase().contains(lowerFilter)){
+                        return true;
+
+                    }
+                } return false;
+//                if(String.valueOf(session.getPatientId()).contains(newValue))
+//                    return true;
+//                else return false;
             });
         });
 
-        appTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Appointment>() {
+        appTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Session>() {
             @Override
-            public void changed(ObservableValue<? extends Appointment> observableValue, Appointment doctor, Appointment storedDoctor) {
-                if(storedDoctor != null){
-                    idOfSelectedAppointment = storedDoctor.getId();
+            public void changed(ObservableValue<? extends Session> observableValue, Session session, Session storedSession) {
+                if(storedSession != null){
+                    idOfSelectedSession = storedSession.getSessionId();
 
                 }
                 else {
@@ -204,7 +184,7 @@ public class Appointments {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Appointment.deleteAppointment(idOfSelectedAppointment);
+            Appointment.deleteAppointment(idOfSelectedSession);
             initialize();
         }
     }
@@ -216,7 +196,7 @@ public class Appointments {
         FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/addBill.fxml"));
         Parent root = window.load();
         AddBill addBill=window.getController();
-        addBill.setAppointment(Appointment.getAppointment(idOfSelectedAppointment));
+        addBill.setAppointment(Appointment.getAppointment(idOfSelectedSession));
         Scene scene = new Scene(root);
         Stage stage1 = new Stage();
         stage1.setScene(scene);

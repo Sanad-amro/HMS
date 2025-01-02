@@ -236,12 +236,7 @@ public class Doctors {
     }
 
     public void setWork(ActionEvent event) throws IOException {
-       /* doctorsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                String doctorName = newValue.getName();
-                *//**//*here iam supposed to start a new fxml loader which contains the doctor name and i will need to use the controller communication *//**//*
-            }
-        });*/
+
         if(idOfSlectedDoctor ==0){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("you must chose a doctor to set work for from the table first!!");
@@ -294,7 +289,7 @@ public class Doctors {
             Stage stage1 =new Stage();
             stage1.setScene(scene);
             stage1.initModality(Modality.APPLICATION_MODAL);
-            stage1.setOnHidden(e -> {;
+            stage1.setOnHidden(e -> {
                 try {
                     initialize();
                 }catch (IOException exception){
@@ -387,7 +382,7 @@ public class Doctors {
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Appointments appointments = loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             appointments.setUser(user);
         }else {
@@ -411,7 +406,7 @@ public class Doctors {
         Stage stage1=new Stage();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Inventory inventory=loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             inventory.setUser(user);
         }else {

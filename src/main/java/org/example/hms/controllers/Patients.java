@@ -251,11 +251,11 @@ public class Patients {
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Doctors doctors = loader.getController();
-        if (doctor!=null){
-            System.out.println("user is null");
+        if (doctor==null){
+            System.out.println("doctor is null");
             doctors.setUser(user);
         }else {
-            System.out.println("doctor is null");
+            System.out.println("user is null");
             doctors.setDoctor(doctor);
         }
         stage.close();
@@ -354,7 +354,7 @@ public class Patients {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/make-Appointment.fxml"));
         Parent root = loader.load();
         MakeAppointment makeAppointment = loader.getController();
-        makeAppointment.setPatient(Patient.getPatient(idOfSlectedPatient));
+        makeAppointment.setPatient(Patient.getPatient(idOfSlectedPatient), doctor);
         Scene scene = new Scene(root);
         Stage stage1 = new Stage();
         stage1.setScene(scene);

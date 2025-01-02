@@ -16,17 +16,36 @@ public class Patient {
         private String phoneNumber;
         private String address;
         private String addedBy;
+        private double height ;
+        private double weight;
+
+        public double getWeight() {
+                return weight;
+        }
+
+        public void setWeight(double weight) {
+                this.weight = weight;
+        }
+
+        public double getHeight() {
+                return height;
+        }
+
+        public void setHeight(double height) {
+                this.height = height;
+        }
 
         private int age;
 
         // Constructor
-        public Patient(int patientId, String name, String phoneNumber, String address, int age,String addedBy) {
+        public Patient(int patientId, String name, String phoneNumber, String address, int age,String addedBy, double height) {
                 this.patientId = patientId;
                 this.name = name;
                 this.phoneNumber = phoneNumber;
                 this.address = address;
                 this.age = age;
                 this.addedBy = addedBy;
+                this.height = height;
         }
 
         // Getter and Setter methods
@@ -97,7 +116,8 @@ public class Patient {
                                 "name VARCHAR(100), " +
                                 "phone_number VARCHAR(15), " +
                                 "address VARCHAR(255), " +
-                                "age INT,"+"added_By VARCHAR(255));";
+                                "age INT,"+"added_By VARCHAR(255),"+
+                                "height DOUBLE);";
                         stmt.executeUpdate(createTableSQL);
 
                 } catch (SQLException e) {
@@ -109,7 +129,7 @@ public class Patient {
         public static void addPatient(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, age) VALUES (?, ?, ?, ?, ?, ?)";
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, age, height) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setInt(1, patient.getPatientId());
                         stmt.setString(2, patient.getName());
@@ -117,6 +137,7 @@ public class Patient {
                         stmt.setString(4, patient.getAddress());
                         stmt.setString(5, patient.getAddedBy());
                         stmt.setInt(6, patient.getAge());
+                        stmt.setDouble(7, patient.getHeight());
                         stmt.executeUpdate();
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -139,14 +160,15 @@ public class Patient {
         public static void UpdatePatientInfo(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By=?, age = ? WHERE id = ?";
+                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By=?, age = ?, height = ? WHERE id = ?";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setString(1, patient.getName());
                         stmt.setString(2, patient.getPhoneNumber());
                         stmt.setString(3, patient.getAddress());
                         stmt.setInt(4, patient.getAge());
                         stmt.setString(5, patient.getAddedBy());
-                        stmt.setInt(6, patient.getPatientId());
+                        stmt.setDouble(6, patient.getHeight());
+                        stmt.setInt(7, patient.getPatientId());
                         stmt.executeUpdate();
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -162,7 +184,7 @@ public class Patient {
                         ResultSet rs = stmt.executeQuery();
                         while (rs.next()) {
                                 Patient patient = new Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"));
+                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"),rs.getDouble("height"));
                                 patientsList.add(patient);
                         }
                 } catch (SQLException e) {
@@ -196,7 +218,7 @@ public class Patient {
                         ResultSet rs = stmt.executeQuery();
                         if (rs.next()) {
                                 return new Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"));
+                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"),rs.getDouble(("height")));
                         }
                 } catch (SQLException e) {
                         e.printStackTrace();

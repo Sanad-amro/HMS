@@ -12,11 +12,11 @@
 }
 .textField{
     -fx-background-radius: 20px;
-    -fx-background-color: #f1f2f6 ;
+    -fx-background-color: #f1f2f6;
     -fx-border-radius: 20px;
     -fx-border-color: #a4b0be;
     -fx-border-width: 2px;
-    
+
 }
 .addButton{
     -fx-background-radius: 20px;
