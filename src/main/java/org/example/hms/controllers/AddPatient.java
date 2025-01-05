@@ -142,7 +142,14 @@ public class AddPatient {
         }));
         phone.textProperty().addListener(((observableValue, s, t1) -> {
             if (!t1.matches("\\d*")) {
-                age.setText(s);
+                phone.setText(s);
+            }
+
+        }));
+
+        height.textProperty().addListener(((observableValue, s, t1) -> {
+            if (!t1.matches("\\d*")) {
+                height.setText(s);
             }
 
         }));

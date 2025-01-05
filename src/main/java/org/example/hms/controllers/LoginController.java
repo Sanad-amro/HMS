@@ -9,12 +9,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.example.hms.classes.Doctor;
 import org.example.hms.classes.User;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,6 +52,8 @@ public class LoginController {
 
     @FXML
     private void handleSubmit(ActionEvent event) throws IOException {
+
+
         if(User.doesUsernameExists(UTF.getText())){
             System.out.println("this is a user");
             User user = User.getUser(UTF.getText());
@@ -85,22 +89,14 @@ public class LoginController {
                     doctors.setDoctor(Doctor.getDoctor(UTF.getText()));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
-                stage.setFullScreen(true);
+                Image icon = new Image(getClass().getResourceAsStream("/org/example/hms/styles/icons/favicon.png"));
+                stage.getIcons().add(icon);
                 stage.setScene(scene);
                 stage.setTitle("HMS-Main");
                 stage.show();
             }
-
         }
-
-
-
-
     }
-
-
-
-
 
 
     private static final String DB_URL = "jdbc:mysql://195.123.166.125:3306/akram";
@@ -110,6 +106,7 @@ public class LoginController {
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
+
 
     private static void checkConnection() {
         try (Connection conn = getConnection()) {
@@ -181,6 +178,6 @@ public class LoginController {
         }
     }
     public void tryC(ActionEvent actionEvent) {
-        checkConnection();
+        Doctor.syncDatabase();
     }
 }

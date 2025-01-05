@@ -19,7 +19,7 @@ import java.util.List;
 
 public class User {
     private String name;
-    private int id;
+    private String id;
     private String email;
     private String address;
     private boolean appointment_admin ;
@@ -44,7 +44,7 @@ public class User {
     private List<Integer> thursday= new ArrayList<>();
     private List<Integer> friday = new ArrayList<>();
     public User(){}
-    public User(String name, int id, String email, String address, boolean appointment_admin, boolean inventory_admin, String sector, boolean Doctors_admin, boolean Patients_admin, boolean staff_admin, String Username, String Password, String role) {
+    public User(String name, String id, String email, String address, boolean appointment_admin, boolean inventory_admin, String sector, boolean Doctors_admin, boolean Patients_admin, boolean staff_admin, String Username, String Password, String role) {
         this.name = name;
         this.id = id;
         this.email = email;
@@ -59,7 +59,7 @@ public class User {
         this.Password=Password;
         this.role=role;
     }
-    public User(String name, int id, String email, String address, boolean appointment_admin, boolean inventory_admin, String sector, boolean Doctors_admin, boolean Patients_admin, boolean staff_admin,String speciality , String Username, String Password, String role, List<Integer> saturday, List<Integer> sunday, List<Integer> monday, List<Integer> tuesday, List<Integer> wednesday, List<Integer> thursday, List<Integer> friday) {
+    public User(String name, String id, String email, String address, boolean appointment_admin, boolean inventory_admin, String sector, boolean Doctors_admin, boolean Patients_admin, boolean staff_admin,String speciality , String Username, String Password, String role, List<Integer> saturday, List<Integer> sunday, List<Integer> monday, List<Integer> tuesday, List<Integer> wednesday, List<Integer> thursday, List<Integer> friday) {
         this.name = name;
         this.id = id;
         this.email = email;
@@ -93,7 +93,7 @@ public class User {
     public void setAppointment(Date appointment){
         this.appointment=appointment;
     }
-    public int getId(){
+    public String getId(){
         return id;
     }
     public String getUserName(){
@@ -113,7 +113,7 @@ public class User {
         this.name = name;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -398,7 +398,7 @@ public class User {
         }
         return false;
     }
-    public static boolean doesIdExists(int id){
+    public static boolean doesIdExists(String id){
         Path filepath = Paths.get(FILE_PATH);
         Gson gson =new Gson();
         ArrayList<User> Users= new ArrayList<>();
@@ -407,13 +407,13 @@ public class User {
             Users = gson.fromJson(reader, listType);
         }catch (IOException e){e.printStackTrace();}
         for (User user: Users){
-            if(user.getId()!= 0 && user.getId()==id){
+            if(!(user.getId().equals("0")) && user.getId().equals(id)){
                 return true;
             }
         }
         return false;
     }
-    public static User getUser(int id){
+    public static User getUserById(String id){
         Path filepath = Paths.get(FILE_PATH);
         Gson gson = new Gson();
         ArrayList<User> existingList = new ArrayList<>();
@@ -424,14 +424,14 @@ public class User {
 
         // Search for the User with the provided username
         for (User user: existingList) {
-            if (user.getId() != 0 && user.getId()==id) {
+            if (!(user.getId().equals("0")) && user.getId().equals(id)) {
                 return user;
             }
         }
         System.out.println("Userwith Id " + id + " not found.");
         return null;
     }
-    public static void setWorkTime(int id, List<Integer> saturday,List<Integer> sunday, List<Integer> monday, List<Integer> tuesday, List<Integer> wednesday, List<Integer> thursday, List<Integer> friday ) throws IOException {
+    public static void setWorkTime(String id, List<Integer> saturday,List<Integer> sunday, List<Integer> monday, List<Integer> tuesday, List<Integer> wednesday, List<Integer> thursday, List<Integer> friday ) throws IOException {
         Path filepath = Paths.get(FILE_PATH);
         Gson gson = new Gson();
         ArrayList<User> existingList = new ArrayList<>();
@@ -450,7 +450,7 @@ public class User {
 
         // Search for the User with the provided id and update their days
         for (User user: existingList) {
-            if (user.getId() == id) {
+            if (!(user.getId().equals(0)) && user.getId().equals(id)) {
                 UserFound = true;
 
                 if(user.getSaturday()!=null || user.getSunday()!=null || user.getMonday()!=null || user.getTuesday()!=null || user.getWednesday()!=null || user.getThursday()!=null || user.getFriday()!=null){
@@ -499,7 +499,7 @@ public class User {
         Doctors_admin = doctors_admin;
     }
 
-    public boolean isHeWorking(int id){
+    public boolean isHeWorking(String id){
         User user= User.getUser(id);
         int hours= LocalTime.now().getHour();
         int min=LocalTime.now().getMinute();
@@ -598,10 +598,10 @@ public class User {
                 return false;
         }
     }
-    public static void deleteUser(int id) throws IOException {
+    public static void deleteUser(String id) throws IOException {
         List<User> Users=User.getAllUsers();
         for (int i = Users.size() - 1; i >= 0; i--) {
-            if (Users.get(i).getId() == id) {
+            if (Users.get(i).getId().equals(id)) {
                 Users.remove(i);
                 break;
             }

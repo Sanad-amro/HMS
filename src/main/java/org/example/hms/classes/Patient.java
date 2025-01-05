@@ -225,4 +225,23 @@ public class Patient {
                 }
                 return null; // Return null if patient does not exist
         }
+        public static boolean searchInColumn(String table, String column, String searchString) {
+                String query = "SELECT 1 FROM " + table + " WHERE " + column + " LIKE ?";
+                try (Connection conn = getConnection();
+                     PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                        // Use prepared statement to avoid SQL injection
+                        stmt.setString(1, "%" + searchString + "%");
+
+                        // Execute the query
+                        ResultSet rs = stmt.executeQuery();
+
+                        // If a result is returned, it means the string is found
+                        return rs.next();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return false;  // In case of an error, return false
+                }
+        }
+
 }

@@ -62,13 +62,13 @@ public class Doctors {
         this.docotrId = docotrId;
     }
 
-    private int idOfSlectedDoctor =0;
+    private String idOfSlectedDoctor ="0";
     private Parent root;
     private Stage stage;
     @FXML
     TableView<Doctor> doctorsTable;
     @FXML
-    TableColumn<Doctor, Integer> idC ;
+    TableColumn<Doctor, String > idC ;
     @FXML
     TableColumn<Doctor, String> nameC;
     @FXML
@@ -237,7 +237,7 @@ public class Doctors {
 
     public void setWork(ActionEvent event) throws IOException {
 
-        if(idOfSlectedDoctor ==0){
+        if(idOfSlectedDoctor.equals("0")){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("you must chose a doctor to set work for from the table first!!");
             alert.setTitle("no chose warning");
@@ -246,7 +246,7 @@ public class Doctors {
 
         }else {
             System.out.println(idOfSlectedDoctor);
-            doctorToSetWorkFor = Doctor.getDoctor(idOfSlectedDoctor);
+            doctorToSetWorkFor = Doctor.getDoctorById(idOfSlectedDoctor);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/setWork.fxml"));
             Parent root = loader.load();
             SetWork doctorToSet = loader.getController();
@@ -267,7 +267,7 @@ public class Doctors {
     }
     public void delete(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("Are you sure you want to delete Doctor "+ Doctor.getDoctor(idOfSlectedDoctor).getName()+"?");
+        alert.setHeaderText("Are you sure you want to delete Doctor "+ Doctor.getDoctorById(idOfSlectedDoctor).getName()+"?");
         alert.setTitle("Close Application");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -278,8 +278,8 @@ public class Doctors {
 
     }
     public void update(ActionEvent event) throws IOException {
-        if(idOfSlectedDoctor!=0){
-            Doctor doctor1 = Doctor.getDoctor(idOfSlectedDoctor);
+        if(!idOfSlectedDoctor.equals("0")){
+            Doctor doctor1 = Doctor.getDoctorById(idOfSlectedDoctor);
             System.out.println(doctor1.getSpeciality());
             FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/updateDoctor.fxml"));
             root=loader.load();
@@ -325,11 +325,7 @@ public class Doctors {
             System.out.println("doctor is null");
             doctors.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Doctors");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
 
     }
 
@@ -348,15 +344,11 @@ public class Doctors {
             System.out.println("this is a docotr");
             patients.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Patients");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
     }
 
     public void staff(MouseEvent event) throws IOException {
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
+        /*FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -368,11 +360,8 @@ public class Doctors {
             System.out.println("doctor is null");
             staff.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Staff");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);*/
+
 
     }
 
@@ -389,12 +378,8 @@ public class Doctors {
             System.out.println("doctor is null");
             appointments.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Appointments.fxml");
-        stage1.setScene(scene);
-        stage1.show();
-        stage1.show();
+        stage.setScene(scene);
+
 
 
     }
@@ -413,9 +398,7 @@ public class Doctors {
             System.out.println("doctor is null");
             inventory.setDoctor(doctor);
         }
-        stage.close();
-        stage1.setTitle("HMS-Main-Inventory");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
+
     }
 }

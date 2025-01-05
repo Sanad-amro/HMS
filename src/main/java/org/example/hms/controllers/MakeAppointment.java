@@ -9,10 +9,14 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.hms.classes.*;
 
@@ -247,6 +251,7 @@ public class MakeAppointment {
                 "obstetric history", "gynecological history",
                 "doctor and midwife note", "nutritionist note", "physiotherapist note"
         );
+        cNote.setValue("chief complaint");
         cNote.valueProperty().addListener((observable, oldValue, newValue) -> {
             // Save the current text to the variable associated with oldValue
             if (oldValue != null) {
@@ -358,6 +363,7 @@ public class MakeAppointment {
          int year=LocalDate.now().getYear();
          String address= patient.getAddress();
         System.out.println(patient.getAddress());
+        saveComb();
 
         Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address);
 
@@ -420,7 +426,53 @@ public class MakeAppointment {
         }
     }
 
-    public void add(ActionEvent actionEvent) {
+    public void add(ActionEvent actionEvent) throws IOException {
+        FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/addDiagnosis.fxml"));
+        Parent root = window.load();
+        Scene scene = new Scene(root);
+        Stage stage1 = new Stage();
+        stage1.setScene(scene);
+        stage1.setTitle("HMS-add-diagnosis");
+        stage1.initModality(Modality.APPLICATION_MODAL);
+        stage1.setOnHidden(e -> {
+            try {
+                initialize();
+                System.out.println("closed!");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        stage1.show();
+    }
+    private void saveComb(){
+        switch (cNote.getValue()) {
+            case "chief complaint":
+                notes.setText(chief_complaint);
+                break;
+            case "medical history":
+                notes.setText(medical_history);
+                break;
+            case "medical and surgical history":
+                notes.setText(medical_and_surgical_history);
+                break;
+            case "obstetric history":
+                notes.setText(obstetric_history);
+                break;
+            case "gynecological history":
+                notes.setText(gynecological_history);
+                break;
+            case "doctor and midwife note":
+                notes.setText(doctor_and_midwife_note);
+                break;
+            case "nutritionist note":
+                notes.setText(nutritionist_note);
+                break;
+            case "physiotherapist note":
+                notes.setText(physiotherapist_note);
+                break;
+            default:
+                break;
+        }
     }
 }
 

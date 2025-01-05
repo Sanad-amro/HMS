@@ -141,7 +141,7 @@ public class Medecin {
                 if (resultSet.next()) {
                     String name = resultSet.getString("name");
                     double quantity = resultSet.getDouble("quantity");
-                    medecin = new Medecin( name, quantity);
+                    medecin = new Medecin( id,name, quantity);
                 }
             }
 
@@ -153,6 +153,26 @@ public class Medecin {
             System.out.println("No Medecin found with the given ID.");
         }
         return medecin;
+    }
+    public static void updateQuantity(int id, double newQuantity) {
+        String query = "UPDATE medecin SET quantity = ? WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setDouble(1, newQuantity);
+            statement.setInt(2, id);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Medecin quantity updated successfully.");
+            } else {
+                System.out.println("No Medecin found with the given ID.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating quantity: " + e.getMessage());
+        }
     }
     
 

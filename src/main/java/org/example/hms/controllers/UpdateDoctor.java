@@ -96,7 +96,7 @@ public class UpdateDoctor {
             List<Doctor> doctors = new ArrayList<>();
             List<Integer> noWork= new ArrayList<>();
             noWork.addAll(List.of(0,0,0,0));
-            Doctor doctor=new Doctor(dname, Integer.parseInt(did), demail, daddress, true, false, dsector, false, true, false, dspeciality, dUsername, dPassword,"Doctor",noWork, noWork,noWork,noWork,noWork,noWork,noWork);
+            Doctor doctor=new Doctor(dname, did , demail, daddress, true, false, dsector, false, true, false, dspeciality, dUsername, dPassword,"Doctor",noWork, noWork,noWork,noWork,noWork,noWork,noWork);
 
             doctors.add(doctor);
             Doctor.UpdateDoctorInfo(new ArrayList<>(doctors));

@@ -47,7 +47,7 @@ public class Appointments {
     @FXML
     TableView<Session> appTable;
     @FXML
-    TableColumn<Session, Integer> id ;
+    TableColumn<Session, String> id ;
     @FXML
     TableColumn<Session, String> name;
     @FXML
@@ -148,12 +148,7 @@ public class Appointments {
                 }
                 String lowerFilter = newValue.toLowerCase();
 
-                for (Patient patient : patients) {
-                    if (patient.getName().toLowerCase().contains(lowerFilter)){
-                        return true;
-
-                    }
-                } return false;
+               return Patient.searchInColumn("patients","name", newValue);
 //                if(String.valueOf(session.getPatientId()).contains(newValue))
 //                    return true;
 //                else return false;
@@ -258,38 +253,30 @@ public class Appointments {
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Patients patients= loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             patients.setUser(user);
         }else {
             System.out.println("doctor is null");
             patients.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Patients");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
     }
 
     public void staff(MouseEvent event) throws IOException {
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
+      /*  FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Staff staff = loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             staff.setUser(user);
         }else {
             System.out.println("doctor is null");
             staff.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Staff");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);*/
 
     }
 
@@ -299,18 +286,14 @@ public class Appointments {
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Appointments appointments = loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             appointments.setUser(user);
         }else {
             System.out.println("doctor is null");
             appointments.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Appointments.fxml");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
 
 
     }
@@ -322,17 +305,14 @@ public class Appointments {
         Stage stage1=new Stage();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Inventory inventory=loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             inventory.setUser(user);
         }else {
             System.out.println("doctor is null");
             inventory.setDoctor(doctor);
         }
-        stage.close();
-        stage1.setTitle("HMS-Main-Inventory");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
     }
 
 

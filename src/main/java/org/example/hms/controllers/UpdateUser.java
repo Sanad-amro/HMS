@@ -112,7 +112,7 @@ public class UpdateUser {
             List<User> Users = new ArrayList<>();
             List<Integer> noWork = new ArrayList<>();
             noWork.addAll(List.of(0,0,0,0));
-            User user1 = new User(dname, Integer.parseInt(did), demail, daddress, true, false, dsector, false, true, false, dspeciality, dUsername, dPassword, "User",noWork, noWork,noWork,noWork,noWork,noWork,noWork);
+            User user1 = new User(dname, did, demail, daddress, true, false, dsector, false, true, false, dspeciality, dUsername, dPassword, "User",noWork, noWork,noWork,noWork,noWork,noWork,noWork);
             Users.add(user1);
             User.UpdateUserInfo(new ArrayList<>(Users));
             succsess.setText("User updated successfully ");

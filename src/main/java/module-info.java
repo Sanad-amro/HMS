@@ -4,7 +4,8 @@ module HMS {
     requires javafx.graphics;
     requires com.google.gson;
     requires java.sql;
-    requires javafx.swt;
+    //requires javafx.swt;
+    requires java.desktop;
 
     opens org.example.hms to javafx.fxml;
     opens org.example.hms.controllers to javafx.fxml;

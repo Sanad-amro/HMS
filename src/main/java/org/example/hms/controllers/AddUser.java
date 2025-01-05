@@ -98,14 +98,14 @@ public class AddUser {
             fields_fill.setVisible(true);
             addHim=false;
         }
-        if(User.doesIdExists(Integer.parseInt(did)) && !wannaUpdate){
+        if(User.doesIdExists(did) && !wannaUpdate){
             Alert alert =new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("id already exits");
             alert.setHeaderText("this id already exits, do you wanna update it's data?");
             Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get()==ButtonType.OK){
                 add.setText("Update");
-                User user=User.getUser(Integer.parseInt(did));
+                User user=User.getUser(did);
                 assert user != null;
                 name.setText(user.getName());
                 id.setText(String.valueOf(user.getId()));
@@ -127,7 +127,7 @@ public class AddUser {
             pass_match.setVisible(false);
             List<Integer> noWork = new ArrayList<>(List.of(0, 0, 0, 0));
             List<User> users = new ArrayList<>();
-            User User1 = new User(dName, Integer.parseInt(did), dEmail, dAddress, apnmt.isSelected(), inventory.isSelected(), sector.getValue(), doctors.isSelected(), patients.isSelected(), staff.isSelected(), dSpeciality, dUsername, dPassword,role.getValue(),noWork, noWork,noWork,noWork,noWork,noWork,noWork);
+            User User1 = new User(dName, did, dEmail, dAddress, apnmt.isSelected(), inventory.isSelected(), sector.getValue(), doctors.isSelected(), patients.isSelected(), staff.isSelected(), dSpeciality, dUsername, dPassword,role.getValue(),noWork, noWork,noWork,noWork,noWork,noWork,noWork);
             users.add(User1);
             if (wannaUpdate){
                 User.UpdateUserInfo(new ArrayList<>(users));

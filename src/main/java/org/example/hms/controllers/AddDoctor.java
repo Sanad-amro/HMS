@@ -70,7 +70,7 @@ public class AddDoctor {
 
             addhim=false;
         }
-        if((dname.isEmpty() || did.isEmpty() || daddress.isEmpty() || demail.isEmpty() || dsector.isEmpty() || dspeciality.isEmpty() || dUsername.isEmpty() || dPassword.isEmpty())){
+        if((dname.isEmpty() || did.isEmpty() || dsector==null || daddress.isEmpty() || demail.isEmpty() || dsector.isEmpty() || dspeciality.isEmpty() || dUsername.isEmpty() || dPassword.isEmpty()) ){
             succsess.setVisible(false);
             pass_match.setVisible(false);
             fields_fill.setVisible(true);
@@ -88,14 +88,14 @@ public class AddDoctor {
             fields_fill.setVisible(true);
             addhim=false;
         }
-        if(Doctor.doesIdExists(Integer.parseInt(did)) && !wannaUpdate){
+        if(Doctor.doesIdExists(did) && !wannaUpdate){
             Alert alert =new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("id already exits");
             alert.setHeaderText("this id already exits, do you wanna update it's data?");
             Optional<ButtonType> result = alert.showAndWait();
             if(result.isPresent() && result.get()==ButtonType.OK){
                 add.setText("Update");
-                Doctor doctor=Doctor.getDoctor(Integer.parseInt(did));
+                Doctor doctor=Doctor.getDoctorById(did);
                 name.setText(doctor.getName());
                 id.setText(String.valueOf(doctor.getId()));
                 email.setText(doctor.getEmail());
@@ -117,7 +117,7 @@ public class AddDoctor {
             List<Integer> noWork = new ArrayList<>();
             noWork.addAll(List.of(0,0,0,0));
             List<Doctor> doctor = new ArrayList<>();
-            Doctor doctor1 = new Doctor(dname, Integer.parseInt(did), demail, daddress, true, false, dsector, false, true, false, dspeciality, dUsername, dPassword,"Doctor",noWork, noWork,noWork,noWork,noWork,noWork,noWork);
+            Doctor doctor1 = new Doctor(dname, did, demail, daddress, true, false, dsector, false, true, false, dspeciality, dUsername, dPassword,"Doctor",noWork, noWork,noWork,noWork,noWork,noWork,noWork);
             doctor.add(doctor1);
             System.out.println(doctor1.getSpeciality());
             System.out.println(speciality.getText());

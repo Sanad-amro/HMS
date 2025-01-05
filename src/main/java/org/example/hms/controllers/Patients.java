@@ -53,7 +53,7 @@ public class Patients {
     TableView<Patient> patientsTable;
 
     @FXML
-    TableColumn<Patient, Integer> idC ;
+    TableColumn<Patient, String> idC ;
     @FXML
     TableColumn<Patient, String> nameC;
     @FXML
@@ -147,59 +147,63 @@ public class Patients {
         }
     }
     public void initialize() throws IOException {
+        System.out.println("i was herer 1");
         searchField.clear();
         searchField.getParent().requestFocus();
         buttons.setOpacity(0);
         idC.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         nameC.setCellValueFactory(new PropertyValueFactory<>("name"));
         doctorC.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
+        System.out.println("i was here 2");
 
-        if (new File("src/main/java/org/example/hms/dataBase/patientsInfo.json").exists()){
-            System.out.println("Heeeeyyy!!! (:");
-            List<Patient> patients= Patient.getAllPatients();
-            ObservableList<Patient> patientsList= FXCollections.observableArrayList(patients);
-            FilteredList<Patient> filteredList=new FilteredList<>(patientsList, d -> true);
-            searchField.textProperty().addListener((observable, oldValue, newValue)->{
-                filteredList.setPredicate(patient1 -> {
-                    if(newValue==null || newValue.isEmpty()){
-                        return true;
-                    }
-                    String lowerFilter = newValue.toLowerCase();
 
-                    if ( patient1.getName().toLowerCase().contains(lowerFilter) ||  String.valueOf(patient1.getPatientId()).contains(newValue))
-                        return true;
-                    else return false;
-                });
-            });
-
-            searchField1.textProperty().addListener((observable, oldValue, newValue)->{
-                filteredList.setPredicate(patient1 -> {
-                    if(newValue==null || newValue.isEmpty()){
-                        return true;
-                    }
-                    String lowerFilter = newValue.toLowerCase();
-
-                    if ( patient1.getAddedBy().toLowerCase().contains(lowerFilter))
-                        return true;
-                    else return false;
-                });
-            });
-            
-            patientsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
-                @Override
-                public void changed(ObservableValue<? extends Patient> observableValue, Patient patient, Patient storedpatient) {
-                    if(storedpatient != null){
-                        idOfSlectedPatient = storedpatient.getPatientId();
-
-                    }
-                    else {
-                        System.out.println("Selected patiente doesn't have an id");
-                    }
+        System.out.println("Heeeeyyy!!! (:");
+        List<Patient> patients= Patient.getAllPatients();
+        ObservableList<Patient> patientsList= FXCollections.observableArrayList(patients);
+        FilteredList<Patient> filteredList=new FilteredList<>(patientsList, d -> true);
+        searchField.textProperty().addListener((observable, oldValue, newValue)->{
+            filteredList.setPredicate(patient1 -> {
+                if(newValue==null || newValue.isEmpty()){
+                    return true;
                 }
-            });
-            patientsTable.setItems(filteredList);
+                String lowerFilter = newValue.toLowerCase();
 
-        }
+                if ( patient1.getName().toLowerCase().contains(lowerFilter) ||  String.valueOf(patient1.getPatientId()).contains(newValue))
+                    return true;
+                else return false;
+            });
+        });
+
+        searchField1.textProperty().addListener((observable, oldValue, newValue)->{
+            filteredList.setPredicate(patient1 -> {
+                if(newValue==null || newValue.isEmpty()){
+                    return true;
+                }
+                String lowerFilter = newValue.toLowerCase();
+
+                if ( patient1.getAddedBy().toLowerCase().contains(lowerFilter))
+                    return true;
+                else return false;
+            });
+        });
+
+        patientsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
+            @Override
+            public void changed(ObservableValue<? extends Patient> observableValue, Patient patient, Patient storedpatient) {
+                if(storedpatient != null){
+                    idOfSlectedPatient = storedpatient.getPatientId();
+
+                }
+                else {
+                    System.out.println("Selected patiente doesn't have an id");
+                }
+            }
+        });
+        System.out.println("i was here 3");
+        patientsTable.setItems(filteredList);
+        System.out.println("i was here 4");
+
+
 
     }
     private void showError(String message) {
@@ -258,11 +262,8 @@ public class Patients {
             System.out.println("user is null");
             doctors.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Doctors");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
+
 
     }
 
@@ -273,39 +274,33 @@ public class Patients {
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Patients patients= loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             patients.setUser(user);
         }else {
             System.out.println("doctor is null");
             patients.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Patients");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
+
     }
 
     public void staff(MouseEvent event) throws IOException {
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
+        /*FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Staff staff = loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             staff.setUser(user);
         }else {
             System.out.println("doctor is null");
             staff.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Staff");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
 
+*/
     }
 
     public void appointment(MouseEvent event) throws IOException {
@@ -314,18 +309,15 @@ public class Patients {
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Appointments appointments = loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             appointments.setUser(user);
         }else {
             System.out.println("doctor is null");
             appointments.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Appointments.fxml");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
+
 
 
     }
@@ -337,17 +329,15 @@ public class Patients {
         Stage stage1=new Stage();
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Inventory inventory=loader.getController();
-        if (doctor!=null){
+        if (doctor==null){
             System.out.println("user is null");
             inventory.setUser(user);
         }else {
             System.out.println("doctor is null");
             inventory.setDoctor(doctor);
         }
-        stage.close();
-        stage1.setTitle("HMS-Main-Inventory");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
+
     }
 
     public void makeAppointment(ActionEvent event) throws IOException {

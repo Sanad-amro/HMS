@@ -13,30 +13,117 @@ public class Doctor extends User {
         this.roomId = roomId;
     }
 
-    private static final String DB_URL = "jdbc:mysql://195.123.166.125:3306/akram";
+    private static final String DB_URL = "jdbc:mysql://192.168.1.155:3306/akram";
     private static final String DB_USER = "sanad";
     private static final String DB_PASSWORD = "sanad";
 
-    public Doctor(String name, int id, String email, String address, boolean appointment_admin, boolean inventory_admin, String sector, boolean Doctors_admin, boolean Patients_admin, boolean staff_admin, String speciality, String userName, String password, String role, List<Integer> saturday, List<Integer> sunday, List<Integer> monday, List<Integer> tuesday, List<Integer> wednesday, List<Integer> thursday, List<Integer> friday) {
+
+
+    private static Connection getConnection() throws SQLException {
+        System.out.println("Nigga");
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+    }
+
+    public Doctor(String name, String id, String email, String address, boolean appointment_admin, boolean inventory_admin, String sector, boolean Doctors_admin, boolean Patients_admin, boolean staff_admin, String speciality, String userName, String password, String role, List<Integer> saturday, List<Integer> sunday, List<Integer> monday, List<Integer> tuesday, List<Integer> wednesday, List<Integer> thursday, List<Integer> friday) {
         super(name, id, email, address, appointment_admin, inventory_admin, sector, Doctors_admin, Patients_admin, staff_admin, speciality, userName, password, role, saturday, sunday, monday, tuesday, wednesday, thursday, friday);
     }
 
-    private static Connection getConnection() throws SQLException {
+
+
+
+
+    private static final String LOCAL_DB_URL = "jdbc:mysql://localhost:3306/akram";
+    private static final String LOCAL_DB_USER = "root";
+    private static final String LOCAL_DB_PASSWORD = "";
+
+    // Get connection to the remote database
+    private static Connection getRemoteConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
+
+    // Get connection to the local database
+    private static Connection getLocalConnection() throws SQLException {
+        return DriverManager.getConnection(LOCAL_DB_URL, LOCAL_DB_USER, LOCAL_DB_PASSWORD);
+    }
+
+    // Method to sync the entire "akram" database
+    public static void syncDatabase() {
+        try (Connection remoteConn = getRemoteConnection();
+             Statement remoteStmt = remoteConn.createStatement()) {
+
+            // Get all tables in the remote "akram" database
+            String getTablesQuery = "SHOW TABLES";
+            ResultSet tables = remoteStmt.executeQuery(getTablesQuery);
+
+            // Loop through all tables and sync them one by one
+            while (tables.next()) {
+                String tableName = tables.getString(1);
+                System.out.println("Syncing table: " + tableName);
+                syncTable(tableName);
+            }
+
+            System.out.println("Database sync completed!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error syncing database!");
+        }
+    }
+
+    // Method to sync data for a specific table
+    private static void syncTable(String tableName) {
+        String selectQuery = "SELECT * FROM " + tableName;
+        String insertQuery = "INSERT INTO " + tableName + " (columns_here) VALUES (?)"; // Adjust columns accordingly
+
+        try (Connection remoteConn = getRemoteConnection();
+             Statement remoteStmt = remoteConn.createStatement();
+             ResultSet rs = remoteStmt.executeQuery(selectQuery);
+             Connection localConn = getLocalConnection();
+             PreparedStatement insertStmt = localConn.prepareStatement(insertQuery)) {
+
+            // Clear the local table before inserting new data (optional)
+            String clearTableQuery = "DELETE FROM " + tableName;
+            try (Statement deleteStmt = localConn.createStatement()) {
+                deleteStmt.executeUpdate(clearTableQuery);
+            }
+
+            // Loop through remote data and insert into local database
+            while (rs.next()) {
+                // Assuming you're inserting data from all columns, adjust the PreparedStatement accordingly
+                // Example: if table has a column "id" and "name"
+                insertStmt.setInt(1, rs.getInt("id"));
+                insertStmt.setString(2, rs.getString("name"));
+                // Add other columns as needed
+
+                insertStmt.addBatch();
+            }
+
+            // Execute the batch insert
+            insertStmt.executeBatch();
+            System.out.println("Table " + tableName + " synced successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error syncing table: " + tableName);
+        }
+    }
+
+
+
+
+
+
 
     public static List<Doctor> getAllDoctors() {
         List<Doctor> doctors = new ArrayList<>();
         String query = "SELECT * FROM doctors";
 
-        try (Connection conn = getConnection();
+        try (Connection conn = getRemoteConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 Doctor doctor = new Doctor(
                         rs.getString("name"),
-                        rs.getInt("id"),
+                        rs.getString("id"),
                         rs.getString("email"),
                         rs.getString("address"),
                         rs.getBoolean("appointment_admin"),
@@ -79,7 +166,7 @@ public class Doctor extends User {
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, doctor.getName());
-            pstmt.setInt(2, doctor.getId());
+            pstmt.setString(2, doctor.getId());
             pstmt.setString(3, doctor.getEmail());
             pstmt.setString(4, doctor.getAddress());
             pstmt.setBoolean(5, doctor.isAppointment_admin());
@@ -120,7 +207,7 @@ public class Doctor extends User {
             pstmt.setString(11, doctor.getUserName());
             pstmt.setString(12, doctor.getPassword());
             pstmt.setString(13, doctor.getRole());
-            pstmt.setInt(14, doctor.getId());
+            pstmt.setString(14, doctor.getId());
 
             pstmt.executeUpdate();
             System.out.println("Doctor updated successfully.");
@@ -134,7 +221,7 @@ public class Doctor extends User {
         String query = "SELECT * FROM doctors WHERE userName=?";
         Doctor doctor = null;
 
-        try (Connection conn = getConnection();
+        try (Connection conn = getRemoteConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, username);
@@ -142,7 +229,7 @@ public class Doctor extends User {
                 if (rs.next()) {
                     doctor = new Doctor(
                             rs.getString("name"),
-                            rs.getInt("id"),
+                            rs.getString("id"),
                             rs.getString("email"),
                             rs.getString("address"),
                             rs.getBoolean("appointment_admin"),
@@ -174,7 +261,7 @@ public class Doctor extends User {
 
     public static boolean doesUsernameExists(String username) {
         String query = "SELECT COUNT(*) FROM doctors WHERE userName=?";
-        try (Connection conn = getConnection();
+        try (Connection conn = getRemoteConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, username);
@@ -189,12 +276,12 @@ public class Doctor extends User {
         return false;
     }
 
-    public static boolean doesIdExists(int id) {
+    public static boolean doesIdExists(String id) {
         String query = "SELECT COUNT(*) FROM doctors WHERE id=?";
-        try (Connection conn = getConnection();
+        try (Connection conn = getRemoteConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setInt(1, id);
+            pstmt.setString(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1) > 0;
@@ -206,19 +293,19 @@ public class Doctor extends User {
         return false;
     }
 
-    public static Doctor getDoctor(int id) {
+    public static Doctor getDoctorById(String id) {
         String query = "SELECT * FROM doctors WHERE id=?";
         Doctor doctor = null;
 
-        try (Connection conn = getConnection();
+        try (Connection conn = getLocalConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setInt(1, id);
+            pstmt.setString(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     doctor = new Doctor(
                             rs.getString("name"),
-                            rs.getInt("id"),
+                            rs.getString("id"),
                             rs.getString("email"),
                             rs.getString("address"),
                             rs.getBoolean("appointment_admin"),
@@ -248,13 +335,13 @@ public class Doctor extends User {
         return doctor;
     }
 
-    public static void deleteDoctor(int id) {
+    public static void deleteDoctor(String id) {
         String query = "DELETE FROM doctors WHERE id=?";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setInt(1, id);
+            pstmt.setString(1, id);
             pstmt.executeUpdate();
             System.out.println("Doctor deleted successfully.");
 
@@ -269,7 +356,5 @@ public class Doctor extends User {
         updateDoctor(doctor);
     }
 
-    // Additional methods for working time and checking if doctor is working can be implemented here.
 
-    // Implement the working time and isHeWorking methods similarly
 }

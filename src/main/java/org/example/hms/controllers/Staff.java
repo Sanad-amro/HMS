@@ -65,7 +65,7 @@ public class Staff {
     }
 
 
-    private int idOfSlectedUser =0;
+    private String idOfSlectedUser ="0";
     private Parent root;
     
     private Stage stage;
@@ -179,7 +179,7 @@ public class Staff {
                     @Override
                     public void changed(ObservableValue<? extends User> observableValue, User User, User storedUser) {
                         if (storedUser != null) {
-                            idOfSlectedUser = storedUser.getId();
+                            idOfSlectedUser.equals(storedUser.getId()) ;
 
                         } else {
                             System.out.println("Selected Usere doesn't have an id");
@@ -278,7 +278,7 @@ public class Staff {
                 *//**//*here iam supposed to start a new fxml loader which contains the User name and i will need to use the controller communication *//**//*
             }
         });*/
-        if(idOfSlectedUser ==0){
+        if(idOfSlectedUser.equals("0")){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("you must chose a User to set work for from the table first!!");
             alert.setTitle("no chose warning");
@@ -319,7 +319,7 @@ public class Staff {
 
     }
     public void update(ActionEvent event) throws IOException {
-        if(idOfSlectedUser!=0){
+        if(!idOfSlectedUser.equals("0")){
             User User1 = User.getUser(idOfSlectedUser);
             FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/UpdateUser.fxml"));
             root=loader.load();
@@ -376,24 +376,30 @@ public class Staff {
 
 
     public void patientClicked(MouseEvent event) throws IOException {
-        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Patent.fxml"));
-        root = loader.load();
+        // Load the new FXML file
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Patent.fxml"));
+        Parent root = loader.load();
+
+        // Create a new scene with the loaded FXML root
         Scene scene = new Scene(root);
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Patients patients= loader.getController();
-        if (doctor!=null){
-            System.out.println("user is null");
-            patients.setUser(user);
-        }else {
-            System.out.println("doctor is null");
-            patients.setDoctor(doctor);
+
+        // Get the current stage from the event
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Pass data to the Patients controller
+        Patients patients = loader.getController();
+        if (doctor != null) {
+            System.out.println("User is null");
+            patients.setUser(user); // Assuming 'setUser' accepts the 'user' object
+        } else {
+            System.out.println("Doctor is null");
+            patients.setDoctor(doctor); // Assuming 'setDoctor' accepts the 'doctor' object
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Patients");
-        stage1.setScene(scene);
-        stage1.show();
+
+        // Set the new scene on the current stage
+        stage.setScene(scene);
     }
+
 
     public void staff(MouseEvent event) throws IOException {
         FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
@@ -408,11 +414,8 @@ public class Staff {
             System.out.println("doctor is null");
             staff.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Staff");
-        stage1.setScene(scene);
-        stage1.show();
+
+        stage.setScene(scene);
 
     }
 
@@ -429,12 +432,7 @@ public class Staff {
             System.out.println("doctor is null");
             appointments.setDoctor(doctor);
         }
-        stage.close();
-        Stage stage1=new Stage();
-        stage1.setTitle("HMS-Main-Appointments.fxml");
-        stage1.setScene(scene);
-        stage1.show();
-
+        stage.setScene(scene);
 
     }
 
@@ -452,9 +450,7 @@ public class Staff {
             System.out.println("doctor is null");
             inventory.setDoctor(doctor);
         }
-        stage.close();
-        stage1.setTitle("HMS-Main-Inventory");
-        stage1.setScene(scene);
-        stage1.show();
+        stage.setScene(scene);
+
     }
 }
