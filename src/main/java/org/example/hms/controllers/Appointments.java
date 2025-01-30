@@ -179,7 +179,7 @@ public class Appointments {
     }
 
     @FXML
-    private void delete(ActionEvent event){
+    private void delete(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Are you sure you want to delete that session ?");
         alert.setTitle("Close Application");
@@ -187,6 +187,7 @@ public class Appointments {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
            Session.deleteSessionById(idOfSelectedSession);
+           initialize();
         }
     }
     @FXML
@@ -196,6 +197,7 @@ public class Appointments {
             Parent root = loader.load();
             View view = loader.getController();
             view.setSession(Session.getSessionById(idOfSelectedSession));
+            System.out.println(Session.getSessionById(idOfSelectedSession).getDiagnosis());
             Scene scene = new Scene(root);
             Stage stage1 = new Stage();
             stage1.setScene(scene);

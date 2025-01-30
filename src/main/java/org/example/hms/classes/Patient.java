@@ -1,17 +1,14 @@
 package org.example.hms.classes;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-
 import java.sql.*;
 import java.util.ArrayList;
 
 public class Patient {
 
         // Database connection details
-        private static final String DB_URL = "jdbc:mysql://195.123.166.125:3306/akram";
-        private static final String DB_USER = "sanad";
-        private static final String DB_PASSWORD = "sanad";
+        private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/akram";
+        private static final String DB_USER = "root";
+        private static final String DB_PASSWORD = "";
 
         // Patient fields
         private int patientId;
@@ -73,7 +70,7 @@ public class Patient {
                 this.lastVisit = lastVisit;
         }
 
-        public int getNumOfVisits() {
+        public int getN_visits() {
                 return numOfVisits;
         }
 
@@ -252,7 +249,7 @@ public class Patient {
                         stmt.setInt(10,patient.getyB());
                         stmt.setInt(11, patient.getmB());
                         stmt.setInt(12,patient.getdB());
-                        stmt.setInt(13, patient.getNumOfVisits());
+                        stmt.setInt(13, patient.getN_visits());
                         stmt.setString(14,patient.getLastVisit());
                         stmt.setBoolean(15,patient.isMedicalDay());
                         stmt.setString(16, patient.getCause());
@@ -280,7 +277,7 @@ public class Patient {
         public static void UpdatePatientInfo(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay, cause) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay, cause where id = ?) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setInt(1, patient.getPatientId());
                         stmt.setString(2, patient.getName());
@@ -294,7 +291,7 @@ public class Patient {
                         stmt.setInt(10,patient.getyB());
                         stmt.setInt(11, patient.getmB());
                         stmt.setInt(12,patient.getdB());
-                        stmt.setInt(13, patient.getNumOfVisits());
+                        stmt.setInt(13, patient.getN_visits());
                         stmt.setString(14,patient.getLastVisit());
                         stmt.setBoolean(15,patient.isMedicalDay());
                         stmt.setString(16, patient.getCause());
@@ -313,7 +310,7 @@ public class Patient {
                         ResultSet rs = stmt.executeQuery();
                         while (rs.next()) {
                                 Patient patient = new Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visist"),rs.getBoolean("medDay"), rs.getString("cause"));
+                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visit"),rs.getBoolean("medDay"), rs.getString("cause"));
                                 patientsList.add(patient);
                         }
                 } catch (SQLException e) {
@@ -347,7 +344,7 @@ public class Patient {
                         ResultSet rs = stmt.executeQuery();
                         if (rs.next()) {
                                 return new  Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visist"),rs.getBoolean("medDay"),rs.getString("cause"));
+                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visit"),rs.getBoolean("medDay"),rs.getString("cause"));
                         }
                 } catch (SQLException e) {
                         e.printStackTrace();

@@ -20,9 +20,9 @@ public class Diagnosis {
     public void setName(String name) {
         this.name = name;
     }
-    private static final String DB_URL = "jdbc:mysql://195.123.166.125:3306/akram";
-    private static final String DB_USER = "sanad";
-    private static final String DB_PASSWORD = "sanad";
+    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/akram";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "";
 
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);

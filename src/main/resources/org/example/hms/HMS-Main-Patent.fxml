@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onMouseClicked="#blankClicked" prefHeight="519.0" prefWidth="852.0" styleClass="mainPage" stylesheets="@styles/startUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.Patients">
+<AnchorPane onMouseClicked="#blankClicked" prefHeight="580.0" prefWidth="894.0" styleClass="mainPage" stylesheets="@styles/startUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.Patients">
    <children>
       <TextField fx:id="searchField" layoutX="93.0" layoutY="50.0" prefHeight="30.0" prefWidth="209.0" promptText="Patient Name/Id" styleClass="textField" />
       <AnchorPane fx:id="anchB" layoutX="71.0" layoutY="-3.0" onMouseExited="#hideButtons" prefHeight="583.0" prefWidth="19.0" styleClass="vBox">
@@ -111,11 +113,12 @@
       </AnchorPane>
       <AnchorPane layoutX="238.0" layoutY="14.0" prefHeight="395.0" prefWidth="497.0">
          <children>
-            <TableView fx:id="patientsTable" layoutX="75.0" prefHeight="395.0" prefWidth="470.0">
+            <TableView fx:id="patientsTable" layoutX="75.0" prefHeight="395.0" prefWidth="556.0">
                <columns>
                   <TableColumn fx:id="idC" prefWidth="136.0" text="id" />
                   <TableColumn fx:id="nameC" prefWidth="120.0" text="name" />
                   <TableColumn fx:id="doctorC" prefWidth="154.0" text="Aded_by" />
+                  <TableColumn fx:id="visits" prefWidth="154.0" text="visits" />
                </columns>
                <opaqueInsets>
                   <Insets />
@@ -156,10 +159,12 @@
             <Font size="33.0" />
          </font>
       </Label>
-      <Button fx:id="s" layoutX="96.0" layoutY="315.0" mnemonicParsing="false" onAction="#s" prefHeight="53.0" prefWidth="209.0" styleClass="buttons" text="Search">
+      <Button fx:id="s" layoutX="89.0" layoutY="458.0" mnemonicParsing="false" onAction="#s" prefHeight="53.0" prefWidth="157.0" styleClass="buttons" text="Search">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <CheckBox fx:id="medDay" layoutX="107.0" layoutY="308.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="96.0" text="medical day" textFill="WHITE" />
+      <ComboBox fx:id="cause" layoutX="80.0" layoutY="341.0" prefHeight="30.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

@@ -262,7 +262,7 @@ public class MakeAppointment {
                 switch (oldValue) {
                     case "chief complaint":
                         chief_complaint = notes.getText();
-                        System.out.println("nigga");
+                        System.out.println("i was here nigga!!");
                         break;
                     case "medical history":
                         medical_history = notes.getText();
@@ -300,6 +300,7 @@ public class MakeAppointment {
             if (newValue != null) {
                 switch (newValue) {
                     case "chief complaint":
+                        System.out.println("i was here nigga!!!");
                         notes.setText(chief_complaint);
                         break;
                     case "medical history":
@@ -349,7 +350,7 @@ public class MakeAppointment {
 
          String givnesS="";
          for (Given given : givens) {
-             givnesS=givnesS+given.getName()+", ";
+             givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
          }
          int patientId=Integer.parseInt(patient_id.getText());
          int sessionId=Session.genId();
@@ -380,8 +381,20 @@ public class MakeAppointment {
          String address= patient.getAddress();
         System.out.println(patient.getAddress());
         saveComb();
+        String visit = day + "/" + month + "/"+year;
+        System.out.println("i was here 2 !!");
+        System.out.println(visit);
+        System.out.println(patient.getLastVisit());
 
-        Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,patient.getName());
+        if (!visit.equals(patient.getLastVisit())) {
+            patient.setNumOfVisits(patient.getN_visits() + 1);
+            patient.setLastVisit(visit);
+             ArrayList<Patient> patients= new ArrayList<>();
+            patients.add(patient);
+            Patient.UpdatePatientInfo((patients));
+            System.out.println("i was here !!");
+        }
+        Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,patient.getName(),0);
         success.setVisible(true);
         Session.addSession(session);
         for (Given given : givens) {
@@ -463,34 +476,34 @@ public class MakeAppointment {
     private void saveComb(){
         switch (cNote.getValue()) {
             case "chief complaint":
-                notes.setText(chief_complaint);
+                chief_complaint=notes.getText();
                 break;
             case "medical history":
-                notes.setText(medical_history);
+                medical_history=notes.getText();
                 break;
             case "medical and surgical history":
-                notes.setText(medical_and_surgical_history);
+                medical_and_surgical_history=notes.getText();
                 break;
             case "obstetric history":
-                notes.setText(obstetric_history);
+                obstetric_history=notes.getText();
                 break;
             case "gynecological history":
-                notes.setText(gynecological_history);
+                gynecological_history=notes.getText();
                 break;
             case "General Doctor":
-                notes.setText(doctor_and_midwife_note);
+                doctor_and_midwife_note=notes.getText();
                 break;
             case "nutritionist note":
-                notes.setText(nutritionist_note);
+                nutritionist_note=notes.getText();
                 break;
             case "physiotherapist note":
-                notes.setText(physiotherapist_note);
+                physiotherapist_note=notes.getText();
                 break;
             case "midWife Note":
-                notes.setText(midWifeNote);
+                midWifeNote=notes.getText();
                 break;
             case "psychologist Note":
-                notes.setText(psychologistNote);
+                psychologistNote=notes.getText();
                 break;
             default:
                 break;

@@ -192,4 +192,6 @@ public class AddPatient {
         }));
     }
 
+    public void add(ActionEvent event) {
+    }
 }

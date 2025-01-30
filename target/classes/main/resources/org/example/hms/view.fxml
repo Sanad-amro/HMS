@@ -34,7 +34,7 @@
                 <Font name="AppleMyungjo Regular" size="13.0" />
             </font>
         </Label>
-        <TextArea fx:id="notes" layoutX="123.0" layoutY="635.0" prefHeight="126.0" prefWidth="342.0" promptText="medical Notes Goes here!!!" styleClass="textField" />
+        <TextArea fx:id="notes" layoutX="123.0" layoutY="635.0" prefHeight="126.0" prefWidth="342.0" styleClass="textField" />
         <ComboBox fx:id="cNote" layoutX="123.0" layoutY="600.0" prefHeight="32.0" prefWidth="142.0" promptText="Notes By (Select...)" styleClass="textField" />
         <Label layoutX="26.0" layoutY="94.0" prefHeight="36.0" prefWidth="123.0" text="blood glucose" textFill="WHITE">
             <font>

@@ -79,7 +79,7 @@ public class UpdatePatient {
             pass_match.setVisible(false);
             List<Patient> patients = new ArrayList<>();
             Patient patient1;
-            patient1 = new Patient( Integer.parseInt(did),dname,dsector, daddress, patient.getAddedBy(), Double.parseDouble(height.getText()),Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt( y.getText()),patient.getNumOfVisits(), patient.isMedicalDay(),diagnosisC.getValue() );
+            patient1 = new Patient( Integer.parseInt(did),dname,dsector, daddress, patient.getAddedBy(), Double.parseDouble(height.getText()),Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt( y.getText()),patient.getN_visits(), patient.isMedicalDay(),diagnosisC.getValue() );
 
             patients.add(patient1);
             Patient.UpdatePatientInfo(new ArrayList<>(patients));
@@ -126,5 +126,8 @@ public class UpdatePatient {
 
             }
         });
+    }
+
+    public void add(ActionEvent event) {
     }
 }

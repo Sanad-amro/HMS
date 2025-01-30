@@ -28,7 +28,7 @@ import java.util.Optional;
 public class View {
 
 
-    Session session
+    Session session;
 
 
     @FXML
@@ -102,98 +102,138 @@ public class View {
     private String psychologistNote = "FREE";
 
 
-    public Doctor getDoctor() {
-        return doctor;
-    }
+    int patientId;
+    int hgb ;
+    int weight ;
+    int bloodGlucose;
+    int fastingBloodGlucose;
+    int randomBloodGlucose;
+    int heartRate ;
+    int diastolicBloodPressure;
+    int systolicBloodPressure;
+    String bloodPressure;
+    String chiefComplaint;
+    String medicalHistory;
+    String medicalAndSurgicalHistory;
+    String obstetricHistory ;
+    String gynecologicalHistory ;
+    String doctorAndMidwifeNote ;
+    String diagnosis ;
+    String currentMedications ;
+    String prescribedMedications ;
+    String nutritionistNote ;
+    String physiotherapistNote ;
+    String addedBy;
+    int day;
+    int month;
+    int year;
+    String address;
+    String patientName;
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
 
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient,Doctor doctor) {
-        this.patient = patient;
-        this.doctor = doctor;
-        pop();
-    }
     private void pop(){
+
+
+
+
+        chief_complaint = session.getChiefComplaint();
+        medical_history = session.getMedicalHistory();
+        medical_and_surgical_history = session.getMedicalAndSurgicalHistory();
+          obstetric_history = session.getObstetricHistory();
+          gynecological_history = session.getGynecologicalHistory();
+          doctor_and_midwife_note = session.getDoctorAndMidwifeNote();
+          nutritionist_note = session.getNutritionistNote();
+          physiotherapist_note = session.getPhysiotherapistNote();
+          midWifeNote=session.getMidWifeNote();
+          psychologistNote = session.getPsychologistNote();
+
+        notes.setText(chief_complaint);
+
+
+        current_medications.setText(session.getPrescribedMedications());
+
+
         patient_name.setText(session.getPatientName());
         patient_id.setText(String.valueOf(session.getPatientId()));
         added_by.setText(session.getAddedBy());
 
 
 
+
         String givnesS="";
         for (Given given : givens) {
             givnesS=givnesS+given.getName()+", ";
         }
-        int patientId=Integer.parseInt(patient_id.getText());
-        int sessionId=Session.genId();
-        int hgb = hgbT.getText().isEmpty()? 0:Integer.parseInt(hgbT.getText());
-        int weight = weightT.getText().isEmpty()? 0:Integer.parseInt(weightT.getText());
-        int bloodGlucose = blood_glucose.getText().isEmpty()? 0:Integer.parseInt(blood_glucose.getText());
-        int fastingBloodGlucose = fasting_blood_glucose.getText().isEmpty()? 0:Integer.parseInt(fasting_blood_glucose.getText());
-        int randomBloodGlucose=random_blood_glucose.getText().isEmpty()? 0:Integer.parseInt(random_blood_glucose.getText());
-        int heartRate = heart_rate.getText().isEmpty()? 0:Integer.parseInt(heart_rate.getText());
-        int diastolicBloodPressure= diastolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(diastolic_blood_pressure.getText());
-        int systolicBloodPressure= systolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(systolic_blood_pressure.getText());
-        String bloodPressure = bp1.getText()+"/"+bp2.getText();
-        String chiefComplaint = chief_complaint;
-        String medicalHistory = medical_history;
-        String medicalAndSurgicalHistory= medical_and_surgical_history;
-        String obstetricHistory = obstetric_history;
-        String gynecologicalHistory = gynecological_history;
-        String doctorAndMidwifeNote = doctor_and_midwife_note;
-        String diagnosis = diagnosisC.getValue();
-        String currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
-        String prescribedMedications = givnesS;
-        String nutritionistNote = nutritionist_note;
-        String physiotherapistNote = physiotherapist_note;
-        String addedBy=added_by.getText();
-        int day=LocalDate.now().getDayOfMonth();
-        int month= LocalDate.now().getMonthValue();
-        int year=LocalDate.now().getYear();
-        String address= Patient.getPatient(session.getPatientId()).getAddress();
-        String patientName=session.getPatientName();
+         patientId=session.getPatientId();
+         hgb = session.getHgb();
+         weight = session.getWeight();
+         bloodGlucose = session.getBloodGlucose();
+         fastingBloodGlucose = session.getFastingBloodGlucose();
+         randomBloodGlucose=session.getRandomBloodGlucose();
+         heartRate = session.getHeartRate();
+         diastolicBloodPressure= session.getDiastolicBloodPressure();
+         systolicBloodPressure= session.getSystolicBloodPressure();
+
+
+         bloodPressure = session.getBloodPressure();
+         chiefComplaint = session.getChiefComplaint();
+         medicalHistory = session.getMedicalHistory();
+         medicalAndSurgicalHistory= session.getMedicalAndSurgicalHistory();
+         obstetricHistory = session.getObstetricHistory();
+         gynecologicalHistory = session.getGynecologicalHistory();
+         doctorAndMidwifeNote = session.getDoctorAndMidwifeNote();
+         diagnosis = session.getDiagnosis();
+         currentMedications =session.getCurrentMedications();
+         prescribedMedications = session.getPrescribedMedications();
+         nutritionistNote = session.getNutritionistNote();
+         physiotherapistNote = session.getPhysiotherapistNote();
+         addedBy=added_by.getText();
+
+        String[] parts = bloodPressure.split("/");
+
+         if (bloodPressure.isEmpty() || bloodPressure.isBlank() || !bloodPressure.contains("/") || bloodPressure.length()<3){
+             bp1.setText("");
+             bp2.setText("");
+         }
+         else {
+
+             bp1.setText(String.valueOf(parts[0]));
+             bp2.setText(String.valueOf(parts[1]));
+         }
+
+        diagnosisC.setValue(session.getDiagnosis());
+
+
+        patient_id.setText(String.valueOf(patientId));
+        hgbT.setText(String.valueOf(hgb));
+        blood_glucose.setText(String.valueOf(bloodGlucose));
+        fasting_blood_glucose.setText(String.valueOf(fastingBloodGlucose));
+        random_blood_glucose.setText(String.valueOf(randomBloodGlucose));
+        heart_rate.setText(String.valueOf(heartRate));
+        diastolic_blood_pressure.setText(String.valueOf(diastolicBloodPressure));
+        systolic_blood_pressure.setText(String.valueOf(systolicBloodPressure));
+        added_by.setText(session.getAddedBy());
+
+
+
+
+         chiefComplaint=session.getChiefComplaint();
+         medicalHistory= session.getMedicalHistory();
+         medicalAndSurgicalHistory=session.getMedicalAndSurgicalHistory();
+         obstetricHistory=session.getObstetricHistory() ;
+         gynecologicalHistory=session.getGynecologicalHistory() ;
+         doctorAndMidwifeNote=session.getDoctorAndMidwifeNote() ;
+         diagnosis=session.getDiagnosis() ;
+         currentMedications=session.getCurrentMedications() ;
+         prescribedMedications=session.getPrescribedMedications() ;
+         nutritionistNote=session.getNutritionistNote() ;
+         physiotherapistNote=session.getPhysiotherapistNote() ;
+
+
     }
     ////////////////////////////////////////////////////////////////////////////////initialize ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void initialize() throws IOException {
-        String givnesS="";
-        for (Given given : givens) {
-            givnesS=givnesS+given.getName()+", ";
-        }
-        int patientId=Integer.parseInt(patient_id.getText());
-        int sessionId=Session.genId();
-        int hgb = hgbT.getText().isEmpty()? 0:Integer.parseInt(hgbT.getText());
-        int weight = weightT.getText().isEmpty()? 0:Integer.parseInt(weightT.getText());
-        int bloodGlucose = blood_glucose.getText().isEmpty()? 0:Integer.parseInt(blood_glucose.getText());
-        int fastingBloodGlucose = fasting_blood_glucose.getText().isEmpty()? 0:Integer.parseInt(fasting_blood_glucose.getText());
-        int randomBloodGlucose=random_blood_glucose.getText().isEmpty()? 0:Integer.parseInt(random_blood_glucose.getText());
-        int heartRate = heart_rate.getText().isEmpty()? 0:Integer.parseInt(heart_rate.getText());
-        int diastolicBloodPressure= diastolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(diastolic_blood_pressure.getText());
-        int systolicBloodPressure= systolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(systolic_blood_pressure.getText());
-        String bloodPressure = bp1.getText()+"/"+bp2.getText();
-        String chiefComplaint = chief_complaint;
-        String medicalHistory = medical_history;
-        String medicalAndSurgicalHistory= medical_and_surgical_history;
-        String obstetricHistory = obstetric_history;
-        String gynecologicalHistory = gynecological_history;
-        String doctorAndMidwifeNote = doctor_and_midwife_note;
-        String diagnosis = diagnosisC.getValue();
-        String currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
-        String prescribedMedications = givnesS;
-        String nutritionistNote = nutritionist_note;
-        String physiotherapistNote = physiotherapist_note;
-        String addedBy=added_by.getText();
-        int day=LocalDate.now().getDayOfMonth();
-        int month= LocalDate.now().getMonthValue();
-        int year=LocalDate.now().getYear();
-        String address= patient.getAddress();
-        String patientName=patient.getName();
+
         success.setVisible(false);
         diagnosisC.setItems(Diagnosis.getAllItems());
         weightT.textProperty().addListener(((observableValue, s, t1) -> {
@@ -328,7 +368,6 @@ public class View {
                 switch (oldValue) {
                     case "chief complaint":
                         chief_complaint = notes.getText();
-                        System.out.println("nigga");
                         break;
                     case "medical history":
                         medical_history = notes.getText();
@@ -415,8 +454,9 @@ public class View {
 
         String givnesS="";
         for (Given given : givens) {
-            givnesS=givnesS+given.getName()+", ";
+            givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ ", ";
         }
+
         int patientId=Integer.parseInt(patient_id.getText());
         int sessionId=Session.genId();
         int hgb = hgbT.getText().isEmpty()? 0:Integer.parseInt(hgbT.getText());
@@ -439,16 +479,16 @@ public class View {
         String prescribedMedications = givnesS;
         String nutritionistNote = nutritionist_note;
         String physiotherapistNote = physiotherapist_note;
-        String addedBy=added_by.getText();
+        String addedBy = added_by.getText();
         int day=LocalDate.now().getDayOfMonth();
         int month= LocalDate.now().getMonthValue();
         int year=LocalDate.now().getYear();
         String address= Patient.getPatient(session.getPatientId()).getAddress();
         saveComb();
 
-        Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,patient.getName());
+        Session session1 = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,session.getPatientName(),0);
         success.setVisible(true);
-        Session.addSession(session);
+        Session.updateSessionById(session);
         for (Given given : givens) {
             Medecin.decrementQuantity(given.getId(),given.getQuantity());
         }

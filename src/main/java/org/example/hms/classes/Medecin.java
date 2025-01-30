@@ -44,9 +44,9 @@ public class Medecin {
     }
 
     // Database connection details
-    private static final String URL = "jdbc:mysql://195.123.166.125:3306/akram";
-    private static final String USERNAME = "sanad";
-    private static final String PASSWORD = "sanad";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/akram";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "";
 
     // Static method to add a Medecin
     public static void add(String name, double quantity) {

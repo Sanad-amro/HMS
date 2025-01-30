@@ -23,6 +23,7 @@ import org.example.hms.classes.Patient;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.PseudoColumnUsage;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +76,12 @@ public class Patients {
     TextField tmm;
     @FXML
     TextField tdd;
+    @FXML
+    TableColumn<Patient, Integer> visits;
+    @FXML
+    CheckBox medDay;
+    @FXML
+    ComboBox<String> cause;
 
 
 
@@ -165,6 +172,7 @@ public class Patients {
         }
     }
     public void initialize() throws IOException {
+        cause.setItems(Diagnosis.getAllItems());
         yy.setText("2025");
         tyy.setText("2025");
         mm.setText("1");
@@ -178,6 +186,8 @@ public class Patients {
         idC.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         nameC.setCellValueFactory(new PropertyValueFactory<>("name"));
         doctorC.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
+        visits.setCellValueFactory(new PropertyValueFactory<>("n_visits"));
+
         System.out.println("i was here 2");
 
 
@@ -185,17 +195,23 @@ public class Patients {
 
 
         patientsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
+
             @Override
             public void changed(ObservableValue<? extends Patient> observableValue, Patient patient, Patient storedpatient) {
+
                 if(storedpatient != null){
                     idOfSlectedPatient = storedpatient.getPatientId();
-
                 }
                 else {
                     System.out.println("Selected patiente doesn't have an id");
                 }
+                System.out.println("the id of the selected patinet is:" + idOfSlectedPatient);
+
+
             }
+
         });
+
         patientsTable.setItems(filteredList);
 
 
@@ -257,6 +273,8 @@ public class Patients {
             // Check the second search field
             boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||
                     patient.getAddedBy().contains(newValue2) ;
+            boolean medpat = medDay.isSelected();
+            boolean causeB = patient.getCause().toLowerCase().contains(cause.getValue().toLowerCase());
 
             LocalDate fromDate = parseDate(yy.getText(), mm.getText(), dd.getText()); // Input range start
             LocalDate toDate = parseDate(tyy.getText(), tmm.getText(), tdd.getText());         // Input range end
@@ -275,7 +293,7 @@ public class Patients {
             }
 
             // Combine all conditions
-            return matchesFirstField && matchesSecondField && matchesDateRange;
+            return matchesFirstField && matchesSecondField && matchesDateRange && causeB && medpat;
         });
 
         // Update the table view
