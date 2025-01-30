@@ -73,6 +73,14 @@ public class AddDoctor {
         if((dname.isEmpty() || did.isEmpty() || dsector==null || daddress.isEmpty() || demail.isEmpty() || dsector.isEmpty() || dspeciality.isEmpty() || dUsername.isEmpty() || dPassword.isEmpty()) ){
             succsess.setVisible(false);
             pass_match.setVisible(false);
+            fields_fill.setText("Fill all the fields");
+            fields_fill.setVisible(true);
+            addhim=false;
+        }
+        if (dPassword.length()<8 || dUsername.length()<5) {
+            succsess.setVisible(false);
+            pass_match.setVisible(false);
+            fields_fill.setText("Password<8 Or username<5 !!! ");
             fields_fill.setVisible(true);
             addhim=false;
         }
@@ -81,13 +89,13 @@ public class AddDoctor {
             fields_fill.setVisible(true);
             addhim=false;
         }
-        if(User.doesUsernameExists(dUsername) || (Doctor.doesUsernameExists(dUsername) && !wannaUpdate)){
+        /*if(User.doesUsernameExists(dUsername) || (Doctor.doesUsernameExists(dUsername) && !wannaUpdate)){
             pass_match.setVisible(false);
             succsess.setVisible(false);
             fields_fill.setText("This Username already exists");
             fields_fill.setVisible(true);
             addhim=false;
-        }
+        }*/
         if(Doctor.doesIdExists(did) && !wannaUpdate){
             Alert alert =new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("id already exits");

@@ -58,7 +58,8 @@ public class MakeAppointment {
     TextField bp1;
     @FXML
     TextField bp2;
-
+    @FXML
+    Label success;
     @FXML
     TextField search;
     @FXML
@@ -98,6 +99,8 @@ public class MakeAppointment {
     private String doctor_and_midwife_note = "FREE";
     private String nutritionist_note = "FREE";
     private String physiotherapist_note = "FREE";
+    private String midWifeNote="FREE";
+    private String psychologistNote = "FREE";
 
 
     public Doctor getDoctor() {
@@ -125,6 +128,7 @@ public class MakeAppointment {
     }
 ////////////////////////////////////////////////////////////////////////////////initialize ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void initialize() throws IOException {
+        success.setVisible(false);
         diagnosisC.setItems(Diagnosis.getAllItems());
         weightT.textProperty().addListener(((observableValue, s, t1) -> {
             if (!t1.matches("\\d*")) {
@@ -249,7 +253,7 @@ public class MakeAppointment {
         cNote.getItems().addAll(
                 "chief complaint", "medical history", "medical and surgical history",
                 "obstetric history", "gynecological history",
-                "doctor and midwife note", "nutritionist note", "physiotherapist note"
+                "General Doctor", "nutritionist note", "physiotherapist note", "psychologist Note","midWife Note"
         );
         cNote.setValue("chief complaint");
         cNote.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -272,7 +276,7 @@ public class MakeAppointment {
                     case "gynecological history":
                         gynecological_history = notes.getText();
                         break;
-                    case "doctor and midwife note":
+                    case "General Doctor":
                         doctor_and_midwife_note = notes.getText();
                         break;
                     case "nutritionist note":
@@ -280,6 +284,12 @@ public class MakeAppointment {
                         break;
                     case "physiotherapist note":
                         physiotherapist_note = notes.getText();
+                        break;
+                    case "midWife Note":
+                        midWifeNote = notes.getText();
+                        break;
+                    case "psychologist Note":
+                        psychologistNote = notes.getText();
                         break;
                     default:
                         break;
@@ -304,7 +314,7 @@ public class MakeAppointment {
                     case "gynecological history":
                         notes.setText(gynecological_history);
                         break;
-                    case "doctor and midwife note":
+                    case "General Doctor":
                         notes.setText(doctor_and_midwife_note);
                         break;
                     case "nutritionist note":
@@ -312,6 +322,12 @@ public class MakeAppointment {
                         break;
                     case "physiotherapist note":
                         notes.setText(physiotherapist_note);
+                        break;
+                    case "midWife Note":
+                        notes.setText(midWifeNote);
+                        break;
+                    case "psychologist Note":
+                        notes.setText(psychologistNote);
                         break;
                     default:
                         break;
@@ -365,8 +381,8 @@ public class MakeAppointment {
         System.out.println(patient.getAddress());
         saveComb();
 
-        Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address);
-
+        Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,patient.getName());
+        success.setVisible(true);
         Session.addSession(session);
         for (Given given : givens) {
             Medecin.decrementQuantity(given.getId(),given.getQuantity());
@@ -461,7 +477,7 @@ public class MakeAppointment {
             case "gynecological history":
                 notes.setText(gynecological_history);
                 break;
-            case "doctor and midwife note":
+            case "General Doctor":
                 notes.setText(doctor_and_midwife_note);
                 break;
             case "nutritionist note":
@@ -469,6 +485,12 @@ public class MakeAppointment {
                 break;
             case "physiotherapist note":
                 notes.setText(physiotherapist_note);
+                break;
+            case "midWife Note":
+                notes.setText(midWifeNote);
+                break;
+            case "psychologist Note":
+                notes.setText(psychologistNote);
                 break;
             default:
                 break;

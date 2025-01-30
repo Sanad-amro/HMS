@@ -1,3 +1,4 @@
+/*
 package org.example.hms.controllers;
 import java.util.List;
 import javafx.animation.KeyFrame;
@@ -235,9 +236,11 @@ public class Staff {
     }
     @FXML
     private void addUser(ActionEvent event) throws IOException{
-        /*List<User> User=new ArrayList<>();
+        */
+/*List<User> User=new ArrayList<>();
         User.add(new User("akram", 91230098, "akraram1973@yahoo.com","karn althor",true, false, "physiotherapy", false, true,false,"physiotherapy", "Akram2323", "nigggas"));
-        User.addDcotro(new ArrayList<>(User));*/
+        User.addDcotro(new ArrayList<>(User));*//*
+
         FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/add_User.fxml"));
         Parent root = window.load();
         Scene scene = new Scene(root);
@@ -257,9 +260,11 @@ public class Staff {
 
     }
 
-    /**
+    */
+/**
      * Show an error alert.
-     */
+     *//*
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("Error");
@@ -272,12 +277,22 @@ public class Staff {
     }
 
     public void setWork(ActionEvent event) throws IOException {
-       /* UsersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+       */
+/* UsersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 String UserName = newValue.getName();
-                *//**//*here iam supposed to start a new fxml loader which contains the User name and i will need to use the controller communication *//**//*
+                *//*
+*/
+/**//*
+*/
+/*here iam supposed to start a new fxml loader which contains the User name and i will need to use the controller communication *//*
+*/
+/**//*
+*/
+/*
             }
-        });*/
+        });*//*
+
         if(idOfSlectedUser.equals("0")){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("you must chose a User to set work for from the table first!!");
@@ -454,3 +469,4 @@ public class Staff {
 
     }
 }
+*/

@@ -235,7 +235,7 @@ public class Doctors {
         this.doctor=doctor;
     }
 
-    public void setWork(ActionEvent event) throws IOException {
+   /* public void setWork(ActionEvent event) throws IOException {
 
         if(idOfSlectedDoctor.equals("0")){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -264,7 +264,7 @@ public class Doctors {
             stage1.setScene(scene);
             stage1.show();
         }
-    }
+    }*/
     public void delete(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Are you sure you want to delete Doctor "+ Doctor.getDoctorById(idOfSlectedDoctor).getName()+"?");
@@ -384,6 +384,7 @@ public class Doctors {
 
     }
 
+
     public void inventory(MouseEvent event) throws IOException {
         FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Inventory.fxml"));
         root = loader.load();
@@ -400,5 +401,8 @@ public class Doctors {
         }
         stage.setScene(scene);
 
+    }
+
+    public void setWork(ActionEvent event) {
     }
 }

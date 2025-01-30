@@ -1,5 +1,8 @@
 package org.example.hms.classes;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -18,6 +21,89 @@ public class Patient {
         private String addedBy;
         private double height ;
         private double weight;
+        private int yy;
+        private int mm;
+        private int dd;
+        private int dB;
+        private int mB;
+        private int yB;
+        private boolean medicalDay;
+        private String lastVisit;
+        private int numOfVisits;
+        private String cause;
+
+
+        public int getdB() {
+                return dB;
+        }
+
+        public void setdB(int dB) {
+                this.dB = dB;
+        }
+
+        public int getmB() {
+                return mB;
+        }
+
+        public void setmB(int mB) {
+                this.mB = mB;
+        }
+
+        public int getyB() {
+                return yB;
+        }
+
+        public void setyB(int yB) {
+                this.yB = yB;
+        }
+
+        public boolean isMedicalDay() {
+                return medicalDay;
+        }
+
+        public void setMedicalDay(boolean medicalDay) {
+                this.medicalDay = medicalDay;
+        }
+
+        public String getLastVisit() {
+                return lastVisit;
+        }
+
+        public void setLastVisit(String lastVisit) {
+                this.lastVisit = lastVisit;
+        }
+
+        public int getNumOfVisits() {
+                return numOfVisits;
+        }
+
+        public void setNumOfVisits(int numOfVisits) {
+                this.numOfVisits = numOfVisits;
+        }
+
+        public int getYy() {
+                return yy;
+        }
+
+        public void setYy(int yy) {
+                this.yy = yy;
+        }
+
+        public int getMm() {
+                return mm;
+        }
+
+        public void setMm(int mm) {
+                this.mm = mm;
+        }
+
+        public int getDd() {
+                return dd;
+        }
+
+        public void setDd(int dd) {
+                this.dd = dd;
+        }
 
         public double getWeight() {
                 return weight;
@@ -35,19 +121,42 @@ public class Patient {
                 this.height = height;
         }
 
-        private int age;
 
         // Constructor
-        public Patient(int patientId, String name, String phoneNumber, String address, int age,String addedBy, double height) {
+        public Patient(int patientId, String name, String phoneNumber, String address,String addedBy, double height,int yy, int mm, int dd, int dB, int mB, int yB, int numOfVisits, String lastVisit, boolean medicalDay, String cause) {
                 this.patientId = patientId;
                 this.name = name;
                 this.phoneNumber = phoneNumber;
                 this.address = address;
-                this.age = age;
                 this.addedBy = addedBy;
                 this.height = height;
+                this.yy = yy;
+                this.mm = mm;
+                this.dd = dd;
+                this.dB = dB;
+                this.mB = mB;
+                this.yB = yB;
+                this.numOfVisits = numOfVisits;
+                this.lastVisit = lastVisit;
+                this.medicalDay = medicalDay;
+                this.cause = cause;
         }
 
+        public Patient(int patientId, String name, String phoneNumber, String address,String addedBy, double height, int dB, int mB, int yB, int numOfVisits, boolean medicalDay,String cause) {
+                this.patientId = patientId;
+                this.name = name;
+                this.phoneNumber = phoneNumber;
+                this.address = address;
+                this.addedBy = addedBy;
+                this.height = height;
+                this.dB = dB;
+                this.mB = mB;
+                this.yB = yB;
+                this.numOfVisits = numOfVisits;
+                this.medicalDay = medicalDay;
+                this.cause = cause;
+
+        }
         // Getter and Setter methods
         public int getPatientId() {
                 return patientId;
@@ -89,12 +198,12 @@ public class Patient {
                 this.address = address;
         }
 
-        public int getAge() {
-                return age;
+        public String getCause() {
+                return cause;
         }
 
-        public void setAge(int age) {
-                this.age = age;
+        public void setCause(String cause) {
+                this.cause = cause;
         }
 
         // Function to check the connection and ensure necessary tables exist
@@ -129,15 +238,26 @@ public class Patient {
         public static void addPatient(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, age, height) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay,cause) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setInt(1, patient.getPatientId());
                         stmt.setString(2, patient.getName());
                         stmt.setString(3, patient.getPhoneNumber());
                         stmt.setString(4, patient.getAddress());
                         stmt.setString(5, patient.getAddedBy());
-                        stmt.setInt(6, patient.getAge());
-                        stmt.setDouble(7, patient.getHeight());
+                        stmt.setDouble(6, patient.getHeight());
+                        stmt.setInt(7, patient.getYy());
+                        stmt.setInt(8, patient.getMm());
+                        stmt.setInt(9, patient.getDd());
+                        stmt.setInt(10,patient.getyB());
+                        stmt.setInt(11, patient.getmB());
+                        stmt.setInt(12,patient.getdB());
+                        stmt.setInt(13, patient.getNumOfVisits());
+                        stmt.setString(14,patient.getLastVisit());
+                        stmt.setBoolean(15,patient.isMedicalDay());
+                        stmt.setString(16, patient.getCause());
+
+
                         stmt.executeUpdate();
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -160,15 +280,24 @@ public class Patient {
         public static void UpdatePatientInfo(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By=?, age = ?, height = ? WHERE id = ?";
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay, cause) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
-                        stmt.setString(1, patient.getName());
-                        stmt.setString(2, patient.getPhoneNumber());
-                        stmt.setString(3, patient.getAddress());
-                        stmt.setInt(4, patient.getAge());
+                        stmt.setInt(1, patient.getPatientId());
+                        stmt.setString(2, patient.getName());
+                        stmt.setString(3, patient.getPhoneNumber());
+                        stmt.setString(4, patient.getAddress());
                         stmt.setString(5, patient.getAddedBy());
                         stmt.setDouble(6, patient.getHeight());
-                        stmt.setInt(7, patient.getPatientId());
+                        stmt.setInt(7, patient.getYy());
+                        stmt.setInt(8, patient.getMm());
+                        stmt.setInt(9, patient.getDd());
+                        stmt.setInt(10,patient.getyB());
+                        stmt.setInt(11, patient.getmB());
+                        stmt.setInt(12,patient.getdB());
+                        stmt.setInt(13, patient.getNumOfVisits());
+                        stmt.setString(14,patient.getLastVisit());
+                        stmt.setBoolean(15,patient.isMedicalDay());
+                        stmt.setString(16, patient.getCause());
                         stmt.executeUpdate();
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -184,7 +313,7 @@ public class Patient {
                         ResultSet rs = stmt.executeQuery();
                         while (rs.next()) {
                                 Patient patient = new Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"),rs.getDouble("height"));
+                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visist"),rs.getBoolean("medDay"), rs.getString("cause"));
                                 patientsList.add(patient);
                         }
                 } catch (SQLException e) {
@@ -217,8 +346,8 @@ public class Patient {
                         stmt.setInt(1, patientId);
                         ResultSet rs = stmt.executeQuery();
                         if (rs.next()) {
-                                return new Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"), rs.getInt("age"),rs.getString("added_By"),rs.getDouble(("height")));
+                                return new  Patient(rs.getInt("id"), rs.getString("name"),
+                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visist"),rs.getBoolean("medDay"),rs.getString("cause"));
                         }
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -243,5 +372,25 @@ public class Patient {
                         return false;  // In case of an error, return false
                 }
         }
+
+        public static boolean incrementVisits(int patientId) {
+                String updateQuery = "UPDATE patients SET n_visits = n_visits + 1 WHERE id = ?";
+
+                try (Connection connection = getConnection();
+                     PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+
+                        preparedStatement.setInt(1, patientId);
+                        int rowsUpdated = preparedStatement.executeUpdate();
+
+                        // Return true if at least one row was updated
+                        return rowsUpdated > 0;
+
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return false; // Return false if an error occurs
+                }
+        }
+
+
 
 }

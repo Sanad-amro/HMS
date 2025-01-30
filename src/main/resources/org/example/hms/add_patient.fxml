@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,7 +30,7 @@
                 <Font name="AppleMyungjo Regular" size="13.0" />
             </font></Label>
         <Button fx:id="add" layoutX="453.0" layoutY="420.0" mnemonicParsing="false" onAction="#add_doctor" prefHeight="46.0" prefWidth="103.0" styleClass="addButton" text="Add" />
-        <Label fx:id="confp" layoutX="301.0" layoutY="149.0" prefHeight="36.0" prefWidth="118.0" text="age" textFill="WHITE">
+        <Label fx:id="confp" layoutX="301.0" layoutY="149.0" prefHeight="36.0" prefWidth="118.0" text="DOB" textFill="WHITE">
             <font>
                 <Font name="AppleMyungjo Regular" size="13.0" />
             </font>
@@ -37,19 +39,29 @@
         <Label fx:id="pass_match" layoutX="276.0" layoutY="466.0" prefHeight="36.0" prefWidth="169.0" text="the password doesn't match" textFill="RED" visible="false" />
         <Label fx:id="succsess" layoutX="278.0" layoutY="466.0" prefHeight="36.0" prefWidth="169.0" text="Doctor Successfully added" textFill="#00e161" visible="false" />
         <Button fx:id="close" layoutX="62.0" layoutY="420.0" mnemonicParsing="false" onAction="#close" prefHeight="46.0" prefWidth="103.0" styleClass="addButton" text="Close" />
-      <TextField fx:id="age" layoutX="434.0" layoutY="150.0" styleClass="textField" />
+      <TextField fx:id="d" layoutX="534.0" layoutY="150.0" prefHeight="32.0" prefWidth="45.0" promptText="dd" styleClass="textField" />
       <TextField fx:id="phone" layoutX="434.0" layoutY="100.0" styleClass="textField" />
-      <Label fx:id="addedByd" layoutX="179.0" layoutY="251.0" prefHeight="36.0" prefWidth="118.0" text="Added by" textFill="WHITE">
+      <Label fx:id="addedByd" layoutX="245.0" layoutY="325.0" prefHeight="36.0" prefWidth="118.0" text="Added by" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />
          </font>
       </Label>
-      <TextField fx:id="addedBy" disable="true" layoutX="304.0" layoutY="256.0" styleClass="textField" />
+      <TextField fx:id="addedBy" disable="true" layoutX="368.0" layoutY="327.0" styleClass="textField" />
       <Label layoutX="15.0" layoutY="148.0" prefHeight="36.0" prefWidth="118.0" text="Height" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />
          </font>
       </Label>
       <TextField fx:id="height" layoutX="140.0" layoutY="153.0" styleClass="textField" />
+      <TextField fx:id="m" layoutX="482.0" layoutY="150.0" prefHeight="32.0" prefWidth="45.0" promptText="mm" styleClass="textField" />
+      <TextField fx:id="y" layoutX="385.0" layoutY="148.0" prefHeight="32.0" prefWidth="91.0" promptText="yy" styleClass="textField" />
+      <CheckBox fx:id="medical" layoutX="450.0" layoutY="219.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="84.0" text="Medical Day" textFill="WHITE" />
+      <Label layoutX="47.0" layoutY="209.0" prefHeight="36.0" prefWidth="97.0" text="Cause of the visit" textFill="WHITE">
+         <font>
+            <Font name="AppleMyungjo Regular" size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="diagnosisC" layoutX="155.0" layoutY="213.0" prefHeight="32.0" prefWidth="193.0" promptText="Cause of the visit" styleClass="textField" />
+      <Button fx:id="add1" layoutX="351.0" layoutY="211.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
     </children>
 </AnchorPane>

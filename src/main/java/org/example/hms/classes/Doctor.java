@@ -13,7 +13,7 @@ public class Doctor extends User {
         this.roomId = roomId;
     }
 
-    private static final String DB_URL = "jdbc:mysql://192.168.1.155:3306/akram";
+    private static final String DB_URL = "jdbc:mysql://195.123.166.125:3306/akram";
     private static final String DB_USER = "sanad";
     private static final String DB_PASSWORD = "sanad";
 

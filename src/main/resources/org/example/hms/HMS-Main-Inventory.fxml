@@ -123,5 +123,6 @@
       </AnchorPane>
       <Button layoutX="609.0" layoutY="440.0" mnemonicParsing="false" onAction="#addMidicen" prefHeight="53.0" prefWidth="95.0" styleClass="buttons" text="Add Medicine" />
       <Button fx:id="update" layoutX="715.0" layoutY="440.0" mnemonicParsing="false" onAction="#deleteMidicen" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="update quantity" />
+      <Button fx:id="dec" layoutX="502.0" layoutY="440.0" mnemonicParsing="false" onAction="#dec" prefHeight="53.0" prefWidth="95.0" styleClass="buttons" text="Decrase By" />
    </children>
 </AnchorPane>

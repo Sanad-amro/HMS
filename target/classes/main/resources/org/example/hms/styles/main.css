@@ -1,0 +1,57 @@
+@font-face{
+     -fx-font-family: "Anton";
+     src: url('fonts/Anton/Anton-Regular.ttf');
+}
+@font-face{
+    -fx-font-family:"Oswald";
+    src: url("fonts/Oswald/Oswald-VariableFont_wght.ttf");
+}
+
+*{
+    -fx-font-family: "Oswald", sans-serif;
+    -fx-text-alignment: center;
+
+}
+#tilte{
+     -fx-font-family: 'Anton', sans-serif;
+     -fx-padding: 10px 0px 10px 140px;
+     -fx-background-color: #a5b1c2;
+     -fx-background-radius:20px;
+
+}
+.loginLogo {
+     -fx-background-image: url("images/logo.jpg");
+     -fx-background-size: 100% 100%;
+     -fx-background-repeat: no-repeat;
+     -fx-background-position: center;
+
+
+}
+
+.loginPage{
+     -fx-font-size: x-large;
+     -fx-spacing: 20px;
+     -fx-background-color: #d1d8e0;
+}
+#loginButton{
+     -fx-pref-width: 550;
+     -fx-pref-height: 30px;
+     -fx-background-radius: 20px;
+     -fx-background-color: #00b4fc;
+     -fx-text-fill: white;
+     -fx-translate: all 0.5 ease ;
+}
+#loginButton:hover{
+     -fx-background-color: #487eb0;
+     -fx-scale-x: 1.05;
+     -fx-scale-y: 1.05;
+}
+
+.TextField{
+     -fx-background-radius: 20px;
+     -fx-background-color: #f1f2f6;
+     -fx-border-radius: 20px;
+     -fx-border-color: #a4b0be;
+     -fx-border-width: 2px;
+
+}

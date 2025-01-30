@@ -18,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.hms.classes.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -47,6 +48,8 @@ public class Appointments {
     @FXML
     TableView<Session> appTable;
     @FXML
+    Button s;
+    @FXML
     TableColumn<Session, String> id ;
     @FXML
     TableColumn<Session, String> name;
@@ -56,16 +59,16 @@ public class Appointments {
     TableColumn<Session, String> created_at;
     @FXML
     TableColumn<Session, String> added_by;
-
     @FXML
     TextField searchField;
     @FXML
     TextField searchField2;
     @FXML
-
     private Map<Integer, String> patientNamesMap = new HashMap<>();
 
-
+    List<Session> sessions= Session.getAllSessions();
+    ObservableList<Session> sessionObservableList= FXCollections.observableArrayList(sessions);
+    FilteredList<Session> filteredList=new FilteredList<>(sessionObservableList, d -> true);
 
     public void blankClicked(MouseEvent event) {
         searchField.getParent().requestFocus();
@@ -114,7 +117,7 @@ public class Appointments {
         searchField.clear();
         searchField.getParent().requestFocus();
         id.setCellValueFactory(new PropertyValueFactory<>("patientId"));
-        name.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        name.setCellValueFactory(new PropertyValueFactory<>("PatientName"));
         diagnosis.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
         created_at.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         added_by.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
@@ -124,10 +127,10 @@ public class Appointments {
         for (Patient patient : patients) {
             patientNamesMap.put(patient.getPatientId(), patient.getName().toLowerCase());
         }
-        List<Session> sessions= Session.getAllSessions();
-        ObservableList<Session> sessionObservableList= FXCollections.observableArrayList(sessions);
-        FilteredList<Session> filteredList=new FilteredList<>(sessionObservableList, d -> true);
-        searchField.textProperty().addListener((observable, oldValue, newValue)->{
+
+
+
+        /*searchField.textProperty().addListener((observable, oldValue, newValue)->{
             filteredList.setPredicate(session -> {
                 if(newValue==null || newValue.isEmpty()){
                     return true;
@@ -140,20 +143,23 @@ public class Appointments {
                         String.valueOf(session.getPatientId()).contains(newValue);
             });
         });
-        boolean nigga=true;
-        searchField2.textProperty().addListener((observable, oldValue, newValue)->{
+        boolean nigga=true;*/
+
+
+       /* searchField2.textProperty().addListener((observable, oldValue, newValue)->{
             filteredList.setPredicate(session -> {
                 if(newValue==null || newValue.isEmpty()){
                     return true;
                 }
                 String lowerFilter = newValue.toLowerCase();
 
-               return Patient.searchInColumn("patients","name", newValue);
+               return Patient.searchInColumn("patients","name", newValue) || Patient.searchInColumn("patients","phone_number", newValue);
 //                if(String.valueOf(session.getPatientId()).contains(newValue))
 //                    return true;
 //                else return false;
             });
         });
+       */
 
         appTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Session>() {
             @Override
@@ -172,7 +178,74 @@ public class Appointments {
 
     }
 
-    public void delete(ActionEvent event) throws IOException {
+    @FXML
+    private void delete(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Are you sure you want to delete that session ?");
+        alert.setTitle("Close Application");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+           Session.deleteSessionById(idOfSelectedSession);
+        }
+    }
+    @FXML
+    private void view(ActionEvent event) throws IOException {
+        if (idOfSelectedSession!=0){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/view.fxml"));
+            Parent root = loader.load();
+            View view = loader.getController();
+            view.setSession(Session.getSessionById(idOfSelectedSession));
+            Scene scene = new Scene(root);
+            Stage stage1 = new Stage();
+            stage1.setScene(scene);
+            stage1.setTitle("HMS-Make-Appointment");
+            stage1.initModality(Modality.APPLICATION_MODAL);
+            stage1.setOnHidden(e -> {
+                try {
+                    initialize();
+                    System.out.println("closed!");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            stage1.show();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("You did not chose a session to makeAppointment!!");
+            alert.setTitle("no Patient selected Application");
+            Optional<ButtonType> result = alert.showAndWait();
+
+        }
+    }
+    @FXML
+    private void s(ActionEvent event) throws IOException {
+        // Get the search inputs
+        String newValue = searchField2.getText();
+        String newValue2 = searchField.getText();
+
+        // Combine predicates to filter the list once
+        filteredList.setPredicate(session -> {
+            Patient patient = Patient.getPatient(session.getPatientId());
+            // Check the first search field
+            boolean matchesFirstField = (newValue == null || newValue.isEmpty()) ||
+                    patient.getName().toLowerCase().contains(newValue.toLowerCase()) ||
+                    patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase());
+
+            // Check the second search field
+            boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||
+                    session.getAddedBy().contains(newValue2) ;
+
+            // Combine both search field results
+            return matchesFirstField && matchesSecondField;
+        });
+
+        // Update the table view
+        appTable.setItems(filteredList);
+    }
+
+
+  /*  public void delete(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Are you sure you want to delete this appointment!");
         alert.setTitle("Close Application");
@@ -209,7 +282,7 @@ public class Appointments {
 
     }
 
-
+*/
     //////////////////////don't touch the upper part its important please don't okayyyyyyyy///////////
 
 

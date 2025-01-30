@@ -25,7 +25,12 @@ public class UpdatePatient {
     @FXML
     TextField height;
     @FXML
-    TextField age;
+    TextField y;
+    @FXML
+    TextField m;
+    @FXML
+    TextField d;
+
     @FXML
     Label fields_fill;
     @FXML
@@ -35,7 +40,11 @@ public class UpdatePatient {
     @FXML
     Button add;
     @FXML
-    TextArea medical;
+    CheckBox medical;
+    @FXML
+    TextField date;
+    @FXML
+    ComboBox<String> diagnosisC;
 
     Stage stage;
     public UpdatePatient(){}
@@ -52,17 +61,9 @@ public class UpdatePatient {
     public void update(ActionEvent event) throws IOException {
         boolean updateHim =true;
 
-        if(!email.getText().isEmpty()){
-            if(!email.getText().contains("@") || !email.getText().contains(".")){
-                pass_match.setText("Enter a valid email address!!");
-                succsess.setVisible(false);
-                pass_match.setVisible(true);
-                fields_fill.setVisible(false);
-                updateHim =false;
-            }
-        }
 
-        if((name.getText().isEmpty() || id.getText().isEmpty() || address.getText().isEmpty() || email.getText().isEmpty() || phone.getText().isEmpty() || age.getText().isEmpty() || medical.getText().isEmpty())){
+
+        if((name.getText().isEmpty() || id.getText().isEmpty() || address.getText().isEmpty() ||  phone.getText().isEmpty() || y.getText().isEmpty() || m.getText().isEmpty() || d.getText().isEmpty())){
             succsess.setVisible(false);
             pass_match.setVisible(false);
             fields_fill.setVisible(true);
@@ -72,14 +73,13 @@ public class UpdatePatient {
             String dname= name.getText();
             String did= id.getText();
             String daddress= address.getText();
-            String demail= email.getText();
             String dsector= phone.getText();
 
             fields_fill.setVisible(false);
             pass_match.setVisible(false);
             List<Patient> patients = new ArrayList<>();
             Patient patient1;
-            patient1 = new Patient( Integer.parseInt(did),dname,dsector, daddress, Integer.parseInt(age.getText()), patient.getAddedBy(), Double.parseDouble(height.getText()));
+            patient1 = new Patient( Integer.parseInt(did),dname,dsector, daddress, patient.getAddedBy(), Double.parseDouble(height.getText()),Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt( y.getText()),patient.getNumOfVisits(), patient.isMedicalDay(),diagnosisC.getValue() );
 
             patients.add(patient1);
             Patient.UpdatePatientInfo(new ArrayList<>(patients));
@@ -87,10 +87,12 @@ public class UpdatePatient {
             succsess.setVisible(true);
             name.setText("");
             id.setText("");
-            email.setText("");
             address.setText("");
             phone.setText("");
-            age.setText("");
+            y.setText("");
+            m.setText("");
+            d.setText("");
+            medical.setSelected(false);
             medical.setText("");
 
         }
@@ -102,9 +104,13 @@ public class UpdatePatient {
         name.setText(patient.getName());
         id.setText(String.valueOf(patient.getPatientId()));
         address.setText(patient.getAddress());
-        age.setText(String.valueOf(patient.getAge()));
-
-
+        y.setText(String.valueOf(patient.getyB()));
+        m.setText(String.valueOf(patient.getmB()));
+        d.setText(String.valueOf(patient.getdB()));
+        medical.setSelected(patient.isMedicalDay());
+        height.setText(String.valueOf(patient.getHeight()));
+        phone.setText(String.valueOf(patient.getPhoneNumber()));
+        date.setText(patient.getYy()+"/"+patient.getMm()+"/"+patient.getDd());
 
     }
 

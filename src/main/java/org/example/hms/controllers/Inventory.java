@@ -142,9 +142,34 @@ public class Inventory {
         });
         stage1.show();
     }
+    public void dec(ActionEvent actionEvent) throws IOException {
+        if(idOfSlectedPatient!=0){
+            Medecin medecin = Medecin.getMedecinById(idOfSlectedPatient);
+            System.out.println("the medecin id is: " + medecin.getId());
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/decMed.fxml"));
+            root = loader.load();
+            DecMed decMed = loader.getController();
+            decMed.setMedecin(medecin);
+            Scene scene = new Scene(root);
+            Stage stage1 =new Stage();
+            stage1.setScene(scene);
+            stage1.initModality(Modality.APPLICATION_MODAL);
+            stage1.setOnHidden(e -> {;
+                initialize();
+            });
+            stage1.show();
+        }else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("You did not chose a Medicine to update!!");
+            alert.setTitle("no Medicine selected Application");
 
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                initialize();
+            }
 
-
+        }
+    }
 
 
 

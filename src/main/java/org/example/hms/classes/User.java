@@ -1,7 +1,7 @@
 package org.example.hms.classes;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -241,8 +241,16 @@ public class User {
     public void setFriday(List<Integer> friday) {
         this.friday = friday;
     }
-    private static final String FILE_PATH = "src/main/java/org/example/hms/dataBase/usersInfo.json";
+    public boolean isDoctors_admin() {
+        return Doctors_admin;
+    }
 
+    public void setDoctors_admin(boolean doctors_admin) {
+        Doctors_admin = doctors_admin;
+    }
+
+    private static final String FILE_PATH = "src/main/java/org/example/hms/dataBase/usersInfo.json";
+/*
 
     public static List<User> getAllUsers() throws IOException {
         Path filepath = Paths.get(FILE_PATH);
@@ -491,13 +499,7 @@ public class User {
         }
     }
 
-    public boolean isDoctors_admin() {
-        return Doctors_admin;
-    }
 
-    public void setDoctors_admin(boolean doctors_admin) {
-        Doctors_admin = doctors_admin;
-    }
 
     public boolean isHeWorking(String id){
         User user= User.getUser(id);
@@ -653,5 +655,5 @@ public class User {
         Field field = this.getClass().getDeclaredField(day);
         field.setAccessible(true);
         return (List<Integer>) field.get(this);
-    }
+    }*/
 }

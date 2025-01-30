@@ -1,3 +1,4 @@
+/*
 package org.example.hms.classes;
 
 import com.google.gson.Gson;
@@ -253,3 +254,4 @@ public class Bill {
         return null;
     }
 }
+*/

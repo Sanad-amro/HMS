@@ -1,3 +1,4 @@
+/*
 package org.example.hms.classes;
 
 import com.google.gson.Gson;
@@ -143,7 +144,8 @@ public class Appointment {
     private static final String FILE_PATH = "src/main/java/org/example/hms/dataBase/appointmentsInfo.json";
 
 
-    /*public static boolean isTheDoctorAvailable(int doctorId,Appointment newAppointment) throws NoSuchFieldException, IllegalAccessException, IOException {
+    */
+/*public static boolean isTheDoctorAvailable(int doctorId,Appointment newAppointment) throws NoSuchFieldException, IllegalAccessException, IOException {
         Doctor doctor1 = Doctor.getDoctor(doctorId);
         List<Appointment> appointments = Appointment.getAllAppointments();
 
@@ -167,7 +169,8 @@ public class Appointment {
             return true;
         }
         return false;
-    }*/
+    }*//*
+
     public static List<Appointment> getAllAppointments() throws IOException {
         Path filepath = Paths.get(FILE_PATH);
         //check if file is empty or doesn't exists
@@ -297,3 +300,4 @@ public class Appointment {
     }
 
 }
+*/

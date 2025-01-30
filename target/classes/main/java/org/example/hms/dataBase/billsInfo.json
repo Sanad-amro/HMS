@@ -1,0 +1,15 @@
+[
+  {
+    "bill": 100.0,
+    "insuranceName": "Hi",
+    "insuranceDiscount": 100.0,
+    "billAfterInsurance": 100.0,
+    "payed": 0.0,
+    "remaining": 100.0,
+    "patientId": 123123,
+    "patientName": "sanad",
+    "BillId": 1,
+    "BillName": "asd;lk",
+    "paid": false
+  }
+]

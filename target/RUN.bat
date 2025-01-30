@@ -1,0 +1,1 @@
+java -jar HMS-1.0-SNAPSHOT.jar 

@@ -33,6 +33,8 @@ public class Diagnosis {
         try(Connection connection =getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, diagnosis.getName());
+            preparedStatement.executeUpdate();
+            System.out.println("diagnosis added !!");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -35,7 +35,7 @@
          </font>
       </Label>
       <TextArea fx:id="notes" layoutX="123.0" layoutY="635.0" prefHeight="126.0" prefWidth="342.0" promptText="medical Notes Goes here!!!" styleClass="textField" />
-      <ComboBox fx:id="cNote" layoutX="123.0" layoutY="600.0" prefWidth="150.0" promptText="Notes By (Select...)" styleClass="textField" />
+      <ComboBox fx:id="cNote" layoutX="123.0" layoutY="600.0" prefHeight="32.0" prefWidth="142.0" promptText="Notes By (Select...)" styleClass="textField" />
       <Label layoutX="26.0" layoutY="94.0" prefHeight="36.0" prefWidth="123.0" text="blood glucose" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />
@@ -96,7 +96,7 @@
          </font>
       </Label>
       <TextField fx:id="diastolic_blood_pressure" layoutX="881.0" layoutY="170.0" styleClass="textField" />
-      <Label layoutX="760.0" layoutY="226.0" prefHeight="36.0" prefWidth="97.0" text="diagnosis" textFill="WHITE">
+      <Label layoutX="733.0" layoutY="229.0" prefHeight="36.0" prefWidth="97.0" text="Cause of the visit" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />
          </font>
@@ -107,7 +107,7 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <ComboBox fx:id="diagnosisC" layoutX="841.0" layoutY="233.0" prefHeight="32.0" prefWidth="193.0" promptText="diagnosis" styleClass="textField" />
+      <ComboBox fx:id="diagnosisC" layoutX="841.0" layoutY="233.0" prefHeight="32.0" prefWidth="193.0" promptText="Cause of the visit" styleClass="textField" />
       <TableView fx:id="given" layoutX="873.0" layoutY="342.0" prefHeight="200.0" prefWidth="150.0">
         <columns>
           <TableColumn fx:id="gName" prefWidth="75.0" text="name" />
@@ -160,5 +160,10 @@
       <TextField fx:id="search" layoutX="419.0" layoutY="339.0" prefHeight="32.0" prefWidth="142.0" promptText="search for the medecin" styleClass="textField" />
       <Button fx:id="add" layoutX="1037.0" layoutY="231.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
       <Button fx:id="close11" layoutX="1029.0" layoutY="337.0" mnemonicParsing="false" onAction="#deleteG" prefHeight="36.0" prefWidth="57.0" styleClass="addButton" text="delete" />
+      <Label fx:id="success" layoutX="654.0" layoutY="743.0" prefHeight="49.0" prefWidth="123.0" text="Success" textFill="#10ff00">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

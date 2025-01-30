@@ -15,11 +15,11 @@ public class AddDiagnosis {
     Stage stage;
 
     @FXML
-    TextField AddDiagnosis;
+    TextField diagnosis;
 
     public void add(ActionEvent actionEvent) {
         boolean addIt=true;
-        if(AddDiagnosis.getText().isEmpty()){
+        if(diagnosis.getText().isEmpty()){
             addIt=false;
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Please fill the text field first!!");
@@ -27,8 +27,9 @@ public class AddDiagnosis {
             Optional<ButtonType> result = alert.showAndWait();
         }
         else {
-            Diagnosis diagnosis = new Diagnosis(AddDiagnosis.getText());
-            Diagnosis.addDiagnosis(diagnosis);
+
+            Diagnosis diagnosist = new Diagnosis(diagnosis.getText());
+            Diagnosis.addDiagnosis(diagnosist);
         }
         
     }

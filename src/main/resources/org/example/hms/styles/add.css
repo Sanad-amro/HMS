@@ -54,7 +54,13 @@
     -fx-background-radius: 20px;
     -fx-text-fill: white;
     -fx-background-color: rgba(0, 0, 0, 0.3);;
-
+}
+.text-area{
+    -fx-background-color: #f1f2f6;
+    -fx-border-radius: 10px;
+    -fx-border-color: #a4b0be;
+    -fx-border-width: 5px;
+    -fx-background-radius: 200px;
 
 
 

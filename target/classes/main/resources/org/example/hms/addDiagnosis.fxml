@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="224.0" prefWidth="598.0" styleClass="page" stylesheets="@styles/add.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.AddDiagnosis">
+   <children>
+      <TextField fx:id="diagnosis" layoutX="178.0" layoutY="77.0" prefHeight="28.0" prefWidth="267.0" styleClass="textField" />
+      <Label layoutX="41.0" layoutY="72.0" prefHeight="38.0" prefWidth="119.0" text="diagnosis" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="add" layoutX="451.0" layoutY="164.0" mnemonicParsing="false" onAction="#add" prefHeight="28.0" prefWidth="89.0" styleClass="addButton" text="add" />
+      <Button layoutX="41.0" layoutY="164.0" mnemonicParsing="false" onAction="#close" prefHeight="28.0" prefWidth="89.0" styleClass="addButton" text="close" />
+   </children>
+</AnchorPane>
