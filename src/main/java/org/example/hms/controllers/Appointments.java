@@ -13,12 +13,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.hms.classes.*;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -64,7 +64,7 @@ public class Appointments {
     @FXML
     TextField searchField2;
     @FXML
-    private Map<Integer, String> patientNamesMap = new HashMap<>();
+    ImageView trans;
 
     List<Session> sessions= Session.getAllSessions();
     ObservableList<Session> sessionObservableList= FXCollections.observableArrayList(sessions);
@@ -113,6 +113,8 @@ public class Appointments {
     }
 
     public void initialize() throws IOException {
+        System.out.println("The initialization started!");
+
 
         searchField.clear();
         searchField.getParent().requestFocus();
@@ -123,10 +125,6 @@ public class Appointments {
         added_by.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
 
 
-        ArrayList<Patient> patients= Patient.getAllPatients();
-        for (Patient patient : patients) {
-            patientNamesMap.put(patient.getPatientId(), patient.getName().toLowerCase());
-        }
 
 
 
@@ -187,7 +185,8 @@ public class Appointments {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
            Session.deleteSessionById(idOfSelectedSession);
-           initialize();
+           sessionObservableList.removeIf(session -> session.getSessionId() == idOfSelectedSession);
+            System.out.println("the initialize function was terminated!!");
         }
     }
     @FXML
@@ -232,7 +231,8 @@ public class Appointments {
             // Check the first search field
             boolean matchesFirstField = (newValue == null || newValue.isEmpty()) ||
                     patient.getName().toLowerCase().contains(newValue.toLowerCase()) ||
-                    patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase());
+                    patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase()) ||
+                    patient.getPatientId()==Integer.parseInt(newValue);
 
             // Check the second search field
             boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||
@@ -247,44 +247,7 @@ public class Appointments {
     }
 
 
-  /*  public void delete(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("Are you sure you want to delete this appointment!");
-        alert.setTitle("Close Application");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Appointment.deleteAppointment(idOfSelectedSession);
-            initialize();
-        }
-    }
-
-    public void update(ActionEvent event) {
-    }
-
-    public void createBill(ActionEvent event) throws IOException {
-        FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/addBill.fxml"));
-        Parent root = window.load();
-        AddBill addBill=window.getController();
-        addBill.setAppointment(Appointment.getAppointment(idOfSelectedSession));
-        Scene scene = new Scene(root);
-        Stage stage1 = new Stage();
-        stage1.setScene(scene);
-        stage1.setTitle("HMS-add-bill");
-        stage1.initModality(Modality.APPLICATION_MODAL);
-        stage1.setOnHidden(e -> {
-            try {
-                initialize();
-                System.out.println("closed!");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        stage1.show();
-
-    }
-
-*/
     //////////////////////don't touch the upper part its important please don't okayyyyyyyy///////////
 
 
@@ -306,12 +269,11 @@ public class Appointments {
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Doctors doctors = loader.getController();
-        if (doctor!=null){
-            System.out.println("user is null");
+        if (doctor==null){
+ 
             doctors.setUser(user);
         }else {
-            System.out.println("doctor is null");
-            doctors.setDoctor(doctor);
+             doctors.setDoctor(doctor);
         }
         stage.close();
         Stage stage1=new Stage();
@@ -322,6 +284,7 @@ public class Appointments {
     }
 
 
+
     public void patientClicked(MouseEvent event) throws IOException {
         FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Patent.fxml"));
         root = loader.load();
@@ -329,29 +292,22 @@ public class Appointments {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Patients patients= loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
+ 
             patients.setUser(user);
         }else {
-            System.out.println("doctor is null");
-            patients.setDoctor(doctor);
+             patients.setDoctor(doctor);
         }
         stage.setScene(scene);
     }
 
     public void staff(MouseEvent event) throws IOException {
-      /*  FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Transactions.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Staff staff = loader.getController();
-        if (doctor==null){
-            System.out.println("user is null");
-            staff.setUser(user);
-        }else {
-            System.out.println("doctor is null");
-            staff.setDoctor(doctor);
-        }
-        stage.setScene(scene);*/
+        Transaction transactions  = loader.getController();
+        transactions.setDoctor(doctor);
+        stage.setScene(scene);
 
     }
 
@@ -362,16 +318,16 @@ public class Appointments {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Appointments appointments = loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
+ 
             appointments.setUser(user);
         }else {
-            System.out.println("doctor is null");
-            appointments.setDoctor(doctor);
+             appointments.setDoctor(doctor);
         }
         stage.setScene(scene);
 
 
     }
+
 
     public void inventory(MouseEvent event) throws IOException {
         FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Inventory.fxml"));
@@ -381,14 +337,17 @@ public class Appointments {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Inventory inventory=loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
+ 
             inventory.setUser(user);
         }else {
-            System.out.println("doctor is null");
-            inventory.setDoctor(doctor);
+             inventory.setDoctor(doctor);
         }
         stage.setScene(scene);
     }
+
+
+
+
 
 
     

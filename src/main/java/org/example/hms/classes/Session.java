@@ -545,8 +545,8 @@ public class Session {
                 "heart_rate = ?, diastolic_blood_pressure = ?, systolic_blood_pressure = ?, blood_pressure = ?, " +
                 "chief_complaint = ?, medical_history = ?, medical_and_surgical_history = ?, obstetric_history = ?, gynecological_history = ?, " +
                 "doctor_and_midwife_note = ?, diagnosis = ?, current_medications = ?, prescribed_medications = ?, nutritionist_note = ?, " +
-                "physiotherapist_note = ?, added_by = ?, address = ?, day = ?, month = ?, year = ?, midWifeNote = ?, psychologistNote = ?, patientName = ? " +
-                "WHERE session_id = ?, WHERE quantity = ?";
+                "physiotherapist_note = ?, added_by = ?, address = ?, day = ?, month = ?, year = ?, midWifeNote = ?, psychologistNote = ?, patientName = ? ,quantity = ? " +
+                "WHERE session_id = ?";
 
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, session.getPatientId());
@@ -578,8 +578,9 @@ public class Session {
             stmt.setString(27, session.getMidWifeNote());
             stmt.setString(28, session.getPsychologistNote());
             stmt.setString(29, session.getPatientName());
-            stmt.setInt(30, session.getSessionId()); // session_id for the WHERE clause
-            stmt.setInt(31,session.getQuantity());
+            stmt.setInt(30,session.getQuantity());
+
+            stmt.setInt(31, session.getSessionId()); // session_id for the WHERE clause
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0; // Return true if at least one row was updated

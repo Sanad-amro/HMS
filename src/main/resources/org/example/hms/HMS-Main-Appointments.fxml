@@ -67,9 +67,9 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </ImageView>
-                  <ImageView fx:id="staff" fitHeight="57.0" fitWidth="66.0" layoutX="10.0" layoutY="58.0" onMouseClicked="#staff" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                  <ImageView fx:id="trans" fitHeight="57.0" fitWidth="66.0" layoutX="10.0" layoutY="58.0" onMouseClicked="#staff" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
                      <image>
-                        <Image url="@styles/icons/steward.png" />
+                        <Image url="@styles/icons/drugs.png" />
                      </image>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -124,7 +124,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <TextField fx:id="searchField2" layoutX="92.0" layoutY="125.0" prefHeight="30.0" prefWidth="209.0" promptText="Patient Name/Id" styleClass="textField" />
+      <TextField fx:id="searchField2" layoutX="92.0" layoutY="125.0" prefHeight="30.0" prefWidth="209.0" promptText="Patient Name/Id/Phone" styleClass="textField" />
       <Button fx:id="s" layoutX="92.0" layoutY="187.0" mnemonicParsing="false" onAction="#s" prefHeight="53.0" prefWidth="209.0" styleClass="buttons" text="Search">
          <font>
             <Font size="18.0" />
@@ -135,7 +135,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="view" layoutX="629.0" layoutY="516.0" mnemonicParsing="false" onAction="#view" prefHeight="53.0" prefWidth="209.0" styleClass="buttons" text="View session details">
+      <Button fx:id="view" layoutX="629.0" layoutY="516.0" mnemonicParsing="false" onAction="#view" prefHeight="53.0" prefWidth="209.0" styleClass="buttons" text="View visit details">
          <font>
             <Font size="18.0" />
          </font>

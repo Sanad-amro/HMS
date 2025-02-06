@@ -66,6 +66,28 @@ public class Inventory {
         QC.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
 
+        QC.setCellFactory(column -> new TableCell<Medecin, Double>() {
+            @Override
+            protected void updateItem(Double quantity, boolean empty) {
+                super.updateItem(quantity, empty);
+
+                if (empty || quantity == null) {
+                    setText(null);
+                    setStyle(""); // Clear styling
+                } else {
+                    setText(quantity.toString());
+
+                    // Apply styling based on the quantity value
+                    if (quantity <= 10) {
+                        setStyle("-fx-text-fill: red;"); // Red for 10 or less
+                    } else if (quantity <= 15) {
+                        setStyle("-fx-text-fill: orange;"); // Orange for 15 or less
+                    } else {
+                        setStyle(""); // Default styling
+                    }
+                }
+            }
+        });
         List<Medecin> Medecins= Medecin.getAll();
         ObservableList<Medecin> MedecinsList= FXCollections.observableArrayList(Medecins);
         FilteredList<Medecin> filteredList=new FilteredList<>(MedecinsList, d -> true);
@@ -191,19 +213,14 @@ public class Inventory {
     }
 
     public void staff(MouseEvent event) throws IOException {
-        /*FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Transactions.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Staff staff = loader.getController();
-        if (doctor!=null){
-            System.out.println("user is null");
-            staff.setUser(user);
-        }else {
-            System.out.println("doctor is null");
-            staff.setDoctor(doctor);
-        }
-        stage.setScene(scene);*/
+        Transaction transactions  = loader.getController();
+        transactions.setDoctor(doctor);
+        stage.setScene(scene);
+
 
 
     }
@@ -215,10 +232,8 @@ public class Inventory {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Appointments appointments = loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
             appointments.setUser(user);
         }else {
-            System.out.println("doctor is null");
             appointments.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -235,10 +250,8 @@ public class Inventory {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Inventory inventory=loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
             inventory.setUser(user);
         }else {
-            System.out.println("doctor is null");
             inventory.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -275,10 +288,8 @@ public class Inventory {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Doctors doctors = loader.getController();
         if (doctor==null){
-            System.out.println("doctor is null");
             doctors.setUser(user);
         }else {
-            System.out.println("user is null");
             doctors.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -287,5 +298,34 @@ public class Inventory {
     private void blankClicked(MouseEvent event){
         searchField.getParent().requestFocus();
 
+    }
+
+    public void inc(ActionEvent event) throws IOException {
+        if(idOfSlectedPatient!=0){
+            Medecin medecin = Medecin.getMedecinById(idOfSlectedPatient);
+            System.out.println("the medecin id is: " + medecin.getId());
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/decMed.fxml"));
+            root = loader.load();
+            Increase decMed = loader.getController();
+            decMed.setMedecin(medecin);
+            Scene scene = new Scene(root);
+            Stage stage1 =new Stage();
+            stage1.setScene(scene);
+            stage1.initModality(Modality.APPLICATION_MODAL);
+            stage1.setOnHidden(e -> {;
+                initialize();
+            });
+            stage1.show();
+        }else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("You did not chose a Medicine to update!!");
+            alert.setTitle("no Medicine selected Application");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                initialize();
+            }
+
+        }
     }
 }

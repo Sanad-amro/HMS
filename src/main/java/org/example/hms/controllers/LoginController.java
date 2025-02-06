@@ -13,8 +13,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import org.example.hms.classes.DatabaseSync;
 import org.example.hms.classes.Doctor;
-import org.example.hms.classes.User;
+import java.util.*;
+
 
 import javax.print.Doc;
 import java.io.IOException;
@@ -61,6 +63,13 @@ public class LoginController {
                 error.setVisible(true);
             }
             else{
+                DatabaseSync syncProcess = new DatabaseSync();
+                Stage syncStage = new Stage();
+                try {
+                    syncProcess.start(syncStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 System.out.println("trying to login");
                 FXMLLoader loader =new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Doctors.fxml"));

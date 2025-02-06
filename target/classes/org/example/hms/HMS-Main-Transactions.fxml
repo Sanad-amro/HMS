@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane onMouseClicked="#blankClicked" prefHeight="580.0" prefWidth="1116.0" styleClass="mainPage" stylesheets="@styles/startUp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.Transaction">
+    <children>
+        <TextField fx:id="searchField" layoutX="82.0" layoutY="50.0" prefHeight="30.0" prefWidth="209.0" promptText="medicine Name" styleClass="textField" />
+        <AnchorPane fx:id="anchB" layoutX="71.0" layoutY="-3.0" onMouseExited="#hideButtons" prefHeight="583.0" prefWidth="19.0" styleClass="vBox">
+            <children>
+                <VBox fx:id="buttons" onMouseEntered="#showButtons" onMouseExited="#hideButtons" opacity="0.62" prefHeight="415.0" prefWidth="135.0" styleClass="vBox">
+                    <children>
+                        <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="118.0" text="Doctors">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="118.0" text="Patient">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="118.0" text="Staff">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="118.0" text="Appointments">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="118.0" text="Inventory">
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="2.0" layoutY="-4.0" prefHeight="581.0" prefWidth="72.0" styleClass="vBoxIcon">
+            <children>
+                <VBox layoutX="4.0" layoutY="-1.0" prefHeight="425.0" prefWidth="63.0" styleClass="vBoxIcon">
+                    <children>
+                        <ImageView fx:id="doctorI" fitHeight="53.0" fitWidth="61.0" onMouseClicked="#doctorClicked" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                            <image>
+                                <Image url="@styles/icons/doctor.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="patient" fitHeight="56.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#patientClicked" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                            <image>
+                                <Image url="@styles/icons/hospitalisation.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="trans" fitHeight="57.0" fitWidth="66.0" layoutX="10.0" layoutY="58.0" onMouseClicked="#staff" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                            <image>
+                                <Image url="@styles/icons/drugs.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="appointment" fitHeight="57.0" fitWidth="60.0" layoutX="10.0" layoutY="106.0" onMouseClicked="#appointment" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                            <image>
+                                <Image url="@styles/icons/medical-appointment.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="inventory" fitHeight="63.0" fitWidth="63.0" layoutX="10.0" layoutY="148.0" onMouseClicked="#inventory" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                            <image>
+                                <Image url="@styles/icons/inventory.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </ImageView>
+                    </children></VBox>
+                <VBox layoutX="-3.0" layoutY="435.0" prefHeight="148.0" prefWidth="75.0" styleClass="vBoxIcon">
+                    <children>
+                        <ImageView fx:id="close" fitHeight="41.0" fitWidth="47.0" onMouseClicked="#close" onMouseEntered="#showButtons" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@styles/icons/shutdown.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="42.0" fitWidth="50.0" layoutX="20.0" layoutY="43.0" onMouseClicked="#Logout" onMouseEntered="#showButtons" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@styles/icons/logout.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="350.0" layoutY="14.0" prefHeight="402.0" prefWidth="741.0">
+            <children>
+                <TableView fx:id="transactions" layoutX="5.0" layoutY="13.0" prefHeight="395.0" prefWidth="749.0">
+                    <columns>
+                        <TableColumn fx:id="medicen_name" prefWidth="120.0" text="medicine name" />
+                        <TableColumn fx:id="quantity" prefWidth="101.0" text="quantity" />
+                  <TableColumn fx:id="doctor_name" prefWidth="185.305908203125" text="Dr.name" />
+                  <TableColumn fx:id="patient_name" prefWidth="210.19415283203125" text="patient name" />
+                  <TableColumn fx:id="date" prefWidth="127.31561279296875" text="date" />
+                    </columns>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </TableView>
+            </children>
+        </AnchorPane>
+      <TextField fx:id="dd" layoutX="269.0" layoutY="235.0" prefHeight="32.0" prefWidth="42.0" promptText="dd" styleClass="textField" />
+      <TextField fx:id="mm" layoutX="221.0" layoutY="235.0" prefHeight="32.0" prefWidth="42.0" promptText="mm" styleClass="textField" />
+      <TextField fx:id="yy" layoutX="128.0" layoutY="235.0" prefHeight="32.0" prefWidth="82.0" promptText="yyyy" styleClass="textField" />
+      <TextField fx:id="tdd" layoutX="273.0" layoutY="297.0" prefHeight="32.0" prefWidth="42.0" promptText="dd" styleClass="textField" />
+      <TextField fx:id="tmm" layoutX="225.0" layoutY="297.0" prefHeight="32.0" prefWidth="42.0" promptText="mm" styleClass="textField" />
+      <TextField fx:id="tyy" layoutX="132.0" layoutY="297.0" prefHeight="32.0" prefWidth="82.0" promptText="yyyy" styleClass="textField" />
+      <Label layoutX="90.0" layoutY="241.0" prefHeight="20.0" prefWidth="32.0" text="From" textFill="WHITE" />
+      <Label layoutX="94.0" layoutY="303.0" prefHeight="20.0" prefWidth="32.0" text="To" textFill="WHITE" />
+      <Label layoutX="209.0" layoutY="227.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="210.0" layoutY="287.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Button fx:id="s" layoutX="109.0" layoutY="421.0" mnemonicParsing="false" onAction="#s" prefHeight="53.0" prefWidth="157.0" styleClass="buttons" text="Search">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <TextField fx:id="searchField1" layoutX="82.0" layoutY="105.0" prefHeight="30.0" prefWidth="209.0" promptText="Patient Name" styleClass="textField" />
+      <TextField fx:id="searchField11" layoutX="85.0" layoutY="157.0" prefHeight="30.0" prefWidth="209.0" promptText="Added By" styleClass="textField" />
+      <Label layoutX="264.0" layoutY="288.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="260.0" layoutY="225.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="381.0" layoutY="450.0" prefHeight="53.0" prefWidth="500.0" text="the number of medicine transactions is: " textFill="#26ff00">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label fx:id="n" layoutX="880.0" layoutY="449.0" prefHeight="53.0" prefWidth="121.0" text="." textFill="#26ff00">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+
+    </children>
+</AnchorPane>

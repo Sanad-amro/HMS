@@ -277,24 +277,25 @@ public class Patient {
         public static void UpdatePatientInfo(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay, cause where id = ?) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ? WHERE id = ?";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
-                        stmt.setInt(1, patient.getPatientId());
-                        stmt.setString(2, patient.getName());
-                        stmt.setString(3, patient.getPhoneNumber());
-                        stmt.setString(4, patient.getAddress());
-                        stmt.setString(5, patient.getAddedBy());
-                        stmt.setDouble(6, patient.getHeight());
-                        stmt.setInt(7, patient.getYy());
-                        stmt.setInt(8, patient.getMm());
-                        stmt.setInt(9, patient.getDd());
-                        stmt.setInt(10,patient.getyB());
-                        stmt.setInt(11, patient.getmB());
-                        stmt.setInt(12,patient.getdB());
-                        stmt.setInt(13, patient.getN_visits());
-                        stmt.setString(14,patient.getLastVisit());
-                        stmt.setBoolean(15,patient.isMedicalDay());
-                        stmt.setString(16, patient.getCause());
+                        stmt.setString(1, patient.getName());
+                        stmt.setString(2, patient.getPhoneNumber());
+                        stmt.setString(3, patient.getAddress());
+                        stmt.setString(4, patient.getAddedBy());
+                        stmt.setDouble(5, patient.getHeight());
+                        stmt.setInt(6, patient.getYy());
+                        stmt.setInt(7, patient.getMm());
+                        stmt.setInt(8, patient.getDd());
+                        stmt.setInt(9,patient.getyB());
+                        stmt.setInt(10, patient.getmB());
+                        stmt.setInt(11,patient.getdB());
+                        stmt.setInt(12, patient.getN_visits());
+                        stmt.setString(13,patient.getLastVisit());
+                        stmt.setBoolean(14,patient.isMedicalDay());
+                        stmt.setString(15, patient.getCause());
+                        stmt.setInt(16, patient.getPatientId());
+
                         stmt.executeUpdate();
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -313,6 +314,7 @@ public class Patient {
                                         rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visit"),rs.getBoolean("medDay"), rs.getString("cause"));
                                 patientsList.add(patient);
                         }
+
                 } catch (SQLException e) {
                         e.printStackTrace();
                 }

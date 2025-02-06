@@ -82,6 +82,8 @@ public class Patients {
     CheckBox medDay;
     @FXML
     ComboBox<String> cause;
+    @FXML
+    Label n;
 
 
 
@@ -172,14 +174,18 @@ public class Patients {
         }
     }
     public void initialize() throws IOException {
-        cause.setItems(Diagnosis.getAllItems());
+        n.setText(String.valueOf(filteredList.size()));
+        ObservableList<String> nigga = Diagnosis.getAllItems();
+        nigga.add("None");
+        cause.setItems(nigga);
+        cause.setValue("None");
+
         yy.setText("2025");
         tyy.setText("2025");
         mm.setText("1");
         dd.setText("1");
-        tmm.setText("1");
-        tdd.setText("1");
-        System.out.println("i was herer 1");
+        tmm.setText("12");
+        tdd.setText("31");
         searchField.clear();
         searchField.getParent().requestFocus();
         buttons.setOpacity(0);
@@ -187,12 +193,6 @@ public class Patients {
         nameC.setCellValueFactory(new PropertyValueFactory<>("name"));
         doctorC.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
         visits.setCellValueFactory(new PropertyValueFactory<>("n_visits"));
-
-        System.out.println("i was here 2");
-
-
-        System.out.println("Heeeeyyy!!! (:");
-
 
         patientsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
 
@@ -273,8 +273,15 @@ public class Patients {
             // Check the second search field
             boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||
                     patient.getAddedBy().contains(newValue2) ;
-            boolean medpat = medDay.isSelected();
-            boolean causeB = patient.getCause().toLowerCase().contains(cause.getValue().toLowerCase());
+            boolean medpat = (medDay.isSelected() && patient.isMedicalDay());
+            if (!medDay.isSelected())
+                medpat=true;
+            boolean causeB=false;
+            if (cause.getValue()=="None")
+                causeB = true;
+            if (cause !=null && patient.getCause()!=null)
+                if (!cause.getValue().equals("None") )
+                     causeB = patient.getCause().toLowerCase().equals(cause.getValue().toLowerCase());
 
             LocalDate fromDate = parseDate(yy.getText(), mm.getText(), dd.getText()); // Input range start
             LocalDate toDate = parseDate(tyy.getText(), tmm.getText(), tdd.getText());         // Input range end
@@ -298,6 +305,8 @@ public class Patients {
 
         // Update the table view
         patientsTable.setItems(filteredList);
+        n.setText(String.valueOf(filteredList.size()));
+
     }
     private LocalDate getPatientDate(Patient patient) {
         try {
@@ -341,10 +350,8 @@ public class Patients {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Doctors doctors = loader.getController();
         if (doctor==null){
-            System.out.println("doctor is null");
             doctors.setUser(user);
         }else {
-            System.out.println("user is null");
             doctors.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -360,10 +367,8 @@ public class Patients {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Patients patients= loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
             patients.setUser(user);
         }else {
-            System.out.println("doctor is null");
             patients.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -371,21 +376,13 @@ public class Patients {
     }
 
     public void staff(MouseEvent event) throws IOException {
-        /*FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Transactions.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Staff staff = loader.getController();
-        if (doctor==null){
-            System.out.println("user is null");
-            staff.setUser(user);
-        }else {
-            System.out.println("doctor is null");
-            staff.setDoctor(doctor);
-        }
+        Transaction transactions  = loader.getController();
+        transactions.setDoctor(doctor);
         stage.setScene(scene);
-
-*/
     }
 
     public void appointment(MouseEvent event) throws IOException {
@@ -395,10 +392,8 @@ public class Patients {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Appointments appointments = loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
             appointments.setUser(user);
         }else {
-            System.out.println("doctor is null");
             appointments.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -415,10 +410,8 @@ public class Patients {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Inventory inventory=loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
             inventory.setUser(user);
         }else {
-            System.out.println("doctor is null");
             inventory.setDoctor(doctor);
         }
         stage.setScene(scene);

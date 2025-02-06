@@ -66,9 +66,9 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </ImageView>
-                  <ImageView fx:id="staff" fitHeight="57.0" fitWidth="66.0" layoutX="10.0" layoutY="58.0" onMouseClicked="#staff" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                  <ImageView fx:id="trans" fitHeight="57.0" fitWidth="66.0" layoutX="10.0" layoutY="58.0" onMouseClicked="#staff" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
                      <image>
-                        <Image url="@styles/icons/steward.png" />
+                        <Image url="@styles/icons/drugs.png" />
                      </image>
                      <VBox.margin>
                         <Insets top="10.0" />

@@ -2,8 +2,12 @@ package org.example.hms.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.hms.classes.Diagnosis;
 import org.example.hms.classes.Doctor;
@@ -192,6 +196,17 @@ public class AddPatient {
         }));
     }
 
-    public void add(ActionEvent event) {
+    public void add(ActionEvent event) throws IOException {
+        FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/addDiagnosis.fxml"));
+        Parent root = window.load();
+        Scene scene = new Scene(root);
+        Stage stage1 = new Stage();
+        stage1.setScene(scene);
+        stage1.setTitle("HMS-add-diagnosis");
+        stage1.initModality(Modality.APPLICATION_MODAL);
+        stage1.setOnHidden(e -> {
+            initialize();
+        });
+        stage1.show();
     }
 }

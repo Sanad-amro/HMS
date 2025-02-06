@@ -216,13 +216,9 @@ public class MakeAppointment {
             });
         });
         stock.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Selection Changed");
             if (newValue != null) {
                 idOfSelectedMedecin = newValue.getId();
-                System.out.println(newValue.getName());
-                System.out.println("Selected ID: " + idOfSelectedMedecin);
             } else {
-                System.out.println("No selection made.");
             }
         });
 
@@ -262,7 +258,6 @@ public class MakeAppointment {
                 switch (oldValue) {
                     case "chief complaint":
                         chief_complaint = notes.getText();
-                        System.out.println("i was here nigga!!");
                         break;
                     case "medical history":
                         medical_history = notes.getText();
@@ -300,7 +295,6 @@ public class MakeAppointment {
             if (newValue != null) {
                 switch (newValue) {
                     case "chief complaint":
-                        System.out.println("i was here nigga!!!");
                         notes.setText(chief_complaint);
                         break;
                     case "medical history":
@@ -347,11 +341,19 @@ public class MakeAppointment {
     }
 
     public void set(ActionEvent actionEvent) {
+        int day=LocalDate.now().getDayOfMonth();
+        int month= LocalDate.now().getMonthValue();
+        int year=LocalDate.now().getYear();
 
          String givnesS="";
+         ArrayList<Transactions> transactions = new ArrayList<>();
          for (Given given : givens) {
              givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
+             Transactions transactions1 =new Transactions(given.getQuantity(), given.getName(),doctor.getName(),year,month,day,patient.getName());
+             transactions.add(transactions1);
          }
+
+         Transactions.makeTransaciton(transactions);
          int patientId=Integer.parseInt(patient_id.getText());
          int sessionId=Session.genId();
          int hgb = hgbT.getText().isEmpty()? 0:Integer.parseInt(hgbT.getText());
@@ -375,16 +377,11 @@ public class MakeAppointment {
          String nutritionistNote = nutritionist_note;
          String physiotherapistNote = physiotherapist_note;
          String addedBy=added_by.getText();
-         int day=LocalDate.now().getDayOfMonth();
-         int month= LocalDate.now().getMonthValue();
-         int year=LocalDate.now().getYear();
+
          String address= patient.getAddress();
-        System.out.println(patient.getAddress());
         saveComb();
         String visit = day + "/" + month + "/"+year;
-        System.out.println("i was here 2 !!");
-        System.out.println(visit);
-        System.out.println(patient.getLastVisit());
+
 
         if (!visit.equals(patient.getLastVisit())) {
             patient.setNumOfVisits(patient.getN_visits() + 1);
@@ -392,7 +389,6 @@ public class MakeAppointment {
              ArrayList<Patient> patients= new ArrayList<>();
             patients.add(patient);
             Patient.UpdatePatientInfo((patients));
-            System.out.println("i was here !!");
         }
         Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,patient.getName(),0);
         success.setVisible(true);
@@ -466,7 +462,6 @@ public class MakeAppointment {
         stage1.setOnHidden(e -> {
             try {
                 initialize();
-                System.out.println("closed!");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

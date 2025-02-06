@@ -319,10 +319,8 @@ public class Doctors {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Doctors doctors = loader.getController();
         if (doctor!=null){
-            System.out.println("user is null");
             doctors.setUser(user);
         }else {
-            System.out.println("doctor is null");
             doctors.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -348,19 +346,14 @@ public class Doctors {
     }
 
     public void staff(MouseEvent event) throws IOException {
-        /*FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Staff.fxml"));
+        FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/HMS-Main-Transactions.fxml"));
         root = loader.load();
         Scene scene = new Scene(root);
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Staff staff = loader.getController();
-        if (doctor!=null){
-            System.out.println("user is null");
-            staff.setUser(user);
-        }else {
-            System.out.println("doctor is null");
-            staff.setDoctor(doctor);
-        }
-        stage.setScene(scene);*/
+        Transaction transactions  = loader.getController();
+        transactions.setDoctor(doctor);
+        stage.setScene(scene);
+
 
 
     }
@@ -372,10 +365,8 @@ public class Doctors {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Appointments appointments = loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
             appointments.setUser(user);
         }else {
-            System.out.println("doctor is null");
             appointments.setDoctor(doctor);
         }
         stage.setScene(scene);
@@ -393,10 +384,8 @@ public class Doctors {
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Inventory inventory=loader.getController();
         if (doctor==null){
-            System.out.println("user is null");
             inventory.setUser(user);
         }else {
-            System.out.println("doctor is null");
             inventory.setDoctor(doctor);
         }
         stage.setScene(scene);

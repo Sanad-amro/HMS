@@ -70,9 +70,9 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </ImageView>
-                  <ImageView fx:id="staff" fitHeight="57.0" fitWidth="66.0" layoutX="10.0" layoutY="58.0" onMouseClicked="#staff" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
+                  <ImageView fx:id="trans" fitHeight="57.0" fitWidth="66.0" layoutX="10.0" layoutY="58.0" onMouseClicked="#staff" onMouseEntered="#showButtons" onMouseExited="#hideButtons" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
                      <image>
-                        <Image url="@styles/icons/steward.png" />
+                        <Image url="@styles/icons/drugs.png" />
                      </image>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -136,10 +136,10 @@
             </Label>
          </children>
       </AnchorPane>
-      <Button layoutX="255.0" layoutY="458.0" mnemonicParsing="false" onAction="#addPatient" prefHeight="53.0" prefWidth="95.0" styleClass="buttons" text="Add Patient" />
-      <Button fx:id="delete" layoutX="503.0" layoutY="458.0" mnemonicParsing="false" onAction="#delete" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="Delete Patient" />
-      <Button fx:id="update" layoutX="362.0" layoutY="458.0" mnemonicParsing="false" onAction="#update" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="update/view patient nfo" />
-      <Button fx:id="makeAppointment" layoutX="640.0" layoutY="458.0" mnemonicParsing="false" onAction="#makeAppointment" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="Make a visist" />
+      <Button layoutX="259.0" layoutY="483.0" mnemonicParsing="false" onAction="#addPatient" prefHeight="53.0" prefWidth="95.0" styleClass="buttons" text="Add Patient" />
+      <Button fx:id="delete" layoutX="507.0" layoutY="483.0" mnemonicParsing="false" onAction="#delete" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="Delete Patient" />
+      <Button fx:id="update" layoutX="366.0" layoutY="483.0" mnemonicParsing="false" onAction="#update" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="update/view patient nfo" />
+      <Button fx:id="makeAppointment" layoutX="644.0" layoutY="483.0" mnemonicParsing="false" onAction="#makeAppointment" prefHeight="53.0" prefWidth="128.0" styleClass="buttons" text="Make a visist" />
       <TextField fx:id="searchField1" layoutX="93.0" layoutY="108.0" prefHeight="30.0" prefWidth="209.0" promptText="added by" styleClass="textField" />
       <TextField fx:id="dd" layoutX="261.0" layoutY="187.0" prefHeight="32.0" prefWidth="42.0" promptText="dd" styleClass="textField" />
       <TextField fx:id="mm" layoutX="213.0" layoutY="187.0" prefHeight="32.0" prefWidth="42.0" promptText="mm" styleClass="textField" />
@@ -159,12 +159,22 @@
             <Font size="33.0" />
          </font>
       </Label>
-      <Button fx:id="s" layoutX="89.0" layoutY="458.0" mnemonicParsing="false" onAction="#s" prefHeight="53.0" prefWidth="157.0" styleClass="buttons" text="Search">
+      <Button fx:id="s" layoutX="93.0" layoutY="483.0" mnemonicParsing="false" onAction="#s" prefHeight="53.0" prefWidth="157.0" styleClass="buttons" text="Search">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
       <CheckBox fx:id="medDay" layoutX="107.0" layoutY="308.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="96.0" text="medical day" textFill="WHITE" />
       <ComboBox fx:id="cause" layoutX="80.0" layoutY="341.0" prefHeight="30.0" prefWidth="150.0" />
+      <Label layoutX="304.0" layoutY="409.0" prefHeight="53.0" prefWidth="368.0" text="the number of patients is: " textFill="#26ff00">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label fx:id="n" layoutX="682.0" layoutY="410.0" prefHeight="53.0" prefWidth="121.0" text="." textFill="#26ff00">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
