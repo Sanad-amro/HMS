@@ -10,6 +10,13 @@ public class Patient {
         private static final String DB_USER = "root";
         private static final String DB_PASSWORD = "";
 
+        private static final String CL_URL = "jdbc:mysql://195.123.166.125:3306/akram";
+        private static final String CL_USER = "sanad";
+        private static final String CL_PASSWORD = "sanad";
+        private static Connection cloud() throws SQLException {
+                return DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
+        }
+
         // Patient fields
         private int patientId;
         private String name;
@@ -233,6 +240,7 @@ public class Patient {
 
         // Add a new patient
         public static void addPatient(ArrayList<Patient> patients) {
+                addPatientC(patients);
                 Patient patient=patients.get(0);
                 checkConnection();
                 String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay,cause) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
@@ -261,8 +269,38 @@ public class Patient {
                 }
         }
 
+        public static void addPatientC(ArrayList<Patient> patients) {
+                Patient patient=patients.get(0);
+                checkConnection();
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay,cause) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+                try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setInt(1, patient.getPatientId());
+                        stmt.setString(2, patient.getName());
+                        stmt.setString(3, patient.getPhoneNumber());
+                        stmt.setString(4, patient.getAddress());
+                        stmt.setString(5, patient.getAddedBy());
+                        stmt.setDouble(6, patient.getHeight());
+                        stmt.setInt(7, patient.getYy());
+                        stmt.setInt(8, patient.getMm());
+                        stmt.setInt(9, patient.getDd());
+                        stmt.setInt(10,patient.getyB());
+                        stmt.setInt(11, patient.getmB());
+                        stmt.setInt(12,patient.getdB());
+                        stmt.setInt(13, patient.getN_visits());
+                        stmt.setString(14,patient.getLastVisit());
+                        stmt.setBoolean(15,patient.isMedicalDay());
+                        stmt.setString(16, patient.getCause());
+
+
+                        stmt.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
+
         // Delete a patient by ID
         public static void deletePatient(int patientId) {
+                deletePatientC(patientId);
                 checkConnection();
                 String query = "DELETE FROM patients WHERE id = ?";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -273,12 +311,53 @@ public class Patient {
                 }
         }
 
+        public static void deletePatientC(int patientId) {
+                checkConnection();
+                String query = "DELETE FROM patients WHERE id = ?";
+                try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setInt(1, patientId);
+                        stmt.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
+
         // Update a patient's information
         public static void UpdatePatientInfo(ArrayList<Patient> patients) {
+                UpdatePatientInfoC(patients);
                 Patient patient=patients.get(0);
                 checkConnection();
                 String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ? WHERE id = ?";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setString(1, patient.getName());
+                        stmt.setString(2, patient.getPhoneNumber());
+                        stmt.setString(3, patient.getAddress());
+                        stmt.setString(4, patient.getAddedBy());
+                        stmt.setDouble(5, patient.getHeight());
+                        stmt.setInt(6, patient.getYy());
+                        stmt.setInt(7, patient.getMm());
+                        stmt.setInt(8, patient.getDd());
+                        stmt.setInt(9,patient.getyB());
+                        stmt.setInt(10, patient.getmB());
+                        stmt.setInt(11,patient.getdB());
+                        stmt.setInt(12, patient.getN_visits());
+                        stmt.setString(13,patient.getLastVisit());
+                        stmt.setBoolean(14,patient.isMedicalDay());
+                        stmt.setString(15, patient.getCause());
+                        stmt.setInt(16, patient.getPatientId());
+
+                        stmt.executeUpdate();
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
+
+
+        public static void UpdatePatientInfoC(ArrayList<Patient> patients) {
+                Patient patient=patients.get(0);
+                checkConnection();
+                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ? WHERE id = ?";
+                try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setString(1, patient.getName());
                         stmt.setString(2, patient.getPhoneNumber());
                         stmt.setString(3, patient.getAddress());

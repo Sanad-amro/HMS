@@ -56,11 +56,40 @@ public class Transactions {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
+    private static final String CL_URL = "jdbc:mysql://195.123.166.125:3306/akram";
+    private static final String CL_USER = "sanad";
+    private static final String CL_PASSWORD = "sanad";
+    private static Connection cloud() throws SQLException {
+        return DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
+    }
+
 
     public static void makeTransaciton(ArrayList<Transactions> transactions){
+        makeTransacitonC(transactions);
         for(Transactions transaction: transactions){
             String sql = "insert into transactions (quantity, name , d_name, yy,mm,dd,p_name) values (?, ?, ?,?,?,?,?) ";
             try(Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setDouble(1, transaction.getQuantity());
+                statement.setString(2, transaction.getName());
+                statement.setString(3,transaction.getD_name());
+                statement.setInt(4,transaction.getYy());
+                statement.setInt(5, transaction.getMm());
+                statement.setInt(6,transaction.getDd());
+                statement.setString(7, transaction.getPatient_name());
+                statement.executeUpdate();
+                System.out.println("the executeUpdate was performed!!");
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        System.out.println("transactions were made successfully! ");
+    }
+
+    public static void makeTransacitonC(ArrayList<Transactions> transactions){
+        for(Transactions transaction: transactions){
+            String sql = "insert into transactions (quantity, name , d_name, yy,mm,dd,p_name) values (?, ?, ?,?,?,?,?) ";
+            try(Connection connection = cloud(); PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setDouble(1, transaction.getQuantity());
                 statement.setString(2, transaction.getName());
                 statement.setString(3,transaction.getD_name());

@@ -18,6 +18,14 @@ public class Doctor extends User {
     private static final String DB_PASSWORD = "";
 
 
+    private static final String CL_URL = "jdbc:mysql://195.123.166.125:3306/akram";
+    private static final String CL_USER = "sanad";
+    private static final String CL_PASSWORD = "sanad";
+    private static Connection cloud() throws SQLException {
+        return DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
+    }
+
+
 
     private static Connection getConnection() throws SQLException {
         System.out.println("Nigga");
@@ -46,65 +54,6 @@ public class Doctor extends User {
         return DriverManager.getConnection(LOCAL_DB_URL, LOCAL_DB_USER, LOCAL_DB_PASSWORD);
     }
 
-    // Method to sync the entire "akram" database
-    public static void syncDatabase() {
-        try (Connection remoteConn = getRemoteConnection();
-             Statement remoteStmt = remoteConn.createStatement()) {
-
-            // Get all tables in the remote "akram" database
-            String getTablesQuery = "SHOW TABLES";
-            ResultSet tables = remoteStmt.executeQuery(getTablesQuery);
-
-            // Loop through all tables and sync them one by one
-            while (tables.next()) {
-                String tableName = tables.getString(1);
-                System.out.println("Syncing table: " + tableName);
-                syncTable(tableName);
-            }
-
-            System.out.println("Database sync completed!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error syncing database!");
-        }
-    }
-
-    // Method to sync data for a specific table
-    private static void syncTable(String tableName) {
-        String selectQuery = "SELECT * FROM " + tableName;
-        String insertQuery = "INSERT INTO " + tableName + " (columns_here) VALUES (?)"; // Adjust columns accordingly
-
-        try (Connection remoteConn = getRemoteConnection();
-             Statement remoteStmt = remoteConn.createStatement();
-             ResultSet rs = remoteStmt.executeQuery(selectQuery);
-             Connection localConn = getLocalConnection();
-             PreparedStatement insertStmt = localConn.prepareStatement(insertQuery)) {
-
-            // Clear the local table before inserting new data (optional)
-            String clearTableQuery = "DELETE FROM " + tableName;
-            try (Statement deleteStmt = localConn.createStatement()) {
-                deleteStmt.executeUpdate(clearTableQuery);
-            }
-
-            // Loop through remote data and insert into local database
-            while (rs.next()) {
-                // Assuming you're inserting data from all columns, adjust the PreparedStatement accordingly
-                // Example: if table has a column "id" and "name"
-                insertStmt.setInt(1, rs.getInt("id"));
-                insertStmt.setString(2, rs.getString("name"));
-                // Add other columns as needed
-
-                insertStmt.addBatch();
-            }
-
-            // Execute the batch insert
-            insertStmt.executeBatch();
-            System.out.println("Table " + tableName + " synced successfully!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error syncing table: " + tableName);
-        }
-    }
 
 
 
@@ -159,6 +108,7 @@ public class Doctor extends User {
     }
 
     public static void addDoctor(ArrayList<Doctor> doctors) {
+        addDoctorC(doctors);
         Doctor doctor=doctors.get(0);
         String query = "INSERT INTO doctors (name, id, email, address, appointment_admin, inventory_admin, sector, Doctors_admin, Patients_admin, staff_admin, speciality, userName, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -188,7 +138,39 @@ public class Doctor extends User {
         }
     }
 
+
+    public static void addDoctorC(ArrayList<Doctor> doctors) {
+        Doctor doctor=doctors.get(0);
+        String query = "INSERT INTO doctors (name, id, email, address, appointment_admin, inventory_admin, sector, Doctors_admin, Patients_admin, staff_admin, speciality, userName, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = cloud();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, doctor.getName());
+            pstmt.setString(2, doctor.getId());
+            pstmt.setString(3, doctor.getEmail());
+            pstmt.setString(4, doctor.getAddress());
+            pstmt.setBoolean(5, doctor.isAppointment_admin());
+            pstmt.setBoolean(6, doctor.isInventory_admin());
+            pstmt.setString(7, doctor.getSector());
+            pstmt.setBoolean(8, doctor.isDoctors_admin());
+            pstmt.setBoolean(9, doctor.isPatients_admin());
+            pstmt.setBoolean(10, doctor.isStaff_admin());
+            pstmt.setString(11, doctor.getSpeciality());
+            pstmt.setString(12, doctor.getUserName());
+            pstmt.setString(13, doctor.getPassword());
+            pstmt.setString(14, doctor.getRole());
+
+            pstmt.executeUpdate();
+            System.out.println("Doctor added successfully.");
+
+        } catch (SQLException e) {
+            System.err.println("Error while adding doctor: " + e.getMessage());
+        }
+    }
+
     public static void updateDoctor(Doctor doctor) {
+        updateDoctorC(doctor);
         String query = "UPDATE doctors SET name=?, email=?, address=?, appointment_admin=?, inventory_admin=?, sector=?, Doctors_admin=?, Patients_admin=?, staff_admin=?, speciality=?, userName=?, password=?, role=? WHERE id=?";
 
         try (Connection conn = getConnection();
@@ -216,6 +198,35 @@ public class Doctor extends User {
             System.err.println("Error while updating doctor: " + e.getMessage());
         }
     }
+    public static void updateDoctorC(Doctor doctor) {
+        String query = "UPDATE doctors SET name=?, email=?, address=?, appointment_admin=?, inventory_admin=?, sector=?, Doctors_admin=?, Patients_admin=?, staff_admin=?, speciality=?, userName=?, password=?, role=? WHERE id=?";
+
+        try (Connection conn = cloud();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, doctor.getName());
+            pstmt.setString(2, doctor.getEmail());
+            pstmt.setString(3, doctor.getAddress());
+            pstmt.setBoolean(4, doctor.isAppointment_admin());
+            pstmt.setBoolean(5, doctor.isInventory_admin());
+            pstmt.setString(6, doctor.getSector());
+            pstmt.setBoolean(7, doctor.isDoctors_admin());
+            pstmt.setBoolean(8, doctor.isPatients_admin());
+            pstmt.setBoolean(9, doctor.isStaff_admin());
+            pstmt.setString(10, doctor.getSpeciality());
+            pstmt.setString(11, doctor.getUserName());
+            pstmt.setString(12, doctor.getPassword());
+            pstmt.setString(13, doctor.getRole());
+            pstmt.setString(14, doctor.getId());
+
+            pstmt.executeUpdate();
+            System.out.println("Doctor updated successfully.");
+
+        } catch (SQLException e) {
+            System.err.println("Error while updating doctor: " + e.getMessage());
+        }
+    }
+
 
     public static Doctor getDoctor(String username) {
         String query = "SELECT * FROM doctors WHERE userName=?";
@@ -336,9 +347,25 @@ public class Doctor extends User {
     }
 
     public static void deleteDoctor(String id) {
+        deleteDoctorC(id);
         String query = "DELETE FROM doctors WHERE id=?";
 
         try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, id);
+            pstmt.executeUpdate();
+            System.out.println("Doctor deleted successfully.");
+
+        } catch (SQLException e) {
+            System.err.println("Error while deleting doctor: " + e.getMessage());
+        }
+    }
+
+    public static void deleteDoctorC(String id) {
+        String query = "DELETE FROM doctors WHERE id=?";
+
+        try (Connection conn = cloud();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, id);

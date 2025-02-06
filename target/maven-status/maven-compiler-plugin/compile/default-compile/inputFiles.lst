@@ -9,14 +9,18 @@ C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controller
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\module-info.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\classes\User.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\UpdateDoctor.java
+C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\View.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\AddBill.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\Staff.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\Doctors.java
+C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\Increase.java
+C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\classes\DatabaseSync.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\SetworkUser.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\classes\Bills.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\classes\Diagnosis.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\HelloApplication.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\UpdatePatient.java
+C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\classes\Transactions.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\classes\Patient.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\UpdateUser.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\LoginController.java
@@ -24,6 +28,7 @@ C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controller
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\SetWork.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\classes\Appointment.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\Patients.java
+C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\Transaction.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\MakeAppointment.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\controllers\AddMdd.java
 C:\Users\Eng.Sanad\Documents\GitHub\HMS\src\main\java\org\example\hms\Run.java

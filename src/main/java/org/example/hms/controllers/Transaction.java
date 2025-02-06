@@ -58,6 +58,7 @@ public class Transaction {
     TableView<Transactions> transactions;
     @FXML
     TableColumn<Transactions, String> date;
+    double num=0;
 
     List<Transactions> transactions1= Transactions.getAllTransactions();
     ObservableList<Transactions> transactionsList= FXCollections.observableArrayList(transactions1);
@@ -74,6 +75,7 @@ public class Transaction {
         this.doctor=doctor;
 
     }
+
 
 
     public void initialize(){
@@ -94,6 +96,8 @@ public class Transaction {
          transactions1= Transactions.getAllTransactions();
          transactionsList= FXCollections.observableArrayList(transactions1);
          filteredList=new FilteredList<>(transactionsList, d -> true);
+
+
 
 
         /*transactions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Doctor>() {
@@ -134,6 +138,7 @@ public class Transaction {
 
     @FXML
     private void s(ActionEvent event) throws IOException {
+        num=0;
 
         String newValue = searchField.getText();
         String newValue2 = searchField1.getText();
@@ -174,7 +179,10 @@ public class Transaction {
 
         // Update the table view
         transactions.setItems(filteredList);
-        n.setText(String.valueOf(filteredList.size()));
+        for (Transactions t : filteredList) {
+            num += t.getQuantity();
+        }
+        n.setText(String.valueOf(num));
     }
     private LocalDate getPatientDate(Transactions patient) {
         try {

@@ -11,6 +11,15 @@ public class Session {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
+    private static final String CL_URL = "jdbc:mysql://195.123.166.125:3306/akram";
+    private static final String CL_USER = "sanad";
+    private static final String CL_PASSWORD = "sanad";
+    private static Connection cloud() throws SQLException {
+        return DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
+    }
+
+
+
 
     // Session variables
     private int quantity ;
@@ -337,67 +346,14 @@ public class Session {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
-    private static void checkConnection() {
-        try (Connection conn = getConnection()) {
-            Statement stmt = conn.createStatement();
 
-            // Check if the database exists
-            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS akram");
-
-            // Check if the required tables exist and create them if not
-            String[] tables = {"doctors", "patients", "inventory", "sessions"};
-            for (String table : tables) {
-                String createTableSQL = getCreateTableSQL(table);
-                stmt.executeUpdate(createTableSQL);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     // Method to get the SQL to create a table if it doesn't exist
-    private static String getCreateTableSQL(String table) {
-        switch (table) {
-            case "sessions":
-                return "CREATE TABLE IF NOT EXISTS sessions (" +
-                        "session_id INT AUTO_INCREMENT PRIMARY KEY, " +
-                        "patient_id INT NOT NULL, " +
-                        "hgb INT, weight INT, blood_glucose INT, fasting_blood_glucose INT, random_blood_glucose INT, " +
-                        "heart_rate INT, diastolic_blood_pressure INT, systolic_blood_pressure INT, blood_pressure VARCHAR(10), " +
-                        "chief_complaint VARCHAR(255), medical_history TEXT, medical_and_surgical_history TEXT, " +
-                        "obstetric_history TEXT, gynecological_history TEXT, doctor_and_midwife_note TEXT, " +
-                        "diagnosis TEXT, current_medications TEXT, prescribed_medications TEXT, " +
-                        "nutritionist_note TEXT, physiotherapist_note TEXT, added_by VARCHAR(100), " +
-                        "address VARCHAR(255), " + // Added address field
-                        "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " + // Auto-generated
-                        "day INT, month INT, year INT, " +
-                        "FOREIGN KEY (patient_id) REFERENCES patients(id))";
-            case "doctors":
-                return "CREATE TABLE IF NOT EXISTS doctors (" +
-                        "id INT PRIMARY KEY AUTO_INCREMENT, " +
-                        "name VARCHAR(100), speciality VARCHAR(100), sector VARCHAR(100), " +
-                        "username VARCHAR(100), password VARCHAR(100), email VARCHAR(100), " +
-                        "address VARCHAR(255))";
-            case "patients":
-                return "CREATE TABLE IF NOT EXISTS patients (" +
-                        "id INT PRIMARY KEY, " +
-                        "name VARCHAR(100), " +
-                        "phone_number VARCHAR(15), " +
-                        "address VARCHAR(255), " +
-                        "age INT,"+"added_By VARCHAR(255));";
-            case "inventory":
-                return "CREATE TABLE IF NOT EXISTS inventory (" +
-                        "item_id INT PRIMARY KEY AUTO_INCREMENT, " +
-                        "name VARCHAR(100), quantity INT, expire_date VARCHAR(10))";
-            default:
-                return "";
-        }
-    }
+
 
     // CRUD operations for the sessions table
     public static void addSession(Session session) {
-        checkConnection();
+        addSessionC(session);
         String query = "INSERT INTO sessions (patient_id, hgb, weight, blood_glucose, fasting_blood_glucose, random_blood_glucose, " +
                 "heart_rate, diastolic_blood_pressure, systolic_blood_pressure, blood_pressure, " +
                 "chief_complaint, medical_history, medical_and_surgical_history, obstetric_history, gynecological_history, " +
@@ -440,8 +396,50 @@ public class Session {
         }
     }
 
+    public static void addSessionC(Session session) {
+        String query = "INSERT INTO sessions (patient_id, hgb, weight, blood_glucose, fasting_blood_glucose, random_blood_glucose, " +
+                "heart_rate, diastolic_blood_pressure, systolic_blood_pressure, blood_pressure, " +
+                "chief_complaint, medical_history, medical_and_surgical_history, obstetric_history, gynecological_history, " +
+                "doctor_and_midwife_note, diagnosis, current_medications, prescribed_medications, nutritionist_note, " +
+                "physiotherapist_note, added_by, address, day, month, year,midWifeNote,psychologistNote, patientName, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, session.patientId);
+            stmt.setInt(2, session.hgb);
+            stmt.setInt(3, session.weight);
+            stmt.setInt(4, session.bloodGlucose);
+            stmt.setInt(5, session.fastingBloodGlucose);
+            stmt.setInt(6, session.randomBloodGlucose);
+            stmt.setInt(7, session.heartRate);
+            stmt.setInt(8, session.diastolicBloodPressure);
+            stmt.setInt(9, session.systolicBloodPressure);
+            stmt.setString(10, session.bloodPressure);
+            stmt.setString(11, session.chiefComplaint);
+            stmt.setString(12, session.medicalHistory);
+            stmt.setString(13, session.medicalAndSurgicalHistory);
+            stmt.setString(14, session.obstetricHistory);
+            stmt.setString(15, session.gynecologicalHistory);
+            stmt.setString(16, session.doctorAndMidwifeNote);
+            stmt.setString(17, session.diagnosis);
+            stmt.setString(18, session.currentMedications);
+            stmt.setString(19, session.prescribedMedications);
+            stmt.setString(20, session.nutritionistNote);
+            stmt.setString(21, session.physiotherapistNote);
+            stmt.setString(22, session.addedBy);
+            stmt.setString(23, session.address); // Set address
+            stmt.setInt(24, session.day);
+            stmt.setInt(25, session.month);
+            stmt.setInt(26, session.year);
+            stmt.setString(27, session.midWifeNote);
+            stmt.setString(28, session.psychologistNote);
+            stmt.setString(29, session.getPatientName());
+            stmt.setInt(30, session.getQuantity());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static ArrayList<Session> getAllSessions() {
-        checkConnection();
         ArrayList<Session> sessionsList = new ArrayList<>();
         String query = "SELECT * FROM sessions";
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -488,7 +486,6 @@ public class Session {
     }
 
     public static Session getSessionById(int sessionId) {
-        checkConnection();
         String query = "SELECT * FROM sessions WHERE session_id = ?";
         Session session = null;
 
@@ -540,7 +537,7 @@ public class Session {
 
 
     public static boolean updateSessionById(Session session) {
-        checkConnection();
+        updateSessionByIdC(session);
         String query = "UPDATE sessions SET patient_id = ?, hgb = ?, weight = ?, blood_glucose = ?, fasting_blood_glucose = ?, random_blood_glucose = ?, " +
                 "heart_rate = ?, diastolic_blood_pressure = ?, systolic_blood_pressure = ?, blood_pressure = ?, " +
                 "chief_complaint = ?, medical_history = ?, medical_and_surgical_history = ?, obstetric_history = ?, gynecological_history = ?, " +
@@ -589,11 +586,74 @@ public class Session {
             return false; // Return false if an error occurs
         }
     }
+
+    public static boolean updateSessionByIdC(Session session) {
+        String query = "UPDATE sessions SET patient_id = ?, hgb = ?, weight = ?, blood_glucose = ?, fasting_blood_glucose = ?, random_blood_glucose = ?, " +
+                "heart_rate = ?, diastolic_blood_pressure = ?, systolic_blood_pressure = ?, blood_pressure = ?, " +
+                "chief_complaint = ?, medical_history = ?, medical_and_surgical_history = ?, obstetric_history = ?, gynecological_history = ?, " +
+                "doctor_and_midwife_note = ?, diagnosis = ?, current_medications = ?, prescribed_medications = ?, nutritionist_note = ?, " +
+                "physiotherapist_note = ?, added_by = ?, address = ?, day = ?, month = ?, year = ?, midWifeNote = ?, psychologistNote = ?, patientName = ? ,quantity = ? " +
+                "WHERE session_id = ?";
+
+        try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, session.getPatientId());
+            stmt.setInt(2, session.getHgb());
+            stmt.setInt(3, session.getWeight());
+            stmt.setInt(4, session.getBloodGlucose());
+            stmt.setInt(5, session.getFastingBloodGlucose());
+            stmt.setInt(6, session.getRandomBloodGlucose());
+            stmt.setInt(7, session.getHeartRate());
+            stmt.setInt(8, session.getDiastolicBloodPressure());
+            stmt.setInt(9, session.getSystolicBloodPressure());
+            stmt.setString(10, session.getBloodPressure());
+            stmt.setString(11, session.getChiefComplaint());
+            stmt.setString(12, session.getMedicalHistory());
+            stmt.setString(13, session.getMedicalAndSurgicalHistory());
+            stmt.setString(14, session.getObstetricHistory());
+            stmt.setString(15, session.getGynecologicalHistory());
+            stmt.setString(16, session.getDoctorAndMidwifeNote());
+            stmt.setString(17, session.getDiagnosis());
+            stmt.setString(18, session.getCurrentMedications());
+            stmt.setString(19, session.getPrescribedMedications());
+            stmt.setString(20, session.getNutritionistNote());
+            stmt.setString(21, session.getPhysiotherapistNote());
+            stmt.setString(22, session.getAddedBy());
+            stmt.setString(23, session.getAddress());
+            stmt.setInt(24, session.getDay());
+            stmt.setInt(25, session.getMonth());
+            stmt.setInt(26, session.getYear());
+            stmt.setString(27, session.getMidWifeNote());
+            stmt.setString(28, session.getPsychologistNote());
+            stmt.setString(29, session.getPatientName());
+            stmt.setInt(30,session.getQuantity());
+
+            stmt.setInt(31, session.getSessionId()); // session_id for the WHERE clause
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0; // Return true if at least one row was updated
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if an error occurs
+        }
+    }
     public static boolean deleteSessionById(int sessionId) {
-        checkConnection();
+        deleteSessionByIdC(sessionId);
         String query = "DELETE FROM sessions WHERE session_id = ?";
 
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, sessionId); // Set the session_id for the WHERE clause
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0; // Return true if at least one row was deleted
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if an error occurs
+        }
+    }
+
+    public static boolean deleteSessionByIdC(int sessionId) {
+        String query = "DELETE FROM sessions WHERE session_id = ?";
+
+        try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, sessionId); // Set the session_id for the WHERE clause
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0; // Return true if at least one row was deleted

@@ -48,8 +48,17 @@ public class Medecin {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
 
+
+    private static final String CL_URL = "jdbc:mysql://195.123.166.125:3306/akram";
+    private static final String CL_USER = "sanad";
+    private static final String CL_PASSWORD = "sanad";
+    private static Connection cloud() throws SQLException {
+        return DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
+    }
+
     // Static method to add a Medecin
     public static void add(String name, double quantity) {
+        addC(name, quantity);
         String query = "INSERT INTO medecin (name, quantity) VALUES (?, ?)";
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -65,8 +74,25 @@ public class Medecin {
         }
     }
 
+    public static void addC(String name, double quantity) {
+        String query = "INSERT INTO medecin (name, quantity) VALUES (?, ?)";
+
+        try (Connection connection = DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, name);
+            statement.setDouble(2, quantity);
+            statement.executeUpdate();
+
+            System.out.println("Medecin added successfully.");
+        } catch (SQLException e) {
+            System.err.println("Error adding Medecin: " + e.getMessage());
+        }
+    }
+
     // Static method to delete a Medecin
     public static void delete(int id) {
+        deleteC(id);
         String query = "DELETE FROM medecin WHERE id = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -85,11 +111,53 @@ public class Medecin {
         }
     }
 
+
+    public static void deleteC(int id) {
+        String query = "DELETE FROM medecin WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, id);
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Medecin deleted successfully.");
+            } else {
+                System.out.println("No Medecin found with the given ID.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error deleting Medecin: " + e.getMessage());
+        }
+    }
+
+
     // Static method to decrement the quantity of a Medecin
     public static void decrementQuantity(int id, double decrementValue) {
+        decrementQuantityC(id,decrementValue);
         String query = "UPDATE medecin SET quantity = quantity - ? WHERE id = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setDouble(1, decrementValue);
+            statement.setInt(2, id);
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Medecin quantity decremented successfully.");
+            } else {
+                System.out.println("No Medecin found with the given ID.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error decrementing quantity: " + e.getMessage());
+        }
+    }
+
+    public static void decrementQuantityC(int id, double decrementValue) {
+        String query = "UPDATE medecin SET quantity = quantity - ? WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setDouble(1, decrementValue);
@@ -155,9 +223,31 @@ public class Medecin {
         return medecin;
     }
     public static void updateQuantity(int id, double newQuantity) {
+        updateQuantityC(id,newQuantity);
         String query = "UPDATE medecin SET quantity = ? WHERE id = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setDouble(1, newQuantity);
+            statement.setInt(2, id);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Medecin quantity updated successfully.");
+            } else {
+                System.out.println("No Medecin found with the given ID.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating quantity: " + e.getMessage());
+        }
+    }
+
+    public static void updateQuantityC(int id, double newQuantity) {
+        String query = "UPDATE medecin SET quantity = ? WHERE id = ?";
+
+        try (Connection connection = DriverManager.getConnection(CL_URL, CL_USER, CL_PASSWORD);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setDouble(1, newQuantity);
