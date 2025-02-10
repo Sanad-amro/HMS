@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.hms.classes.Address;
 import org.example.hms.classes.Diagnosis;
 import org.example.hms.classes.Patient;
 
@@ -22,7 +23,7 @@ public class UpdatePatient {
     @FXML
     TextField id ;
     @FXML
-    TextField address;
+    ComboBox<String> address;
     @FXML
     TextField email;
     @FXML
@@ -50,6 +51,10 @@ public class UpdatePatient {
     TextField date;
     @FXML
     ComboBox<String> diagnosisC;
+    @FXML
+    CheckBox ramcos;
+    @FXML
+    Button add11;
 
     Stage stage;
     public UpdatePatient(){}
@@ -68,7 +73,7 @@ public class UpdatePatient {
 
 
 
-        if((name.getText().isEmpty() || id.getText().isEmpty() || address.getText().isEmpty() ||  phone.getText().isEmpty() || y.getText().isEmpty() || m.getText().isEmpty() || d.getText().isEmpty())){
+        if((name.getText().isEmpty() || id.getText().isEmpty() || address.getValue().isEmpty() ||  phone.getText().isEmpty() || y.getText().isEmpty() || m.getText().isEmpty() || d.getText().isEmpty())){
             succsess.setVisible(false);
             pass_match.setVisible(false);
             fields_fill.setVisible(true);
@@ -77,22 +82,21 @@ public class UpdatePatient {
         if(updateHim) {
             String dname= name.getText();
             String did= id.getText();
-            String daddress= address.getText();
+            String daddress= address.getValue();
             String dsector= phone.getText();
 
             fields_fill.setVisible(false);
             pass_match.setVisible(false);
             List<Patient> patients = new ArrayList<>();
             Patient patient1;
-            patient1 = new Patient( Integer.parseInt(did),dname,dsector, daddress, patient.getAddedBy(), Double.parseDouble(height.getText()),Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt( y.getText()),patient.getN_visits(), medical.isSelected(),diagnosisC.getValue() );
-
+            patient1 = new Patient( Integer.parseInt(did),dname,dsector, daddress, patient.getAddedBy(), Double.parseDouble(height.getText()),Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt( y.getText()),patient.getN_visits(), medical.isSelected(),diagnosisC.getValue(),ramcos.isSelected() );
             patients.add(patient1);
             Patient.UpdatePatientInfo(new ArrayList<>(patients));
             succsess.setText("Patient updated successfully ");
             succsess.setVisible(true);
             name.setText("");
             id.setText("");
-            address.setText("");
+            address.setValue("");
             phone.setText("");
             y.setText("");
             m.setText("");
@@ -109,7 +113,7 @@ public class UpdatePatient {
         System.out.println(patient.getName());
         name.setText(patient.getName());
         id.setText(String.valueOf(patient.getPatientId()));
-        address.setText(patient.getAddress());
+        address.setValue(patient.getAddress());
         y.setText(String.valueOf(patient.getyB()));
         m.setText(String.valueOf(patient.getmB()));
         d.setText(String.valueOf(patient.getdB()));
@@ -118,6 +122,8 @@ public class UpdatePatient {
         phone.setText(String.valueOf(patient.getPhoneNumber()));
         date.setText(patient.getYy()+"/"+patient.getMm()+"/"+patient.getDd());
         diagnosisC.setValue(patient.getCause());
+        ramcos.setSelected(patient.isExists());
+
 
     }
 
@@ -127,6 +133,7 @@ public class UpdatePatient {
         stage.close();
     }
     public void initialize(){
+        address.setItems(Address.getAllItems());
         height.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!newValue.matches("-?\\d*(\\.\\d*)?")) {
                 height.setText(oldValue);
@@ -137,6 +144,19 @@ public class UpdatePatient {
 
     public void add(ActionEvent event) throws IOException {
         FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/addDiagnosis.fxml"));
+        Parent root = window.load();
+        Scene scene = new Scene(root);
+        Stage stage1 = new Stage();
+        stage1.setScene(scene);
+        stage1.setTitle("HMS-add-diagnosis");
+        stage1.initModality(Modality.APPLICATION_MODAL);
+        stage1.setOnHidden(e -> {
+            initialize();
+        });
+        stage1.show();
+    }
+    public void add1(ActionEvent event) throws IOException {
+        FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/add_address.fxml"));
         Parent root = window.load();
         Scene scene = new Scene(root);
         Stage stage1 = new Stage();

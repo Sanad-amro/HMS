@@ -84,6 +84,10 @@ public class Patients {
     ComboBox<String> cause;
     @FXML
     Label n;
+    @FXML
+    ComboBox<String> address;
+    @FXML
+    CheckBox ramcos;
 
 
 
@@ -121,6 +125,7 @@ public class Patients {
         stage1.setOnHidden(e -> {
             try {
                 initialize();
+
                 System.out.println("closed!");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -135,13 +140,14 @@ public class Patients {
 
     public void delete(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("Are you sure you want to delete Mr."+ Patient.getPatient(idOfSlectedPatient).getName()+"?");
+        alert.setHeaderText("Are you sure you want to delete Mrs."+ Patient.getPatient(idOfSlectedPatient).getName()+"?");
         alert.setTitle("Close Application");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Patient.deletePatient(idOfSlectedPatient);
             initialize();
+
         }
     }
 
@@ -174,11 +180,17 @@ public class Patients {
         }
     }
     public void initialize() throws IOException {
+        patientsTable.setItems(filteredList);
         n.setText(String.valueOf(filteredList.size()));
         ObservableList<String> nigga = Diagnosis.getAllItems();
+        ObservableList<String> addressO = Address.getAllItems();
+        address.setItems(addressO);
         nigga.add("None");
+        addressO.add("None");
         cause.setItems(nigga);
         cause.setValue("None");
+        address.setValue("None");
+
 
         yy.setText("2025");
         tyy.setText("2025");
@@ -193,6 +205,11 @@ public class Patients {
         nameC.setCellValueFactory(new PropertyValueFactory<>("name"));
         doctorC.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
         visits.setCellValueFactory(new PropertyValueFactory<>("n_visits"));
+
+        patients= Patient.getAllPatients();
+        patientsObservableList= FXCollections.observableArrayList(patients);
+        filteredList=new FilteredList<>(patientsObservableList, d -> true);
+
 
         patientsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Patient>() {
 
@@ -276,9 +293,7 @@ public class Patients {
             boolean medpat = (medDay.isSelected() && patient.isMedicalDay());
             if (!medDay.isSelected())
                 medpat=true;
-            boolean causeB=false;
-            if (cause.getValue()=="None")
-                causeB = true;
+            boolean causeB=true;
             if (cause !=null && patient.getCause()!=null)
                 if (!cause.getValue().equals("None") )
                      causeB = patient.getCause().toLowerCase().equals(cause.getValue().toLowerCase());
@@ -299,8 +314,18 @@ public class Patients {
                 matchesDateRange = !patientDate.isAfter(toDate);
             }
 
+            boolean addressC=true;
+            if (address !=null && patient.getAddress()!=null)
+                if (!address.getValue().equals("None") )
+                    addressC = patient.getAddress().toLowerCase().equals(address.getValue().toLowerCase());
+
+
+            boolean ramcosB = (ramcos.isSelected() && patient.isExists());
+            if (!ramcos.isSelected())
+                ramcosB=true;
+
             // Combine all conditions
-            return matchesFirstField && matchesSecondField && matchesDateRange && causeB && medpat;
+            return matchesFirstField && matchesSecondField && matchesDateRange && causeB && medpat && addressC && ramcosB;
         });
 
         // Update the table view
@@ -420,25 +445,60 @@ public class Patients {
 
     public void makeAppointment(ActionEvent event) throws IOException {
         if (idOfSlectedPatient!=0){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/make-Appointment.fxml"));
-            Parent root = loader.load();
-            MakeAppointment makeAppointment = loader.getController();
-            makeAppointment.setPatient(Patient.getPatient(idOfSlectedPatient), doctor);
-            Scene scene = new Scene(root);
-            Stage stage1 = new Stage();
-            stage1.setScene(scene);
-            stage1.setTitle("HMS-Make-Appointment");
-            stage1.initModality(Modality.APPLICATION_MODAL);
-            stage1.setOnHidden(e -> {
-                try {
-                    initialize();
-                    System.out.println("closed!");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-            stage1.show();
-        }else{
+            Patient patient = Patient.getPatient(idOfSlectedPatient);
+
+            int day=LocalDate.now().getDayOfMonth();
+            int month= LocalDate.now().getMonthValue();
+            int year=LocalDate.now().getYear();
+
+            String visit = day + "/" + month + "/"+year;
+
+
+            if (visit.equals(patient.getLastVisit()) && Session.getSessionByVisit(year,month,day)!=null ) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/view.fxml"));
+                Parent root = loader.load();
+                View view = loader.getController();
+                view.setSession(Session.getSessionByVisit(year,month,day));
+                System.out.println(Session.getSessionByVisit(year, month, day).getDiagnosis());
+                Scene scene = new Scene(root);
+                Stage stage1 = new Stage();
+                stage1.setScene(scene);
+                stage1.setTitle("HMS-Make-Appointment");
+                stage1.initModality(Modality.APPLICATION_MODAL);
+                stage1.setOnHidden(e -> {
+                    try {
+                        initialize();
+                        System.out.println("closed!");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                stage1.show();
+
+            }else{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/make-Appointment.fxml"));
+                Parent root = loader.load();
+                MakeAppointment makeAppointment = loader.getController();
+                makeAppointment.setPatient(Patient.getPatient(idOfSlectedPatient), doctor);
+                Scene scene = new Scene(root);
+                Stage stage1 = new Stage();
+                stage1.setScene(scene);
+                stage1.setTitle("HMS-Make-Appointment");
+                stage1.initModality(Modality.APPLICATION_MODAL);
+                stage1.setOnHidden(e -> {
+                    try {
+                        initialize();
+                        System.out.println("closed!");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                stage1.show();
+
+            }
+
+        }
+        else{
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("You did not chose a Patient to makeAppointment!!");
             alert.setTitle("no Patient selected Application");

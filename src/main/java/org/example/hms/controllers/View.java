@@ -139,13 +139,13 @@ public class View {
         chief_complaint = session.getChiefComplaint();
         medical_history = session.getMedicalHistory();
         medical_and_surgical_history = session.getMedicalAndSurgicalHistory();
-          obstetric_history = session.getObstetricHistory();
-          gynecological_history = session.getGynecologicalHistory();
-          doctor_and_midwife_note = session.getDoctorAndMidwifeNote();
-          nutritionist_note = session.getNutritionistNote();
-          physiotherapist_note = session.getPhysiotherapistNote();
-          midWifeNote=session.getMidWifeNote();
-          psychologistNote = session.getPsychologistNote();
+        obstetric_history = session.getObstetricHistory();
+        gynecological_history = session.getGynecologicalHistory();
+        doctor_and_midwife_note = session.getDoctorAndMidwifeNote();
+        nutritionist_note = session.getNutritionistNote();
+        physiotherapist_note = session.getPhysiotherapistNote();
+        midWifeNote=session.getMidWifeNote();
+        psychologistNote = session.getPsychologistNote();
 
         notes.setText(chief_complaint);
 
@@ -183,7 +183,7 @@ public class View {
          gynecologicalHistory = session.getGynecologicalHistory();
          doctorAndMidwifeNote = session.getDoctorAndMidwifeNote();
          diagnosis = session.getDiagnosis();
-         currentMedications =session.getCurrentMedications();
+         currentMedications =session.getPrescribedMedications();
          prescribedMedications = session.getPrescribedMedications();
          nutritionistNote = session.getNutritionistNote();
          physiotherapistNote = session.getPhysiotherapistNote();
@@ -224,7 +224,6 @@ public class View {
          gynecologicalHistory=session.getGynecologicalHistory() ;
          doctorAndMidwifeNote=session.getDoctorAndMidwifeNote() ;
          diagnosis=session.getDiagnosis() ;
-         currentMedications=session.getCurrentMedications() ;
          prescribedMedications=session.getPrescribedMedications() ;
          nutritionistNote=session.getNutritionistNote() ;
          physiotherapistNote=session.getPhysiotherapistNote() ;
@@ -335,7 +334,7 @@ public class View {
 
         stock.setItems(filteredMedecins);
 
-        if (givens.size()>0){
+        if (givens.size()>=0){
             gName.setCellValueFactory(new PropertyValueFactory<>("name"));
             gQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
             ObservableList<Given> observableGivens = FXCollections.observableList(givens);
@@ -352,7 +351,6 @@ public class View {
                 }
             });
             given.setItems(observableGivens);
-
         }
 
 
@@ -452,13 +450,14 @@ public class View {
 
     public void set(ActionEvent actionEvent) {
 
-        String givnesS="";
+        String givnesS=current_medications.getText();
         for (Given given : givens) {
-            givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ ", ";
+            givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
+
         }
 
         int patientId=Integer.parseInt(patient_id.getText());
-        int sessionId=Session.genId();
+        int sessionId=session.getSessionId();
         int hgb = hgbT.getText().isEmpty()? 0:Integer.parseInt(hgbT.getText());
         int weight = weightT.getText().isEmpty()? 0:Integer.parseInt(weightT.getText());
         int bloodGlucose = blood_glucose.getText().isEmpty()? 0:Integer.parseInt(blood_glucose.getText());
@@ -467,18 +466,18 @@ public class View {
         int heartRate = heart_rate.getText().isEmpty()? 0:Integer.parseInt(heart_rate.getText());
         int diastolicBloodPressure= diastolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(diastolic_blood_pressure.getText());
         int systolicBloodPressure= systolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(systolic_blood_pressure.getText());
-        String bloodPressure = bp1.getText()+"/"+bp2.getText();
-        String chiefComplaint = chief_complaint;
-        String medicalHistory = medical_history;
-        String medicalAndSurgicalHistory= medical_and_surgical_history;
-        String obstetricHistory = obstetric_history;
-        String gynecologicalHistory = gynecological_history;
-        String doctorAndMidwifeNote = doctor_and_midwife_note;
-        String diagnosis = diagnosisC.getValue();
-        String currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
-        String prescribedMedications = givnesS;
-        String nutritionistNote = nutritionist_note;
-        String physiotherapistNote = physiotherapist_note;
+         bloodPressure = bp1.getText()+"/"+bp2.getText();
+         chiefComplaint = chief_complaint;
+         medicalHistory = medical_history;
+         medicalAndSurgicalHistory= medical_and_surgical_history;
+         obstetricHistory = obstetric_history;
+         gynecologicalHistory = gynecological_history;
+         doctorAndMidwifeNote = doctor_and_midwife_note;
+         diagnosis = diagnosisC.getValue();
+         currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
+         prescribedMedications = givnesS;
+         nutritionistNote = nutritionist_note;
+         physiotherapistNote = physiotherapist_note;
         String addedBy = added_by.getText();
         int day=LocalDate.now().getDayOfMonth();
         int month= LocalDate.now().getMonthValue();
@@ -486,9 +485,11 @@ public class View {
         String address= Patient.getPatient(session.getPatientId()).getAddress();
         saveComb();
 
-        Session session1 = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,session.getPatientName(),0);
+
+        Session session1 = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,currentMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,session.getPatientName(),0);
         success.setVisible(true);
-        Session.updateSessionById(session);
+        System.out.println(session1.getHgb());
+        Session.updateSessionById(session1);
         for (Given given : givens) {
             Medecin.decrementQuantity(given.getId(),given.getQuantity());
         }
@@ -529,8 +530,8 @@ public class View {
     public void deleteG(ActionEvent actionEvent) throws IOException {
         if(nameOfSelectedMedecin!=null){
             for (int i = 0; i < givens.size(); i++) {
-                Given given=givens.get(i);
-                if(given.getName().equals(nameOfSelectedMedecin)){
+                Given given1=givens.get(i);
+                if(given1.getName().equals(nameOfSelectedMedecin)){
                     givens.remove(i);
                     initialize();
                     break;
@@ -568,34 +569,49 @@ public class View {
     private void saveComb(){
         switch (cNote.getValue()) {
             case "chief complaint":
-                notes.setText(chief_complaint);
+                chief_complaint=notes.getText();
+                chiefComplaint=notes.getText();
+                physiotherapistNote=notes.getText();
                 break;
             case "medical history":
-                notes.setText(medical_history);
+                medical_history=notes.getText();
+                medicalHistory=notes.getText();
+                physiotherapistNote=notes.getText();
                 break;
             case "medical and surgical history":
-                notes.setText(medical_and_surgical_history);
+                medical_and_surgical_history=notes.getText();
+                medicalAndSurgicalHistory=notes.getText();
+                medicalAndSurgicalHistory=notes.getText();
                 break;
             case "obstetric history":
-                notes.setText(obstetric_history);
+                obstetric_history=notes.getText();
+                obstetricHistory=notes.getText();
+
+
                 break;
             case "gynecological history":
-                notes.setText(gynecological_history);
+                gynecological_history=notes.getText();
+                gynecologicalHistory=notes.getText();
                 break;
             case "General Doctor":
-                notes.setText(doctor_and_midwife_note);
+                doctor_and_midwife_note=notes.getText();
+                doctorAndMidwifeNote=notes.getText();
                 break;
             case "nutritionist note":
-                notes.setText(nutritionist_note);
+                nutritionist_note=notes.getText();
+                nutritionistNote=notes.getText();
                 break;
             case "physiotherapist note":
-                notes.setText(physiotherapist_note);
+                System.out.println("I was here!!!!!!!!");
+                physiotherapist_note=notes.getText();
+                physiotherapistNote=notes.getText();
+                System.out.println("this is the akram note: " + physiotherapistNote);
                 break;
             case "midWife Note":
-                notes.setText(midWifeNote);
+                midWifeNote=notes.getText();
                 break;
             case "psychologist Note":
-                notes.setText(psychologistNote);
+                psychologistNote=notes.getText();
                 break;
             default:
                 break;

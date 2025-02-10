@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.hms.classes.Address;
 import org.example.hms.classes.Diagnosis;
 import org.example.hms.classes.Doctor;
 import org.example.hms.classes.Patient;
@@ -26,7 +27,7 @@ public class AddPatient {
     @FXML
     TextField id ;
     @FXML
-    TextField address;
+    ComboBox<String> address;
     @FXML
     TextField addedBy;
 
@@ -38,7 +39,8 @@ public class AddPatient {
     TextField m;
     @FXML
     TextField y;
-
+    @FXML
+    CheckBox ramcos;
     @FXML
     TextField phone;
     @FXML
@@ -51,6 +53,8 @@ public class AddPatient {
     Label succsess;
     @FXML
     Button add;
+    @FXML
+    Button add11;
     @FXML
     ComboBox<String>diagnosisC;
     boolean wannaUpdate=false;
@@ -67,7 +71,7 @@ public class AddPatient {
     public void add_doctor() throws IOException {
         String dname= name.getText();
         String did= id.getText();
-        String daddress= address.getText();
+        String daddress= address.getValue();
         String dsector= phone.getText();
 
         succsess.setText("Patient added successfully!");
@@ -95,7 +99,7 @@ public class AddPatient {
                 Patient patient=Patient.getPatient((Integer.parseInt(did)));
                 name.setText(patient.getName());
                 id.setText(String.valueOf(patient.getPatientId()));
-                address.setText(patient.getAddress());
+                address.setValue(patient.getAddress());
                 d.setText(String.valueOf(patient.getdB()));
                 m.setText(String.valueOf(patient.getmB()));
                 y.setText(String.valueOf(patient.getyB()));
@@ -118,7 +122,7 @@ public class AddPatient {
             int month= LocalDate.now().getMonthValue();
             int year=LocalDate.now().getYear();
             String lastVisit = String.valueOf(day)+'/' + String.valueOf(month) + '/' +String.valueOf(year);
-            patient = new Patient( Integer.parseInt(did),dname,dsector, daddress, doctor.getName(),Double.parseDouble(height.getText()),year, month, day,Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt(y.getText()),1,lastVisit,medical.isSelected(),diagnosisC.getValue());
+            patient = new Patient( Integer.parseInt(did),dname,dsector, daddress, doctor.getName(),Double.parseDouble(height.getText()),year, month, day,Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt(y.getText()),1,lastVisit,medical.isSelected(),diagnosisC.getValue(),ramcos.isSelected());
 
             patients.add(patient);
             Patient.addPatient(new ArrayList<>(patients));
@@ -128,7 +132,7 @@ public class AddPatient {
             succsess.setVisible(true);
             name.setText("");
             id.setText("");
-            address.setText("");
+            address.setValue("");
             phone.setText("");
             y.setText("");
             m.setText("");
@@ -145,7 +149,10 @@ public class AddPatient {
     }
     @FXML
     public void initialize(){
+
         diagnosisC.setItems(Diagnosis.getAllItems());
+        address.setItems(Address.getAllItems());
+
 
         name.setOnAction(e -> id.requestFocus());
         id.setOnAction(e -> address.requestFocus());
@@ -198,6 +205,19 @@ public class AddPatient {
 
     public void add(ActionEvent event) throws IOException {
         FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/addDiagnosis.fxml"));
+        Parent root = window.load();
+        Scene scene = new Scene(root);
+        Stage stage1 = new Stage();
+        stage1.setScene(scene);
+        stage1.setTitle("HMS-add-diagnosis");
+        stage1.initModality(Modality.APPLICATION_MODAL);
+        stage1.setOnHidden(e -> {
+            initialize();
+        });
+        stage1.show();
+    }
+    public void add1(ActionEvent event) throws IOException {
+        FXMLLoader window = new FXMLLoader(getClass().getResource("/org/example/hms/add_address.fxml"));
         Parent root = window.load();
         Scene scene = new Scene(root);
         Stage stage1 = new Stage();

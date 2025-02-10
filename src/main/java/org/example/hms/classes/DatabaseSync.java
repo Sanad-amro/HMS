@@ -1,4 +1,5 @@
 package org.example.hms.classes;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -44,11 +45,16 @@ public class DatabaseSync extends Application {
         try (Connection cloudConn = DriverManager.getConnection(CLOUD_DB_URL, CLOUD_DB_USER, CLOUD_DB_PASSWORD);
              Connection localConn = DriverManager.getConnection(LOCAL_DB_URL, LOCAL_DB_USER, LOCAL_DB_PASSWORD)) {
 
-            List<String> tables = getTables(cloudConn);
-            int totalTables = tables.size();
+            List<String> cloudTables = getTables(cloudConn);
+            List<String> localTables = getTables(localConn);
+
+            int totalTables = cloudTables.size();
             int currentTable = 0;
 
-            for (String table : tables) {
+            for (String table : cloudTables) {
+                if (!localTables.contains(table)) {
+                    cloneTable(cloudConn, localConn, table);
+                }
                 syncTableStructure(cloudConn, localConn, table);
                 syncTableData(cloudConn, localConn, table);
                 currentTable++;
@@ -72,7 +78,6 @@ public class DatabaseSync extends Application {
         try (ResultSet rs = metaData.getTables(null, null, "%", new String[]{"TABLE"})) {
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");
-                // Exclude system tables
                 if (!tableName.startsWith("pma__")) {
                     tables.add(tableName);
                 }
@@ -81,6 +86,17 @@ public class DatabaseSync extends Application {
         return tables;
     }
 
+    private static void cloneTable(Connection cloudConn, Connection localConn, String table) throws SQLException {
+        try (Statement stmt = cloudConn.createStatement();
+             ResultSet rs = stmt.executeQuery("SHOW CREATE TABLE " + table)) {
+            if (rs.next()) {
+                String createTableSQL = rs.getString(2);
+                try (Statement localStmt = localConn.createStatement()) {
+                    localStmt.executeUpdate(createTableSQL);
+                }
+            }
+        }
+    }
 
     private static void syncTableStructure(Connection cloudConn, Connection localConn, String table) throws SQLException {
         Map<String, String> cloudSchema = getTableSchema(cloudConn, table);

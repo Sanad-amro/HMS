@@ -165,5 +165,8 @@
             <Font size="23.0" />
          </font>
       </Label>
+      <TextField fx:id="yearT" layoutX="436.0" layoutY="776.0" prefHeight="32.0" prefWidth="91.0" promptText="year" styleClass="textField" />
+      <TextField fx:id="monthT" layoutX="533.0" layoutY="776.0" prefHeight="32.0" prefWidth="45.0" promptText="month" styleClass="textField" />
+      <TextField fx:id="dayT" layoutX="586.0" layoutY="776.0" prefHeight="32.0" prefWidth="45.0" promptText="day" styleClass="textField" />
     </children>
 </AnchorPane>

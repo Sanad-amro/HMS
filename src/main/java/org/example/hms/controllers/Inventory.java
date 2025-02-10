@@ -304,7 +304,7 @@ public class Inventory {
         if(idOfSlectedPatient!=0){
             Medecin medecin = Medecin.getMedecinById(idOfSlectedPatient);
             System.out.println("the medecin id is: " + medecin.getId());
-            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/decMed.fxml"));
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/increase.fxml"));
             root = loader.load();
             Increase decMed = loader.getController();
             decMed.setMedecin(medecin);
@@ -326,6 +326,18 @@ public class Inventory {
                 initialize();
             }
 
+        }
+    }
+
+    public void delete(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Are you sure you want to delete "+ Medecin.getMedecinById(idOfSlectedPatient).getName()+"?");
+        alert.setTitle("Close Application");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Medecin.delete(idOfSlectedPatient);
+            initialize();
         }
     }
 }

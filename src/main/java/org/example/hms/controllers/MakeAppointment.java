@@ -33,6 +33,12 @@ public class MakeAppointment {
 
 
     @FXML
+    TextField yearT;
+    @FXML
+    TextField monthT;
+    @FXML
+    TextField dayT;
+    @FXML
     TextField patient_id;
     @FXML
     TextField patient_name;
@@ -84,6 +90,9 @@ public class MakeAppointment {
     TableColumn<Given, String> gName;
     @FXML
     TableColumn<Given, Double> gQuantity;
+    int day=LocalDate.now().getDayOfMonth();
+    int month= LocalDate.now().getMonthValue();
+    int year=LocalDate.now().getYear();
 
     private int idOfSelectedMedecin =2;
     private String nameOfSelectedMedecin =null;
@@ -128,6 +137,9 @@ public class MakeAppointment {
     }
 ////////////////////////////////////////////////////////////////////////////////initialize ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void initialize() throws IOException {
+        yearT.setText(String.valueOf(year));
+        monthT.setText(String.valueOf(month));
+        dayT.setText(String.valueOf(day));
         success.setVisible(false);
         diagnosisC.setItems(Diagnosis.getAllItems());
         weightT.textProperty().addListener(((observableValue, s, t1) -> {
@@ -221,6 +233,24 @@ public class MakeAppointment {
             } else {
             }
         });
+        yearT.textProperty().addListener(((observableValue, s, t1) -> {
+            if (!t1.matches("\\d*")) {
+                yearT.setText(s);
+            }
+
+        }));
+        monthT.textProperty().addListener(((observableValue, s, t1) -> {
+            if (!t1.matches("\\d*")) {
+                monthT.setText(s);
+            }
+
+        }));
+        dayT.textProperty().addListener(((observableValue, s, t1) -> {
+            if (!t1.matches("\\d*")) {
+                dayT.setText(s);
+            }
+
+        }));
 
 
         stock.setItems(filteredMedecins);
@@ -341,9 +371,7 @@ public class MakeAppointment {
     }
 
     public void set(ActionEvent actionEvent) {
-        int day=LocalDate.now().getDayOfMonth();
-        int month= LocalDate.now().getMonthValue();
-        int year=LocalDate.now().getYear();
+
 
          String givnesS="";
          ArrayList<Transactions> transactions = new ArrayList<>();
@@ -390,7 +418,7 @@ public class MakeAppointment {
             patients.add(patient);
             Patient.UpdatePatientInfo((patients));
         }
-        Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,patient.getName(),0);
+        Session session = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,prescribedMedications,nutritionistNote,physiotherapistNote,addedBy,Integer.parseInt(dayT.getText()),Integer.parseInt(monthT.getText()),Integer.parseInt(yearT.getText()),address,midWifeNote,psychologistNote,patient.getName(),0);
         success.setVisible(true);
         Session.addSession(session);
         for (Given given : givens) {

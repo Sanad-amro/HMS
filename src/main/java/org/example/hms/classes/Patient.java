@@ -35,7 +35,15 @@ public class Patient {
         private String lastVisit;
         private int numOfVisits;
         private String cause;
+        private boolean exists;
 
+        public boolean isExists() {
+                return exists;
+        }
+
+        public void setExists(boolean exists) {
+                this.exists = exists;
+        }
 
         public int getdB() {
                 return dB;
@@ -127,7 +135,7 @@ public class Patient {
 
 
         // Constructor
-        public Patient(int patientId, String name, String phoneNumber, String address,String addedBy, double height,int yy, int mm, int dd, int dB, int mB, int yB, int numOfVisits, String lastVisit, boolean medicalDay, String cause) {
+        public Patient(int patientId, String name, String phoneNumber, String address,String addedBy, double height,int yy, int mm, int dd, int dB, int mB, int yB, int numOfVisits, String lastVisit, boolean medicalDay, String cause, boolean exists) {
                 this.patientId = patientId;
                 this.name = name;
                 this.phoneNumber = phoneNumber;
@@ -144,9 +152,10 @@ public class Patient {
                 this.lastVisit = lastVisit;
                 this.medicalDay = medicalDay;
                 this.cause = cause;
+                this.exists = exists;
         }
 
-        public Patient(int patientId, String name, String phoneNumber, String address,String addedBy, double height, int dB, int mB, int yB, int numOfVisits, boolean medicalDay,String cause) {
+        public Patient(int patientId, String name, String phoneNumber, String address,String addedBy, double height, int dB, int mB, int yB, int numOfVisits, boolean medicalDay,String cause,boolean exists) {
                 this.patientId = patientId;
                 this.name = name;
                 this.phoneNumber = phoneNumber;
@@ -159,6 +168,7 @@ public class Patient {
                 this.numOfVisits = numOfVisits;
                 this.medicalDay = medicalDay;
                 this.cause = cause;
+                this.exists = exists;
 
         }
         // Getter and Setter methods
@@ -243,7 +253,7 @@ public class Patient {
                 addPatientC(patients);
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay,cause) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay,cause,ramcos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setInt(1, patient.getPatientId());
                         stmt.setString(2, patient.getName());
@@ -261,6 +271,8 @@ public class Patient {
                         stmt.setString(14,patient.getLastVisit());
                         stmt.setBoolean(15,patient.isMedicalDay());
                         stmt.setString(16, patient.getCause());
+                        stmt.setBoolean(17, patient.isExists());
+
 
 
                         stmt.executeUpdate();
@@ -272,7 +284,7 @@ public class Patient {
         public static void addPatientC(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay,cause) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+                String query = "INSERT INTO patients (id, name, phone_number, address,added_By, height,yy,mm,dd,yb,mb,db, n_visits, last_visit , medDay,cause, ramcos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
                 try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setInt(1, patient.getPatientId());
                         stmt.setString(2, patient.getName());
@@ -290,6 +302,7 @@ public class Patient {
                         stmt.setString(14,patient.getLastVisit());
                         stmt.setBoolean(15,patient.isMedicalDay());
                         stmt.setString(16, patient.getCause());
+                        stmt.setBoolean(17, patient.isExists());
 
 
                         stmt.executeUpdate();
@@ -327,7 +340,7 @@ public class Patient {
                 UpdatePatientInfoC(patients);
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ? WHERE id = ?";
+                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ?, ramcos = ? WHERE id = ?";
                 try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setString(1, patient.getName());
                         stmt.setString(2, patient.getPhoneNumber());
@@ -344,7 +357,9 @@ public class Patient {
                         stmt.setString(13,patient.getLastVisit());
                         stmt.setBoolean(14,patient.isMedicalDay());
                         stmt.setString(15, patient.getCause());
-                        stmt.setInt(16, patient.getPatientId());
+                        stmt.setBoolean(16, patient.isExists());
+                        stmt.setInt(17, patient.getPatientId());
+
 
                         stmt.executeUpdate();
                 } catch (SQLException e) {
@@ -356,8 +371,8 @@ public class Patient {
         public static void UpdatePatientInfoC(ArrayList<Patient> patients) {
                 Patient patient=patients.get(0);
                 checkConnection();
-                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ? WHERE id = ?";
-                try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ?, ramcos = ? WHERE id = ?";
+                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setString(1, patient.getName());
                         stmt.setString(2, patient.getPhoneNumber());
                         stmt.setString(3, patient.getAddress());
@@ -373,7 +388,9 @@ public class Patient {
                         stmt.setString(13,patient.getLastVisit());
                         stmt.setBoolean(14,patient.isMedicalDay());
                         stmt.setString(15, patient.getCause());
-                        stmt.setInt(16, patient.getPatientId());
+                        stmt.setBoolean(16, patient.isExists());
+                        stmt.setInt(17, patient.getPatientId());
+
 
                         stmt.executeUpdate();
                 } catch (SQLException e) {
@@ -390,7 +407,7 @@ public class Patient {
                         ResultSet rs = stmt.executeQuery();
                         while (rs.next()) {
                                 Patient patient = new Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visit"),rs.getBoolean("medDay"), rs.getString("cause"));
+                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visit"),rs.getBoolean("medDay"), rs.getString("cause"),rs.getBoolean("ramcos"));
                                 patientsList.add(patient);
                         }
 
@@ -425,7 +442,7 @@ public class Patient {
                         ResultSet rs = stmt.executeQuery();
                         if (rs.next()) {
                                 return new  Patient(rs.getInt("id"), rs.getString("name"),
-                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visit"),rs.getBoolean("medDay"),rs.getString("cause"));
+                                        rs.getString("phone_number"), rs.getString("address"),rs.getString("added_By"),rs.getDouble("height"),rs.getInt("yy"), rs.getInt("mm"), rs.getInt("dd"),rs.getInt("db"),rs.getInt("mb"), rs.getInt("yb"), rs.getInt("n_visits"), rs.getString("last_visit"),rs.getBoolean("medDay"),rs.getString("cause"),rs.getBoolean("ramcos"));
                         }
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -468,7 +485,5 @@ public class Patient {
                         return false; // Return false if an error occurs
                 }
         }
-
-
 
 }

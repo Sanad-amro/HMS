@@ -536,6 +536,63 @@ public class Session {
     }
 
 
+
+    public static Session getSessionByVisit(int yy, int mm, int dd) {
+
+
+        String query = "SELECT * FROM sessions WHERE year = ? and month = ? and day = ?";
+        Session session = null;
+
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, yy);
+            stmt.setInt(2, mm);
+            stmt.setInt(3, dd);
+            System.out.println(yy + " /" + mm + " /" + dd);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Create a new Session object and populate it with data from the ResultSet
+                session = new Session();
+                session.setSessionId(rs.getInt("session_id"));
+                session.setPatientId(rs.getInt("patient_id"));
+                session.setHgb(rs.getInt("hgb"));
+                session.setWeight(rs.getInt("weight"));
+                session.setBloodGlucose(rs.getInt("blood_glucose"));
+                session.setFastingBloodGlucose(rs.getInt("fasting_blood_glucose"));
+                session.setRandomBloodGlucose(rs.getInt("random_blood_glucose"));
+                session.setHeartRate(rs.getInt("heart_rate"));
+                session.setDiastolicBloodPressure(rs.getInt("diastolic_blood_pressure"));
+                session.setSystolicBloodPressure(rs.getInt("systolic_blood_pressure"));
+                session.setBloodPressure(rs.getString("blood_pressure"));
+                session.setChiefComplaint(rs.getString("chief_complaint"));
+                session.setMedicalHistory(rs.getString("medical_history"));
+                session.setMedicalAndSurgicalHistory(rs.getString("medical_and_surgical_history"));
+                session.setObstetricHistory(rs.getString("obstetric_history"));
+                session.setGynecologicalHistory(rs.getString("gynecological_history"));
+                session.setDoctorAndMidwifeNote(rs.getString("doctor_and_midwife_note"));
+                session.setDiagnosis(rs.getString("diagnosis"));
+                session.setCurrentMedications(rs.getString("current_medications"));
+                session.setPrescribedMedications(rs.getString("prescribed_medications"));
+                session.setNutritionistNote(rs.getString("nutritionist_note"));
+                session.setPhysiotherapistNote(rs.getString("physiotherapist_note"));
+                session.setAddedBy(rs.getString("added_by"));
+                session.setAddress(rs.getString("address"));
+                session.setDay(rs.getInt("day"));
+                session.setMonth(rs.getInt("month"));
+                session.setYear(rs.getInt("year"));
+                session.setMidWifeNote(rs.getString("midWifeNote"));
+                session.setPsychologistNote(rs.getString("psychologistNote"));
+                session.setPatientName(rs.getString("patientName"));
+                session.setQuantity(rs.getInt("quantity"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return session; // Return the session object (null if not found)
+    }
+
+
     public static boolean updateSessionById(Session session) {
         updateSessionByIdC(session);
         String query = "UPDATE sessions SET patient_id = ?, hgb = ?, weight = ?, blood_glucose = ?, fasting_blood_glucose = ?, random_blood_glucose = ?, " +
@@ -588,6 +645,8 @@ public class Session {
     }
 
     public static boolean updateSessionByIdC(Session session) {
+        System.out.println(session.getHgb());
+
         String query = "UPDATE sessions SET patient_id = ?, hgb = ?, weight = ?, blood_glucose = ?, fasting_blood_glucose = ?, random_blood_glucose = ?, " +
                 "heart_rate = ?, diastolic_blood_pressure = ?, systolic_blood_pressure = ?, blood_pressure = ?, " +
                 "chief_complaint = ?, medical_history = ?, medical_and_surgical_history = ?, obstetric_history = ?, gynecological_history = ?, " +
@@ -626,7 +685,6 @@ public class Session {
             stmt.setString(28, session.getPsychologistNote());
             stmt.setString(29, session.getPatientName());
             stmt.setInt(30,session.getQuantity());
-
             stmt.setInt(31, session.getSessionId()); // session_id for the WHERE clause
 
             int rowsUpdated = stmt.executeUpdate();
