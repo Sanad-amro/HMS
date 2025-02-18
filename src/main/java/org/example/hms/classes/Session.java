@@ -537,16 +537,17 @@ public class Session {
 
 
 
-    public static Session getSessionByVisit(int yy, int mm, int dd) {
+    public static Session getSessionByVisit(int yy, int mm, int dd,int id) {
 
 
-        String query = "SELECT * FROM sessions WHERE year = ? and month = ? and day = ?";
+        String query = "SELECT * FROM sessions WHERE year = ? and month = ? and day = ? and patient_id = ?";
         Session session = null;
 
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, yy);
             stmt.setInt(2, mm);
             stmt.setInt(3, dd);
+            stmt.setInt(4, id);
             System.out.println(yy + " /" + mm + " /" + dd);
             ResultSet rs = stmt.executeQuery();
 

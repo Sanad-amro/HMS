@@ -61,7 +61,7 @@
       </Label>
       <ComboBox fx:id="diagnosisC" layoutX="146.0" layoutY="219.0" prefHeight="32.0" prefWidth="193.0" promptText="Cause of the visit" styleClass="textField" />
       <Button fx:id="add1" layoutX="342.0" layoutY="217.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
-      <CheckBox fx:id="ramcos" layoutX="445.0" layoutY="258.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="153.0" text="This patient exist on ramcos" textFill="WHITE" />
+      <CheckBox fx:id="ramcos" layoutX="445.0" layoutY="258.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="153.0" text="This patient exist on Datos" textFill="WHITE" />
       <ComboBox fx:id="address" layoutX="132.0" layoutY="100.0" prefHeight="32.0" prefWidth="123.0" promptText="address" styleClass="textField" />
       <Button fx:id="add11" layoutX="256.0" layoutY="100.0" mnemonicParsing="false" onAction="#add1" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
     </children>

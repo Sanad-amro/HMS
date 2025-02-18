@@ -227,6 +227,7 @@ public class View {
          prescribedMedications=session.getPrescribedMedications() ;
          nutritionistNote=session.getNutritionistNote() ;
          physiotherapistNote=session.getPhysiotherapistNote() ;
+         weightT.setText(String.valueOf(session.getWeight()));
 
 
     }
@@ -452,6 +453,7 @@ public class View {
 
         String givnesS=current_medications.getText();
         for (Given given : givens) {
+            System.out.println(given.getName()+ ": "+given.getQuantity()+ "\n");
             givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
 
         }
@@ -474,7 +476,7 @@ public class View {
          gynecologicalHistory = gynecological_history;
          doctorAndMidwifeNote = doctor_and_midwife_note;
          diagnosis = diagnosisC.getValue();
-         currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
+         currentMedications =givnesS;
          prescribedMedications = givnesS;
          nutritionistNote = nutritionist_note;
          physiotherapistNote = physiotherapist_note;

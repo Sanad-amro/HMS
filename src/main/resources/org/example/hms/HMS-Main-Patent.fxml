@@ -124,16 +124,6 @@
                   <Insets />
                </opaqueInsets>
             </TableView>
-            <Label layoutX="14.0" layoutY="221.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
-            <Label layoutX="13.0" layoutY="165.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
-               <font>
-                  <Font size="33.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
       <Button layoutX="259.0" layoutY="483.0" mnemonicParsing="false" onAction="#addPatient" prefHeight="53.0" prefWidth="95.0" styleClass="buttons" text="Add Patient" />
@@ -165,7 +155,7 @@
          </font>
       </Button>
       <CheckBox fx:id="medDay" layoutX="82.0" layoutY="308.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="96.0" text="medical day" textFill="WHITE" />
-      <ComboBox fx:id="cause" layoutX="80.0" layoutY="341.0" prefHeight="30.0" prefWidth="150.0" promptText="cause" />
+      <ComboBox fx:id="cause" layoutX="80.0" layoutY="341.0" prefHeight="30.0" prefWidth="150.0" promptText="cause" styleClass="textField" />
       <Label layoutX="304.0" layoutY="409.0" prefHeight="53.0" prefWidth="368.0" text="the number of patients is: " textFill="#26ff00">
          <font>
             <Font size="33.0" />
@@ -176,7 +166,17 @@
             <Font size="33.0" />
          </font>
       </Label>
-      <CheckBox fx:id="ramcos" layoutX="174.0" layoutY="309.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="153.0" text="This patient exist on ramcos" textFill="WHITE" />
+      <CheckBox fx:id="ramcos" layoutX="174.0" layoutY="309.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="153.0" text="This patient exists on Datos" textFill="WHITE" />
       <ComboBox fx:id="address" layoutX="78.0" layoutY="414.0" prefHeight="45.0" prefWidth="153.0" promptText="Cause of the visit" styleClass="textField" />
+      <Label layoutX="252.0" layoutY="177.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <Label layoutX="252.0" layoutY="238.0" prefHeight="20.0" prefWidth="13.0" text="/" textFill="WHITE">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

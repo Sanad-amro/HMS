@@ -454,12 +454,12 @@ public class Patients {
             String visit = day + "/" + month + "/"+year;
 
 
-            if (visit.equals(patient.getLastVisit()) && Session.getSessionByVisit(year,month,day)!=null ) {
+            if (visit.equals(patient.getLastVisit()) && Session.getSessionByVisit(year,month,day,idOfSlectedPatient)!=null ) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/view.fxml"));
                 Parent root = loader.load();
                 View view = loader.getController();
-                view.setSession(Session.getSessionByVisit(year,month,day));
-                System.out.println(Session.getSessionByVisit(year, month, day).getDiagnosis());
+                view.setSession(Session.getSessionByVisit(year,month,day,idOfSlectedPatient));
+                System.out.println(Session.getSessionByVisit(year, month, day,idOfSlectedPatient).getDiagnosis());
                 Scene scene = new Scene(root);
                 Stage stage1 = new Stage();
                 stage1.setScene(scene);

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.hms.classes.Medecin;
@@ -17,6 +18,9 @@ public class DecMed {
     TextField diagnosis;
     @FXML
     TextField Q;
+    @FXML
+    Label Success;
+
     Medecin medecin;
 
     public DecMed() {
@@ -66,6 +70,8 @@ public class DecMed {
             System.out.println("the id is: "  + medecin.getId());
 
             Medecin.decrementQuantity(medecin.getId(), Double.parseDouble(Q.getText()));
+            Success.setText("You have taken: "+ Q.getText()+ " To "+ medecin.getName());
+            Success.setVisible(true);
 
         }
 

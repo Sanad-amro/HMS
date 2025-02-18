@@ -16,5 +16,10 @@
         </Label>
         <Button fx:id="add" layoutX="451.0" layoutY="164.0" mnemonicParsing="false" onAction="#add" prefHeight="28.0" prefWidth="89.0" styleClass="addButton" text="add" />
         <Button layoutX="41.0" layoutY="164.0" mnemonicParsing="false" onAction="#close" prefHeight="28.0" prefWidth="89.0" styleClass="addButton" text="close" />
+        <Label fx:id="Success" layoutX="362.0" layoutY="196.0" prefHeight="20.0" prefWidth="89.0" text="Success" textFill="#00ff3c" visible="false">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
     </children>
 </AnchorPane>

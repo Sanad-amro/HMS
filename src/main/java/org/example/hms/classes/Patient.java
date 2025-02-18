@@ -341,7 +341,7 @@ public class Patient {
                 Patient patient=patients.get(0);
                 checkConnection();
                 String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ?, ramcos = ? WHERE id = ?";
-                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setString(1, patient.getName());
                         stmt.setString(2, patient.getPhoneNumber());
                         stmt.setString(3, patient.getAddress());
@@ -372,7 +372,7 @@ public class Patient {
                 Patient patient=patients.get(0);
                 checkConnection();
                 String query = "UPDATE patients SET name = ?, phone_number = ?, address = ?, added_By = ?, height = ?, yy = ?, mm = ?, dd = ?, yb = ?, mb = ?, db = ?, n_visits = ?, last_visit = ?, medDay = ?, cause = ?, ramcos = ? WHERE id = ?";
-                try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+                try (Connection conn = cloud(); PreparedStatement stmt = conn.prepareStatement(query)) {
                         stmt.setString(1, patient.getName());
                         stmt.setString(2, patient.getPhoneNumber());
                         stmt.setString(3, patient.getAddress());
