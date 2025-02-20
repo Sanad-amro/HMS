@@ -245,7 +245,7 @@ public class Patients {
         System.out.println("I am here!!");
         if(idOfSlectedPatient!=0){
             Patient Patient1 = Patient.getPatient(idOfSlectedPatient);
-            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/updatePatient.fxml"));
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/UpdatePatient.fxml"));
             root=loader.load();
             UpdatePatient updatePatient = loader.getController();
             updatePatient.setPatient(Patient1);
