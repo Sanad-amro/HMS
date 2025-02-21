@@ -89,6 +89,10 @@ public class Appointments {
     @FXML
     TextField tdd;
 
+    int day=LocalDate.now().getDayOfMonth();
+    int month= LocalDate.now().getMonthValue();
+    int year=LocalDate.now().getYear();
+
     List<Session> sessions= Session.getAllSessions();
     ObservableList<Session> sessionObservableList= FXCollections.observableArrayList(sessions);
     FilteredList<Session> filteredList=new FilteredList<>(sessionObservableList, d -> true);
@@ -149,13 +153,12 @@ public class Appointments {
         created_at.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         added_by.setCellValueFactory(new PropertyValueFactory<>("addedBy"));
 
-        yy.setText("2025");
-        tyy.setText("2025");
-        mm.setText("1");
-        dd.setText("1");
-        tmm.setText("12");
-        tdd.setText("31");
-
+        yy.setText(String.valueOf(year));
+        tyy.setText(String.valueOf(year));
+        mm.setText(String.valueOf(month));
+        dd.setText(String.valueOf(day));
+        tmm.setText(String.valueOf(month));
+        tdd.setText(String.valueOf(day));
 
 
 

@@ -381,6 +381,7 @@ public class MakeAppointment {
              transactions.add(transactions1);
          }
 
+         saveComb();
          Transactions.makeTransaciton(transactions);
          int patientId=Integer.parseInt(patient_id.getText());
          int sessionId=Session.genId();
@@ -407,7 +408,7 @@ public class MakeAppointment {
          String addedBy=added_by.getText();
 
          String address= patient.getAddress();
-        saveComb();
+
         String visit = day + "/" + month + "/"+year;
 
 
@@ -499,6 +500,7 @@ public class MakeAppointment {
     private void saveComb(){
         switch (cNote.getValue()) {
             case "chief complaint":
+                System.out.println("I was fucing here!!");
                 chief_complaint=notes.getText();
                 break;
             case "medical history":

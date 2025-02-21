@@ -89,6 +89,10 @@ public class Patients {
     @FXML
     CheckBox ramcos;
 
+    int day=LocalDate.now().getDayOfMonth();
+    int month= LocalDate.now().getMonthValue();
+    int year=LocalDate.now().getYear();
+
 
 
     List<Patient> patients= Patient.getAllPatients();
@@ -192,12 +196,12 @@ public class Patients {
         address.setValue("None");
 
 
-        yy.setText("2025");
-        tyy.setText("2025");
-        mm.setText("1");
-        dd.setText("1");
-        tmm.setText("12");
-        tdd.setText("31");
+        yy.setText(String.valueOf(year));
+        tyy.setText(String.valueOf(year));
+        mm.setText(String.valueOf(month));
+        dd.setText(String.valueOf(day));
+        tmm.setText(String.valueOf(month));
+        tdd.setText(String.valueOf(day));
         searchField.clear();
         searchField.getParent().requestFocus();
         buttons.setOpacity(0);
@@ -285,7 +289,7 @@ public class Patients {
             // Check the first search field
             boolean matchesFirstField = (newValue == null || newValue.isEmpty()) ||
                     patient.getName().toLowerCase().contains(newValue.toLowerCase()) ||
-                    patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase());
+                    patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase()) || String.valueOf(patient.getPatientId()).contains(newValue);
 
             // Check the second search field
             boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||
@@ -455,25 +459,61 @@ public class Patients {
 
 
             if (visit.equals(patient.getLastVisit()) && Session.getSessionByVisit(year,month,day,idOfSlectedPatient)!=null ) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/view.fxml"));
-                Parent root = loader.load();
-                View view = loader.getController();
-                view.setSession(Session.getSessionByVisit(year,month,day,idOfSlectedPatient));
-                System.out.println(Session.getSessionByVisit(year, month, day,idOfSlectedPatient).getDiagnosis());
-                Scene scene = new Scene(root);
-                Stage stage1 = new Stage();
-                stage1.setScene(scene);
-                stage1.setTitle("HMS-Make-Appointment");
-                stage1.initModality(Modality.APPLICATION_MODAL);
-                stage1.setOnHidden(e -> {
-                    try {
-                        initialize();
-                        System.out.println("closed!");
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                });
-                stage1.show();
+                ButtonType updateButton = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+                ButtonType newButton = new ButtonType("make a new one", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText("ther is already a visit for this patient today, do you want to Update it or make a new one ");
+                alert.setTitle("Close Application");
+                alert.getButtonTypes().setAll(updateButton, newButton);
+
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == updateButton) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/view.fxml"));
+                    Parent root = loader.load();
+                    View view = loader.getController();
+                    view.setSession(Session.getSessionByVisit(year,month,day,idOfSlectedPatient));
+                    System.out.println(Session.getSessionByVisit(year, month, day,idOfSlectedPatient).getDiagnosis());
+                    Scene scene = new Scene(root);
+                    Stage stage1 = new Stage();
+                    stage1.setScene(scene);
+                    stage1.setTitle("HMS-Make-Appointment");
+                    stage1.initModality(Modality.APPLICATION_MODAL);
+                    stage1.setOnHidden(e -> {
+                        try {
+                            initialize();
+                            System.out.println("closed!");
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+                    stage1.show();
+                }
+                else{
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/make-Appointment.fxml"));
+                    Parent root = loader.load();
+                    MakeAppointment makeAppointment = loader.getController();
+                    makeAppointment.setPatient(Patient.getPatient(idOfSlectedPatient), doctor);
+                    Scene scene = new Scene(root);
+                    Stage stage1 = new Stage();
+                    stage1.setScene(scene);
+                    stage1.setTitle("HMS-Make-Appointment");
+                    stage1.initModality(Modality.APPLICATION_MODAL);
+                    stage1.setOnHidden(e -> {
+                        try {
+                            initialize();
+                            System.out.println("closed!");
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+                    stage1.show();
+
+                }
+
+
 
             }else{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hms/make-Appointment.fxml"));

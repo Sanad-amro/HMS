@@ -150,7 +150,7 @@ public class View {
         notes.setText(chief_complaint);
 
 
-        current_medications.setText(session.getPrescribedMedications());
+        current_medications.setText(session.getPrescribedMedications()+"\n"+session.getCurrentMedications());
 
 
         patient_name.setText(session.getPatientName());
@@ -451,7 +451,7 @@ public class View {
 
     public void set(ActionEvent actionEvent) {
 
-        String givnesS=current_medications.getText();
+        String givnesS="";
         for (Given given : givens) {
             System.out.println(given.getName()+ ": "+given.getQuantity()+ "\n");
             givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
@@ -476,7 +476,7 @@ public class View {
          gynecologicalHistory = gynecological_history;
          doctorAndMidwifeNote = doctor_and_midwife_note;
          diagnosis = diagnosisC.getValue();
-         currentMedications =givnesS;
+         currentMedications =current_medications.getText();
          prescribedMedications = givnesS;
          nutritionistNote = nutritionist_note;
          physiotherapistNote = physiotherapist_note;
@@ -488,7 +488,7 @@ public class View {
         saveComb();
 
 
-        Session session1 = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,currentMedications,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,session.getPatientName(),0);
+        Session session1 = new Session(sessionId,patientId,hgb,weight,bloodGlucose,fastingBloodGlucose,randomBloodGlucose,heartRate,diastolicBloodPressure,systolicBloodPressure,bloodPressure,chiefComplaint,medicalHistory,medicalAndSurgicalHistory,obstetricHistory,gynecologicalHistory,doctorAndMidwifeNote,diagnosis,currentMedications,givnesS,nutritionistNote,physiotherapistNote,addedBy,day,month,year,address,midWifeNote,psychologistNote,session.getPatientName(),0);
         success.setVisible(true);
         System.out.println(session1.getHgb());
         Session.updateSessionById(session1);
