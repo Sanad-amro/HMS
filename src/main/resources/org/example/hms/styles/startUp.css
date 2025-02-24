@@ -52,30 +52,7 @@
     -fx-background-color: #00b4fc;
     -fx-text-fill: white;
     -fx-translate: all 0.5 ease ;
-}
-.add{
-    -fx-background-radius: 20px;
-    -fx-background-color: #20bf6b;
-    -fx-text-fill: white;
-    -fx-translate: all 0.5 ease ;
-}
-.delete{
-    -fx-background-radius: 20px;
-    -fx-background-color: #eb3b5a;
-    -fx-text-fill: white;
-    -fx-translate: all 0.5 ease ;
-}
-.delete:hover{
-    -fx-background-color: white;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-text-fill: #eb3b5a ;
-}
-.add:hover{
-    -fx-background-color: white;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-text-fill: #20bf6b ;
+
 }
 .buttons:hover{
     -fx-background-color: white;
