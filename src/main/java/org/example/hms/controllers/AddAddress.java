@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.hms.classes.Address;
@@ -17,8 +16,6 @@ public class AddAddress {
 
     @FXML
     TextField address;
-    @FXML
-    Label Success;
 
     public void add(ActionEvent actionEvent) {
         boolean addIt=true;
@@ -33,7 +30,6 @@ public class AddAddress {
 
             Address diagnosist = new Address(address.getText());
             Address.addDiagnosis(diagnosist);
-            Success.setVisible(true);
         }
 
     }
