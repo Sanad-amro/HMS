@@ -417,7 +417,7 @@ public class MakeAppointment {
         dayT.setText(String.valueOf(day));
         success.setVisible(false);
         diagnosisC.setItems(Diagnosis.getAllItems());
-        to1.setSelected(false);
+        to1.setSelected(true);
         to2.setSelected(false);
         to3.setSelected(false);
         to4.setSelected(false);
@@ -429,7 +429,7 @@ public class MakeAppointment {
         to10.setSelected(false);
 
 
-        t1.setMinHeight(0);
+        t1.setMinHeight(80);
         t2.setMinHeight(0);
         t3.setMinHeight(0);
         t4.setMinHeight(0);
