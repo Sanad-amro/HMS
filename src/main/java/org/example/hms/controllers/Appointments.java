@@ -155,10 +155,10 @@ public class Appointments {
 
         yy.setText(String.valueOf(year));
         tyy.setText(String.valueOf(year));
-        mm.setText(String.valueOf(month));
-        dd.setText(String.valueOf(day));
-        tmm.setText(String.valueOf(month));
-        tdd.setText(String.valueOf(day));
+        mm.setText(String.valueOf(1));
+        dd.setText(String.valueOf(1));
+        tmm.setText(String.valueOf(12));
+        tdd.setText(String.valueOf(30));
 
 
 

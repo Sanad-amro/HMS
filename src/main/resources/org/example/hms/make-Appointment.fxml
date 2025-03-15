@@ -3,14 +3,19 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onMouseClicked="#blankClicked" prefHeight="835.0" prefWidth="1100.0" styleClass="page" stylesheets="@styles/add.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.MakeAppointment">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.MakeAppointment">
+    <content>
+<AnchorPane onMouseClicked="#blankClicked" prefHeight="835.0" prefWidth="1100.0" styleClass="page" stylesheets="@styles/add.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label layoutX="51.0" layoutY="28.0" prefHeight="36.0" prefWidth="97.0" text="Patient Id" textFill="WHITE">
             <font>
@@ -34,8 +39,6 @@
             <Font name="AppleMyungjo Regular" size="13.0" />
          </font>
       </Label>
-      <TextArea fx:id="notes" layoutX="123.0" layoutY="635.0" prefHeight="126.0" prefWidth="342.0" promptText="medical Notes Goes here!!!" styleClass="textField" />
-      <ComboBox fx:id="cNote" layoutX="123.0" layoutY="600.0" prefHeight="32.0" prefWidth="142.0" promptText="Notes By (Select...)" styleClass="textField" />
       <Label layoutX="26.0" layoutY="94.0" prefHeight="36.0" prefWidth="123.0" text="blood glucose" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />
@@ -165,8 +168,34 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <TextField fx:id="yearT" layoutX="436.0" layoutY="776.0" prefHeight="32.0" prefWidth="91.0" promptText="year" styleClass="textField" />
-      <TextField fx:id="monthT" layoutX="533.0" layoutY="776.0" prefHeight="32.0" prefWidth="45.0" promptText="month" styleClass="textField" />
-      <TextField fx:id="dayT" layoutX="586.0" layoutY="776.0" prefHeight="32.0" prefWidth="45.0" promptText="day" styleClass="textField" />
+      <TextField fx:id="yearT" layoutX="483.0" layoutY="776.0" prefHeight="32.0" prefWidth="91.0" promptText="year" styleClass="textField" />
+      <TextField fx:id="monthT" layoutX="580.0" layoutY="776.0" prefHeight="32.0" prefWidth="45.0" promptText="month" styleClass="textField" />
+      <TextField fx:id="dayT" layoutX="633.0" layoutY="776.0" prefHeight="32.0" prefWidth="45.0" promptText="day" styleClass="textField" />
+      <ToggleButton fx:id="to1" layoutX="88.0" layoutY="594.0" mnemonicParsing="false" text="chief_complaint" />
+      <ToggleButton fx:id="to2" layoutX="217.0" layoutY="594.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="125.0" text="medical_history" />
+      <ToggleButton fx:id="to3" layoutX="349.0" layoutY="594.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="206.0" text="medical_and_surgical_history" />
+      <ToggleButton fx:id="to4" layoutX="87.0" layoutY="645.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="128.0" text="obstetric_history" />
+      <ToggleButton fx:id="to5" layoutX="241.0" layoutY="645.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="162.0" text="gynecological_history" />
+      <ToggleButton fx:id="to6" layoutX="419.0" layoutY="645.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" text="doctor_and_midwife_note" />
+      <ToggleButton fx:id="to7" layoutX="87.0" layoutY="692.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="130.0" text="nutritionist_note" />
+      <ToggleButton fx:id="to8" layoutX="216.0" layoutY="692.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="157.0" text="physiotherapist_note" />
+      <ToggleButton fx:id="to9" layoutX="375.0" layoutY="692.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="116.0" text="midWifeNote" />
+      <ToggleButton fx:id="to10" layoutX="496.0" layoutY="692.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="156.0" text="psychologistNote" />
+      <VBox layoutX="128.0" layoutY="737.0" prefHeight="82.0" prefWidth="349.0">
+         <children>
+            <TextArea fx:id="t1" prefHeight="200.0" prefWidth="200.0" promptText="chief_complaint" />
+            <TextArea fx:id="t2" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" promptText="medical_history" />
+            <TextArea fx:id="t3" layoutX="10.0" layoutY="61.0" prefHeight="200.0" prefWidth="200.0" promptText="medical_and_surgical_history" />
+            <TextArea fx:id="t4" layoutX="10.0" layoutY="112.0" prefHeight="200.0" prefWidth="200.0" promptText="obstetric_history" />
+            <TextArea fx:id="t5" layoutX="10.0" layoutY="163.0" prefHeight="200.0" prefWidth="200.0" promptText="gynecological_history" />
+            <TextArea fx:id="t6" layoutX="10.0" layoutY="214.0" prefHeight="200.0" prefWidth="200.0" promptText="doctor_and_midwife_note" />
+            <TextArea fx:id="t7" layoutX="10.0" layoutY="265.0" prefHeight="200.0" prefWidth="200.0" promptText="nutritionist_note" />
+            <TextArea fx:id="t8" layoutX="10.0" layoutY="316.0" prefHeight="200.0" prefWidth="200.0" promptText="physiotherapist_note" />
+            <TextArea fx:id="t9" layoutX="10.0" layoutY="367.0" prefHeight="200.0" prefWidth="200.0" promptText="midWifeNote" />
+            <TextArea fx:id="t10" layoutX="10.0" layoutY="418.0" prefHeight="200.0" prefWidth="200.0" promptText="psychologistNote" />
+         </children>
+      </VBox>
     </children>
 </AnchorPane>
+    </content>
+</ScrollPane>

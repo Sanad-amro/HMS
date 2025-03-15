@@ -72,8 +72,7 @@ public class MakeAppointment {
     TextField quantity;
     @FXML
     ComboBox<String> diagnosisC;
-    @FXML
-    ComboBox<String> cNote;
+
     @FXML
     TableView<Medecin> stock;
     @FXML
@@ -90,6 +89,11 @@ public class MakeAppointment {
     TableColumn<Given, String> gName;
     @FXML
     TableColumn<Given, Double> gQuantity;
+    @FXML
+    TextArea t1,t2,t3,t4,t5,t6,t7,t8,t9,t10;
+    @FXML
+    ToggleButton to1,to2,to3,to4,to5,to6,to7,to8,to9,to10;
+
     int day=LocalDate.now().getDayOfMonth();
     int month= LocalDate.now().getMonthValue();
     int year=LocalDate.now().getYear();
@@ -137,11 +141,304 @@ public class MakeAppointment {
     }
 ////////////////////////////////////////////////////////////////////////////////initialize ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void initialize() throws IOException {
+        to1.setOnAction(event -> {
+            if(to1.isSelected()){
+                to2.setSelected(false);
+                to3.setSelected(false);
+                to4.setSelected(false);
+                to5.setSelected(false);
+                to6.setSelected(false);
+                to7.setSelected(false);
+                to8.setSelected(false);
+                to9.setSelected(false);
+                to10.setSelected(false);
+
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t1.setMinHeight(80);
+            }
+            else if(to2.isSelected()){
+                t1.setMinHeight(0);
+            }
+        });
+        to2.setOnAction(event -> {
+            to1.setSelected(false);
+            to3.setSelected(false);
+            to4.setSelected(false);
+            to5.setSelected(false);
+            to6.setSelected(false);
+            to7.setSelected(false);
+            to8.setSelected(false);
+            to9.setSelected(false);
+            to10.setSelected(false);
+            if(to2.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t2.setMinHeight(80);
+            }
+            else if(to2.isSelected()){
+                t2.setMinHeight(0);
+            }
+        });
+        to3.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to4.setSelected(false);
+            to5.setSelected(false);
+            to6.setSelected(false);
+            to7.setSelected(false);
+            to8.setSelected(false);
+            to9.setSelected(false);
+            to10.setSelected(false);
+            if(to3.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t3.setMinHeight(80);
+            }
+            else if(to3.isSelected()){
+                t3.setMinHeight(0);
+            }
+        });
+        to4.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to3.setSelected(false);
+            to5.setSelected(false);
+            to6.setSelected(false);
+            to7.setSelected(false);
+            to8.setSelected(false);
+            to9.setSelected(false);
+            to10.setSelected(false);
+            if(to4.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t4.setMinHeight(80);
+            }
+            else if(to4.isSelected()){
+                t4.setMinHeight(0);
+            }
+        });
+        to5.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to3.setSelected(false);
+            to4.setSelected(false);
+            to6.setSelected(false);
+            to7.setSelected(false);
+            to8.setSelected(false);
+            to9.setSelected(false);
+            to10.setSelected(false);
+            if(to5.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t5.setMinHeight(80);
+            }
+            else if(to5.isSelected()){
+                t5.setMinHeight(0);
+            }
+        });
+        to6.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to3.setSelected(false);
+            to4.setSelected(false);
+            to5.setSelected(false);
+            to7.setSelected(false);
+            to8.setSelected(false);
+            to9.setSelected(false);
+            to10.setSelected(false);
+            if(to6.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t6.setMinHeight(80);
+            }
+            else if(to2.isSelected()){
+                t6.setMinHeight(0);
+            }
+        });
+        to7.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to3.setSelected(false);
+            to4.setSelected(false);
+            to5.setSelected(false);
+            to6.setSelected(false);
+            to8.setSelected(false);
+            to9.setSelected(false);
+            to10.setSelected(false);
+            if(to7.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t7.setMinHeight(80);
+            }
+            else if(to7.isSelected()){
+                t7.setMinHeight(0);
+            }
+        });
+        to8.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to3.setSelected(false);
+            to4.setSelected(false);
+            to5.setSelected(false);
+            to6.setSelected(false);
+            to7.setSelected(false);
+            to9.setSelected(false);
+            to10.setSelected(false);
+            if(to8.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t8.setMinHeight(80);
+            }
+            else if(to8.isSelected()){
+                t8.setMinHeight(0);
+            }
+        });
+        to9.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to3.setSelected(false);
+            to4.setSelected(false);
+            to5.setSelected(false);
+            to6.setSelected(false);
+            to7.setSelected(false);
+            to8.setSelected(false);
+            to10.setSelected(false);
+            if(to9.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t9.setMinHeight(80);
+            }
+            else if(to9.isSelected()){
+                t9.setMinHeight(0);
+            }
+        });
+        to10.setOnAction(event -> {
+            to1.setSelected(false);
+            to2.setSelected(false);
+            to3.setSelected(false);
+            to4.setSelected(false);
+            to5.setSelected(false);
+            to6.setSelected(false);
+            to7.setSelected(false);
+            to8.setSelected(false);
+            to9.setSelected(false);
+            if(to10.isSelected()){
+                t1.setMinHeight(0);
+                t2.setMinHeight(0);
+                t3.setMinHeight(0);
+                t4.setMinHeight(0);
+                t5.setMinHeight(0);
+                t6.setMinHeight(0);
+                t7.setMinHeight(0);
+                t8.setMinHeight(0);
+                t9.setMinHeight(0);
+                t10.setMinHeight(0);
+                t10.setMinHeight(80);
+            }
+            else if(to10.isSelected()){
+                t10.setMinHeight(0);
+            }
+        });
         yearT.setText(String.valueOf(year));
         monthT.setText(String.valueOf(month));
         dayT.setText(String.valueOf(day));
         success.setVisible(false);
         diagnosisC.setItems(Diagnosis.getAllItems());
+        to1.setSelected(false);
+        to2.setSelected(false);
+        to3.setSelected(false);
+        to4.setSelected(false);
+        to5.setSelected(false);
+        to6.setSelected(false);
+        to7.setSelected(false);
+        to8.setSelected(false);
+        to9.setSelected(false);
+        to10.setSelected(false);
+
+
+        t1.setMinHeight(0);
+        t2.setMinHeight(0);
+        t3.setMinHeight(0);
+        t4.setMinHeight(0);
+        t5.setMinHeight(0);
+        t6.setMinHeight(0);
+        t7.setMinHeight(0);
+        t8.setMinHeight(0);
+        t9.setMinHeight(0);
+        t10.setMinHeight(0);
         weightT.textProperty().addListener(((observableValue, s, t1) -> {
             if (!t1.matches("\\d*")) {
                 weightT.setText(s);
@@ -276,89 +573,10 @@ public class MakeAppointment {
         }
 
 
-        cNote.getItems().addAll(
-                "chief complaint", "medical history", "medical and surgical history",
-                "obstetric history", "gynecological history",
-                "General Doctor", "nutritionist note", "physiotherapist note", "psychologist Note","midWife Note"
-        );
-        cNote.setValue("chief complaint");
-        cNote.valueProperty().addListener((observable, oldValue, newValue) -> {
-            // Save the current text to the variable associated with oldValue
-            if (oldValue != null) {
-                switch (oldValue) {
-                    case "chief complaint":
-                        chief_complaint = notes.getText();
-                        break;
-                    case "medical history":
-                        medical_history = notes.getText();
-                        break;
-                    case "medical and surgical history":
-                        medical_and_surgical_history = notes.getText();
-                        break;
-                    case "obstetric history":
-                        obstetric_history = notes.getText();
-                        break;
-                    case "gynecological history":
-                        gynecological_history = notes.getText();
-                        break;
-                    case "General Doctor":
-                        doctor_and_midwife_note = notes.getText();
-                        break;
-                    case "nutritionist note":
-                        nutritionist_note = notes.getText();
-                        break;
-                    case "physiotherapist note":
-                        physiotherapist_note = notes.getText();
-                        break;
-                    case "midWife Note":
-                        midWifeNote = notes.getText();
-                        break;
-                    case "psychologist Note":
-                        psychologistNote = notes.getText();
-                        break;
-                    default:
-                        break;
-                }
-            }
 
-            // Set the text area with the value associated with newValue
-            if (newValue != null) {
-                switch (newValue) {
-                    case "chief complaint":
-                        notes.setText(chief_complaint);
-                        break;
-                    case "medical history":
-                        notes.setText(medical_history);
-                        break;
-                    case "medical and surgical history":
-                        notes.setText(medical_and_surgical_history);
-                        break;
-                    case "obstetric history":
-                        notes.setText(obstetric_history);
-                        break;
-                    case "gynecological history":
-                        notes.setText(gynecological_history);
-                        break;
-                    case "General Doctor":
-                        notes.setText(doctor_and_midwife_note);
-                        break;
-                    case "nutritionist note":
-                        notes.setText(nutritionist_note);
-                        break;
-                    case "physiotherapist note":
-                        notes.setText(physiotherapist_note);
-                        break;
-                    case "midWife Note":
-                        notes.setText(midWifeNote);
-                        break;
-                    case "psychologist Note":
-                        notes.setText(psychologistNote);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+
+
+
     }
     @FXML
     private void blankClicked(MouseEvent event){
@@ -370,12 +588,12 @@ public class MakeAppointment {
         stage.close();
     }
 
+
+
     public void set(ActionEvent actionEvent) {
 
-        saveComb();
 
-
-        String givnesS="";
+         String givnesS="";
          ArrayList<Transactions> transactions = new ArrayList<>();
          for (Given given : givens) {
              givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
@@ -383,11 +601,10 @@ public class MakeAppointment {
              transactions.add(transactions1);
          }
 
-         saveComb();
          Transactions.makeTransaciton(transactions);
          int patientId=Integer.parseInt(patient_id.getText());
          int sessionId=Session.genId();
-         double hgb = hgbT.getText().isEmpty()? 0:Double.parseDouble(hgbT.getText());
+         int hgb = hgbT.getText().isEmpty()? 0:Integer.parseInt(hgbT.getText());
          int weight = weightT.getText().isEmpty()? 0:Integer.parseInt(weightT.getText());
          int bloodGlucose = blood_glucose.getText().isEmpty()? 0:Integer.parseInt(blood_glucose.getText());
          int fastingBloodGlucose = fasting_blood_glucose.getText().isEmpty()? 0:Integer.parseInt(fasting_blood_glucose.getText());
@@ -396,20 +613,23 @@ public class MakeAppointment {
          int diastolicBloodPressure= diastolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(diastolic_blood_pressure.getText());
          int systolicBloodPressure= systolic_blood_pressure.getText().isEmpty()? 0:Integer.parseInt(systolic_blood_pressure.getText());
          String bloodPressure = bp1.getText()+"/"+bp2.getText();
-         String chiefComplaint = chief_complaint;
-         String medicalHistory = medical_history;
-         String medicalAndSurgicalHistory= medical_and_surgical_history;
-         String obstetricHistory = obstetric_history;
-         String gynecologicalHistory = gynecological_history;
-         String doctorAndMidwifeNote = doctor_and_midwife_note;
+         String chiefComplaint = t1.getText();
+         String medicalHistory = t2.getText();
+         String medicalAndSurgicalHistory= t3.getText();
+         String obstetricHistory = t4.getText();
+         String gynecologicalHistory = t5.getText();
+         String doctorAndMidwifeNote = t6.getText();
          String diagnosis = diagnosisC.getValue();
          String currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
          String prescribedMedications = givnesS;
-         String nutritionistNote = nutritionist_note;
-         String physiotherapistNote = physiotherapist_note;
+         String nutritionistNote = t7.getText();
+         String physiotherapistNote = t8.getText();
          String addedBy=added_by.getText();
+         midWifeNote=t9.getText();
+         psychologistNote=t10.getText();
 
          String address= patient.getAddress();
+
         String visit = day + "/" + month + "/"+year;
 
 
@@ -498,45 +718,6 @@ public class MakeAppointment {
         });
         stage1.show();
     }
-    private void saveComb(){
-        switch (cNote.getValue()) {
-            case "chief complaint":
-<<<<<<< HEAD
-=======
-                System.out.println("I was fucing here!!");
->>>>>>> parent of eb3ec90 (final6)
-                chief_complaint=notes.getText();
-                break;
-            case "medical history":
-                medical_history=notes.getText();
-                break;
-            case "medical and surgical history":
-                medical_and_surgical_history=notes.getText();
-                break;
-            case "obstetric history":
-                obstetric_history=notes.getText();
-                break;
-            case "gynecological history":
-                gynecological_history=notes.getText();
-                break;
-            case "General Doctor":
-                doctor_and_midwife_note=notes.getText();
-                break;
-            case "nutritionist note":
-                nutritionist_note=notes.getText();
-                break;
-            case "physiotherapist note":
-                physiotherapist_note=notes.getText();
-                break;
-            case "midWife Note":
-                midWifeNote=notes.getText();
-                break;
-            case "psychologist Note":
-                psychologistNote=notes.getText();
-                break;
-            default:
-                break;
-        }
-    }
+
 }
 

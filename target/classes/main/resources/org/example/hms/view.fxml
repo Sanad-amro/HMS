@@ -9,8 +9,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane onMouseClicked="#blankClicked" prefHeight="835.0" prefWidth="1100.0" styleClass="page" stylesheets="@styles/add.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.View">
+<?import javafx.scene.control.ScrollPane?>
+<ScrollPane fitToWidth="true" fitToHeight="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms.controllers.View">
+    <content>
+<AnchorPane onMouseClicked="#blankClicked" prefHeight="835.0" prefWidth="1100.0" styleClass="page" stylesheets="@styles/add.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" >
     <children>
         <Label layoutX="51.0" layoutY="28.0" prefHeight="36.0" prefWidth="97.0" text="Patient Id" textFill="WHITE">
             <font>
@@ -167,3 +169,5 @@
         </Label>
     </children>
 </AnchorPane>
+    </content>
+</ScrollPane>

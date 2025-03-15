@@ -55,6 +55,37 @@
     -fx-text-fill: white;
     -fx-background-color: rgba(0, 0, 0, 0.3);;
 }
+.toggle-button {
+    -fx-background-color: linear-gradient(to bottom, #af3399, #f57e67); /* Bright gradient */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 20px; /* Rounded corners */
+    -fx-border-radius: 20px;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 1); /* Shadow */
+    -fx-cursor: hand; /* Pointer cursor */
+}
+
+/* Hover effect for ToggleButton */
+.toggle-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #FF4B2B, #FF416C); /* Reverse gradient on hover */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 8, 0, 0, 2); /* Larger shadow on hover */
+}
+
+/* Style for ToggleButton when it is selected (on state) */
+.toggle-button:selected {
+    -fx-background-color: linear-gradient(to bottom, #00c6ff, #0072ff); /* Bright blue gradient */
+    -fx-text-fill: white; /* White text */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 8, 0, 0, 2); /* Larger shadow */
+}
+
+/* Pressed effect for ToggleButton */
+.toggle-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #0072ff, #00c6ff); /* Reverse gradient when pressed */
+}
+/*
 .text-area{
     -fx-background-color: #f1f2f6;
     -fx-border-radius: 10px;
@@ -64,4 +95,4 @@
 
 
 
-}
+}*/
