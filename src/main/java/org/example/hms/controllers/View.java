@@ -103,7 +103,7 @@ public class View {
 
 
     int patientId;
-    int hgb ;
+    Double hgb ;
     int weight ;
     int bloodGlucose;
     int fastingBloodGlucose;
@@ -457,6 +457,7 @@ public class View {
             givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
 
         }
+
 
         int patientId=Integer.parseInt(patient_id.getText());
         int sessionId=session.getSessionId();

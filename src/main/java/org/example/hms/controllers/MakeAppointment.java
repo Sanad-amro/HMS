@@ -372,8 +372,10 @@ public class MakeAppointment {
 
     public void set(ActionEvent actionEvent) {
 
+        saveComb();
 
-         String givnesS="";
+
+        String givnesS="";
          ArrayList<Transactions> transactions = new ArrayList<>();
          for (Given given : givens) {
              givnesS=givnesS+given.getName()+ ": "+given.getQuantity()+ "\n";
@@ -385,7 +387,7 @@ public class MakeAppointment {
          Transactions.makeTransaciton(transactions);
          int patientId=Integer.parseInt(patient_id.getText());
          int sessionId=Session.genId();
-         int hgb = hgbT.getText().isEmpty()? 0:Integer.parseInt(hgbT.getText());
+         double hgb = hgbT.getText().isEmpty()? 0:Double.parseDouble(hgbT.getText());
          int weight = weightT.getText().isEmpty()? 0:Integer.parseInt(weightT.getText());
          int bloodGlucose = blood_glucose.getText().isEmpty()? 0:Integer.parseInt(blood_glucose.getText());
          int fastingBloodGlucose = fasting_blood_glucose.getText().isEmpty()? 0:Integer.parseInt(fasting_blood_glucose.getText());
@@ -408,7 +410,6 @@ public class MakeAppointment {
          String addedBy=added_by.getText();
 
          String address= patient.getAddress();
-
         String visit = day + "/" + month + "/"+year;
 
 
@@ -500,7 +501,10 @@ public class MakeAppointment {
     private void saveComb(){
         switch (cNote.getValue()) {
             case "chief complaint":
+<<<<<<< HEAD
+=======
                 System.out.println("I was fucing here!!");
+>>>>>>> parent of eb3ec90 (final6)
                 chief_complaint=notes.getText();
                 break;
             case "medical history":
