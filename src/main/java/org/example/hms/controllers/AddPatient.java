@@ -57,20 +57,6 @@ public class AddPatient {
     Button add11;
     @FXML
     ComboBox<String>diagnosisC;
-    @FXML
-            CheckBox gyna;
-    @FXML
-            CheckBox hyper;
-    @FXML
-            CheckBox abd;
-    @FXML
-            CheckBox psychology;
-    @FXML
-            CheckBox nutritionist;
-    @FXML
-            CheckBox physiotherapy;
-    @FXML
-            TextField otherT;
     boolean wannaUpdate=false;
     boolean addhim=true;
     Doctor doctor;
@@ -118,14 +104,6 @@ public class AddPatient {
                 m.setText(String.valueOf(patient.getmB()));
                 y.setText(String.valueOf(patient.getyB()));
                 medical.setText(String.valueOf(patient.isMedicalDay()));
-                phone.setText(String.valueOf(patient.getPhoneNumber()));
-                diagnosisC.setValue(patient.getCause());
-                String nigga = String.valueOf(patient.getHeight());
-                System.out.println(nigga);
-                medical.setSelected(patient.isMedicalDay());
-                ramcos.setSelected(patient.isExists());
-                height.setText(nigga);
-
                 wannaUpdate=true;
             }
             addhim=false;
@@ -144,19 +122,7 @@ public class AddPatient {
             int month= LocalDate.now().getMonthValue();
             int year=LocalDate.now().getYear();
             String lastVisit = String.valueOf(day)+'/' + String.valueOf(month) + '/' +String.valueOf(year);
-            String nigga = (gyna.isSelected() ? "Gyna, " : "") +
-                    (hyper.isSelected() ? "Hypertension, " : "") +
-                    (physiotherapy.isSelected() ? "Physiotherapy, " : "") +
-                    (abd.isSelected() ? "Abdomin Pain, " : "") +
-                    (nutritionist.isSelected() ? "Nutritionist, " : "") +
-                    (psychology.isSelected() ? "Psychology, " : "")+
-                    otherT.getText();
-
-// Remove the trailing comma and space if any
-            if (nigga.endsWith(", ")) {
-                nigga = nigga.substring(0, nigga.length() - 2);
-            }
-            patient = new Patient( Integer.parseInt(did),dname,dsector, daddress, doctor.getName(),Double.parseDouble(height.getText()),year, month, day,Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt(y.getText()),1,lastVisit,medical.isSelected(),nigga,ramcos.isSelected());
+            patient = new Patient( Integer.parseInt(did),dname,dsector, daddress, doctor.getName(),Double.parseDouble(height.getText()),year, month, day,Integer.parseInt(d.getText()), Integer.parseInt(m.getText()),Integer.parseInt(y.getText()),1,lastVisit,medical.isSelected(),diagnosisC.getValue(),ramcos.isSelected());
 
             patients.add(patient);
             Patient.addPatient(new ArrayList<>(patients));
@@ -230,7 +196,7 @@ public class AddPatient {
         }));
 
         height.textProperty().addListener(((observableValue, s, t1) -> {
-            if (!t1.matches("-?\\d*(\\.\\d*)?")) {
+            if (!t1.matches("\\d*")) {
                 height.setText(s);
             }
 

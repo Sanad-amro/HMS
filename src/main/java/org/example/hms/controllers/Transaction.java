@@ -79,7 +79,10 @@ public class Transaction {
 
 
     public void initialize(){
-        n.setText(String.valueOf(filteredList.size()));
+        for (Transactions t : filteredList) {
+            num += t.getQuantity();
+        }
+        n.setText(String.valueOf(num));
         yy.setText("2025");
         tyy.setText("2025");
         mm.setText("1");

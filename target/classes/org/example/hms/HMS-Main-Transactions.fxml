@@ -160,12 +160,12 @@
             <Font size="33.0" />
          </font>
       </Label>
-      <Label layoutX="381.0" layoutY="450.0" prefHeight="53.0" prefWidth="500.0" text="the number of medicine transactions is: " textFill="#26ff00">
+      <Label layoutX="381.0" layoutY="450.0" prefHeight="53.0" prefWidth="608.0" text="The quantities sum of all medicine transactions is: " textFill="#26ff00">
          <font>
             <Font size="33.0" />
          </font>
       </Label>
-      <Label fx:id="n" layoutX="880.0" layoutY="449.0" prefHeight="53.0" prefWidth="121.0" text="." textFill="#26ff00">
+      <Label fx:id="n" layoutX="997.0" layoutY="450.0" prefHeight="53.0" prefWidth="121.0" text="." textFill="#26ff00">
          <font>
             <Font size="33.0" />
          </font>

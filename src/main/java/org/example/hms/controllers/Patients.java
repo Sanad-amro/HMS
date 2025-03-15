@@ -198,10 +198,10 @@ public class Patients {
 
         yy.setText(String.valueOf(year));
         tyy.setText(String.valueOf(year));
-        mm.setText(String.valueOf(month));
-        dd.setText(String.valueOf(day));
-        tmm.setText(String.valueOf(month));
-        tdd.setText(String.valueOf(day));
+        mm.setText(String.valueOf(1));
+        dd.setText(String.valueOf(1));
+        tmm.setText(String.valueOf(12));
+        tdd.setText(String.valueOf(30));
         searchField.clear();
         searchField.getParent().requestFocus();
         buttons.setOpacity(0);
@@ -249,7 +249,7 @@ public class Patients {
         System.out.println("I am here!!");
         if(idOfSlectedPatient!=0){
             Patient Patient1 = Patient.getPatient(idOfSlectedPatient);
-            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/updatePatient.fxml"));
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("/org/example/hms/UpdatePatient.fxml"));
             root=loader.load();
             UpdatePatient updatePatient = loader.getController();
             updatePatient.setPatient(Patient1);
@@ -289,7 +289,8 @@ public class Patients {
             // Check the first search field
             boolean matchesFirstField = (newValue == null || newValue.isEmpty()) ||
                     patient.getName().toLowerCase().contains(newValue.toLowerCase()) ||
-                    patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase()) || String.valueOf(patient.getPatientId()).contains(newValue);
+                    patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase()) ||
+                    patient.getPatientId()==Integer.parseInt(newValue);
 
             // Check the second search field
             boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||

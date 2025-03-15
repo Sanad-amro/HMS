@@ -48,7 +48,10 @@ public class DatabaseSync extends Application {
             List<String> cloudTables = getTables(cloudConn);
             List<String> localTables = getTables(localConn);
 
+            // Count only missing tables and tables that need updates
             int totalTables = cloudTables.size();
+            if (totalTables == 0) totalTables = 1; // Avoid division by zero
+
             int currentTable = 0;
 
             for (String table : cloudTables) {
@@ -57,14 +60,17 @@ public class DatabaseSync extends Application {
                 }
                 syncTableStructure(cloudConn, localConn, table);
                 syncTableData(cloudConn, localConn, table);
+
                 currentTable++;
-                final double progress = (double) currentTable / totalTables;
-                final int percentage = (int) (progress * 100);
+                double progress = Math.min((double) currentTable / totalTables, 1.0); // Ensure max is 100%
+                int percentage = (int) (progress * 100);
+
                 Platform.runLater(() -> {
                     progressBar.setProgress(progress);
                     progressLabel.setText(percentage + "%");
                 });
             }
+
             Platform.runLater(progressStage::close);
             System.out.println("Database synchronization complete.");
         } catch (SQLException e) {
@@ -72,13 +78,14 @@ public class DatabaseSync extends Application {
         }
     }
 
+
     private static List<String> getTables(Connection conn) throws SQLException {
         List<String> tables = new ArrayList<>();
         DatabaseMetaData metaData = conn.getMetaData();
         try (ResultSet rs = metaData.getTables(null, null, "%", new String[]{"TABLE"})) {
             while (rs.next()) {
                 String tableName = rs.getString("TABLE_NAME");
-                if (!tableName.startsWith("pma__")) {
+                if (!tableName.startsWith("pma__") && !tableName.equalsIgnoreCase("performance_schema")) {
                     tables.add(tableName);
                 }
             }
@@ -86,26 +93,27 @@ public class DatabaseSync extends Application {
         return tables;
     }
 
-    private static void cloneTable(Connection cloudConn, Connection localConn, String table) throws SQLException {
-        try (Statement stmt = cloudConn.createStatement();
+    private static void cloneTable(Connection srcConn, Connection destConn, String table) throws SQLException {
+        try (Statement stmt = srcConn.createStatement();
              ResultSet rs = stmt.executeQuery("SHOW CREATE TABLE " + table)) {
             if (rs.next()) {
-                String createTableSQL = rs.getString(2);
-                try (Statement localStmt = localConn.createStatement()) {
-                    localStmt.executeUpdate(createTableSQL);
+                try (Statement destStmt = destConn.createStatement()) {
+                    destStmt.executeUpdate(rs.getString(2));
                 }
             }
         }
     }
 
-    private static void syncTableStructure(Connection cloudConn, Connection localConn, String table) throws SQLException {
-        Map<String, String> cloudSchema = getTableSchema(cloudConn, table);
-        Map<String, String> localSchema = getTableSchema(localConn, table);
+    private static void syncTableStructure(Connection srcConn, Connection destConn, String table) throws SQLException {
+        Map<String, String> srcSchema = getTableSchema(srcConn, table);
+        Map<String, String> destSchema = getTableSchema(destConn, table);
 
-        if (localSchema.isEmpty()) {
-            createTable(localConn, table, cloudSchema);
-        } else {
-            updateTableStructure(localConn, table, cloudSchema, localSchema);
+        for (String column : srcSchema.keySet()) {
+            if (!destSchema.containsKey(column)) {
+                try (Statement stmt = destConn.createStatement()) {
+                    stmt.executeUpdate("ALTER TABLE " + table + " ADD COLUMN " + column + " " + srcSchema.get(column));
+                }
+            }
         }
     }
 
@@ -120,53 +128,60 @@ public class DatabaseSync extends Application {
         return schema;
     }
 
-    private static void createTable(Connection conn, String table, Map<String, String> schema) throws SQLException {
-        StringBuilder createSQL = new StringBuilder("CREATE TABLE " + table + " (");
-        for (Map.Entry<String, String> entry : schema.entrySet()) {
-            createSQL.append(entry.getKey()).append(" ").append(entry.getValue()).append(", ");
-        }
-        createSQL.setLength(createSQL.length() - 2);
-        createSQL.append(")");
-        try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(createSQL.toString());
-        }
-    }
-
-    private static void updateTableStructure(Connection conn, String table, Map<String, String> cloudSchema, Map<String, String> localSchema) throws SQLException {
-        for (String column : cloudSchema.keySet()) {
-            if (!localSchema.containsKey(column)) {
-                try (Statement stmt = conn.createStatement()) {
-                    stmt.executeUpdate("ALTER TABLE " + table + " ADD COLUMN " + column + " " + cloudSchema.get(column));
+    private static void syncTableData(Connection srcConn, Connection destConn, String table) throws SQLException {
+        String selectSQL = "SELECT * FROM " + table;
+        try (Statement srcStmt = srcConn.createStatement();
+             ResultSet rs = srcStmt.executeQuery(selectSQL);
+             PreparedStatement insertStmt = createInsertStatement(destConn, table, rs)) {
+            while (rs.next()) {
+                if (!rowExists(destConn, table, rs)) {
+                    for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                        insertStmt.setObject(i, rs.getObject(i));
+                    }
+                    insertStmt.executeUpdate();
                 }
             }
         }
     }
 
-    private static void syncTableData(Connection cloudConn, Connection localConn, String table) throws SQLException {
-        try (Statement localStmt = localConn.createStatement()) {
-            localStmt.executeUpdate("DELETE FROM " + table);
+    private static boolean rowExists(Connection conn, String table, ResultSet rs) throws SQLException {
+        StringBuilder query = new StringBuilder("SELECT COUNT(*) FROM " + table + " WHERE ");
+        ResultSetMetaData metaData = rs.getMetaData();
+
+        for (int i = 1; i <= metaData.getColumnCount(); i++) {
+            if (i > 1) query.append(" AND ");
+            query.append(metaData.getColumnName(i)).append(" = ?");
         }
-        String selectSQL = "SELECT * FROM " + table;
-        try (Statement cloudStmt = cloudConn.createStatement();
-             ResultSet rs = cloudStmt.executeQuery(selectSQL);
-             PreparedStatement insertStmt = createInsertStatement(localConn, table, rs)) {
-            while (rs.next()) {
-                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-                    insertStmt.setObject(i, rs.getObject(i));
-                }
-                insertStmt.executeUpdate();
+
+        try (PreparedStatement stmt = conn.prepareStatement(query.toString())) {
+            for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                stmt.setObject(i, rs.getObject(i));
+            }
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                return resultSet.next() && resultSet.getInt(1) > 0;
             }
         }
     }
 
     private static PreparedStatement createInsertStatement(Connection conn, String table, ResultSet rs) throws SQLException {
-        StringBuilder insertSQL = new StringBuilder("INSERT INTO " + table + " VALUES (");
+        StringBuilder insertSQL = new StringBuilder("INSERT IGNORE INTO " + table + " VALUES (");
         for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
             insertSQL.append("?, ");
         }
         insertSQL.setLength(insertSQL.length() - 2);
         insertSQL.append(")");
         return conn.prepareStatement(insertSQL.toString());
+    }
+
+
+
+    private void updateProgress(int current, int total) {
+        double progress = (double) current / total;
+        int percentage = (int) (progress * 100);
+        Platform.runLater(() -> {
+            progressBar.setProgress(progress);
+            progressLabel.setText(percentage + "%");
+        });
     }
 
     public static void main(String[] args) {

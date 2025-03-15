@@ -144,7 +144,7 @@
          </font>
       </Button>
       <CheckBox fx:id="gen" layoutX="93.0" layoutY="197.0" mnemonicParsing="false" text="General Doctor" textFill="WHITE" />
-      <CheckBox fx:id="nurse" layoutX="222.0" layoutY="197.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="53.0" text="Nurse" textFill="WHITE" />
+      <CheckBox fx:id="nurse" layoutX="222.0" layoutY="197.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="88.0" text="Nutritionist" textFill="WHITE" />
       <CheckBox fx:id="phis" layoutX="93.0" layoutY="238.0" mnemonicParsing="false" text="physiotherapist" textFill="WHITE" />
       <CheckBox fx:id="syco" layoutX="222.0" layoutY="238.0" mnemonicParsing="false" text="psychologist" textFill="WHITE" />
       <ComboBox fx:id="cause" layoutX="118.0" layoutY="422.0" prefHeight="30.0" prefWidth="150.0" />

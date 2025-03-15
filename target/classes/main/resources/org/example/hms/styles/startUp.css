@@ -54,10 +54,39 @@
     -fx-translate: all 0.5 ease ;
 
 }
+.deleteButton{
+    -fx-background-radius: 20px;
+    -fx-background-color: #c0392b;
+    -fx-text-fill: white;
+    -fx-translate: all 0.5 ease ;
+}
+.deleteButton:hover{
+    -fx-background-radius: 20px;
+    -fx-background-color: white;
+    -fx-text-fill: #c0392b;
+    -fx-translate: all 0.5 ease ;
+}
+
+
+.addButton{
+    -fx-background-radius: 20px;
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-translate: all 0.5 ease ;
+
+}
+.addButton:hover{
+    -fx-background-radius: 20px;
+    -fx-background-color: white;
+    -fx-text-fill: #27ae60;
+    -fx-translate: all 0.5 ease ;
+
+}
+
 .buttons:hover{
     -fx-background-color: white;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+    /*-fx-scale-x: 1.05;*/
+    /*-fx-scale-y: 1.05;*/
     -fx-text-fill: #00b4fc ;
 }
 .textField{
@@ -76,3 +105,4 @@
     -fx-alignment: center;
     -fx-font-size: x-large;
 }
+

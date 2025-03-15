@@ -14,12 +14,12 @@
             <font>
                 <Font name="AppleMyungjo Regular" size="13.0" />
             </font></Label>
-        <TextField fx:id="name" layoutX="101.0" layoutY="49.0" prefHeight="32.0" prefWidth="259.0" styleClass="textField" />
-        <Label layoutX="366.0" layoutY="44.0" prefHeight="36.0" prefWidth="61.0" text="Id" textFill="WHITE">
+        <TextField fx:id="name" layoutX="139.0" layoutY="49.0" styleClass="textField" />
+        <Label layoutX="309.0" layoutY="44.0" prefHeight="36.0" prefWidth="118.0" text="Id" textFill="WHITE">
             <font>
                 <Font name="AppleMyungjo Regular" size="13.0" />
             </font></Label>
-        <TextField fx:id="id" layoutX="434.0" layoutY="49.0" prefHeight="32.0" prefWidth="168.0" styleClass="textField" />
+        <TextField fx:id="id" layoutX="434.0" layoutY="49.0" styleClass="textField" />
         <Label layoutX="14.0" layoutY="95.0" prefHeight="36.0" prefWidth="118.0" text="Address" textFill="WHITE">
             <font>
                 <Font name="AppleMyungjo Regular" size="13.0" />
@@ -38,38 +38,32 @@
         <Label fx:id="pass_match" layoutX="276.0" layoutY="466.0" prefHeight="36.0" prefWidth="169.0" text="the password doesn't match" textFill="RED" visible="false" />
         <Label fx:id="succsess" layoutX="278.0" layoutY="466.0" prefHeight="36.0" prefWidth="169.0" text="Doctor Successfully added" textFill="#00e161" visible="false" />
         <Button fx:id="close" layoutX="62.0" layoutY="420.0" mnemonicParsing="false" onAction="#close" prefHeight="46.0" prefWidth="103.0" styleClass="addButton" text="Close" />
-      <TextField fx:id="d" layoutX="534.0" layoutY="150.0" prefHeight="32.0" prefWidth="45.0" promptText="dd" styleClass="textField" />
-      <TextField fx:id="phone" layoutX="434.0" layoutY="100.0" prefHeight="32.0" prefWidth="168.0" styleClass="textField" />
-      <Label fx:id="addedByd" layoutX="245.0" layoutY="325.0" prefHeight="36.0" prefWidth="118.0" text="Added by" textFill="WHITE">
-         <font>
-            <Font name="AppleMyungjo Regular" size="13.0" />
-         </font>
-      </Label>
-      <TextField fx:id="addedBy" disable="true" layoutX="368.0" layoutY="327.0" styleClass="textField" />
-      <Label layoutX="15.0" layoutY="148.0" prefHeight="36.0" prefWidth="118.0" text="Height" textFill="WHITE">
-         <font>
-            <Font name="AppleMyungjo Regular" size="13.0" />
-         </font>
-      </Label>
-      <TextField fx:id="height" layoutX="140.0" layoutY="153.0" styleClass="textField" />
-      <TextField fx:id="m" layoutX="482.0" layoutY="150.0" prefHeight="32.0" prefWidth="45.0" promptText="mm" styleClass="textField" />
-      <TextField fx:id="y" layoutX="385.0" layoutY="148.0" prefHeight="32.0" prefWidth="91.0" promptText="yy" styleClass="textField" />
-      <CheckBox fx:id="medical" layoutX="450.0" layoutY="219.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="84.0" text="Medical Day" textFill="WHITE" />
-      <Label layoutX="47.0" layoutY="209.0" prefHeight="36.0" prefWidth="97.0" text="Cause of the visit:" textFill="WHITE">
-         <font>
-            <Font name="AppleMyungjo Regular" size="13.0" />
-         </font>
-      </Label>
-      <Button fx:id="add1" layoutX="351.0" layoutY="211.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
-      <CheckBox fx:id="ramcos" layoutX="449.0" layoutY="263.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="153.0" text="This patient exist on Datos" textFill="WHITE" />
-      <ComboBox fx:id="address" layoutX="139.0" layoutY="100.0" prefHeight="32.0" prefWidth="123.0" promptText="address" styleClass="textField" />
-      <Button fx:id="add11" layoutX="263.0" layoutY="100.0" mnemonicParsing="false" onAction="#add1" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
-      <CheckBox fx:id="gyna" layoutX="152.0" layoutY="217.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="45.0" text="Gyna" textFill="WHITE" />
-      <CheckBox fx:id="hyper" layoutX="209.0" layoutY="219.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="84.0" text="Hypertension" textFill="WHITE" />
-      <CheckBox fx:id="abd" layoutX="152.0" layoutY="253.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="84.0" text="Abdomin Pane" textFill="WHITE" />
-      <TextField fx:id="otherT" layoutX="146.0" layoutY="277.0" prefHeight="32.0" prefWidth="194.0" promptText="Other" styleClass="textField" />
-      <CheckBox fx:id="physiotherapy" layoutX="47.0" layoutY="253.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="84.0" text="Physiotherapy" textFill="WHITE" />
-      <CheckBox fx:id="nutritionist" layoutX="256.0" layoutY="252.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="91.0" text="Nutritionist" textFill="WHITE" />
-      <CheckBox fx:id="psychology" layoutX="48.0" layoutY="283.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="91.0" text="Psychology" textFill="WHITE" />
+        <TextField fx:id="d" layoutX="534.0" layoutY="150.0" prefHeight="32.0" prefWidth="45.0" promptText="dd" styleClass="textField" />
+        <TextField fx:id="phone" layoutX="434.0" layoutY="100.0" styleClass="textField" />
+        <Label fx:id="addedByd" layoutX="245.0" layoutY="325.0" prefHeight="36.0" prefWidth="118.0" text="Added by" textFill="WHITE">
+            <font>
+                <Font name="AppleMyungjo Regular" size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="addedBy" disable="true" layoutX="368.0" layoutY="327.0" styleClass="textField" />
+        <Label layoutX="15.0" layoutY="148.0" prefHeight="36.0" prefWidth="118.0" text="Height" textFill="WHITE">
+            <font>
+                <Font name="AppleMyungjo Regular" size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="height" layoutX="140.0" layoutY="153.0" styleClass="textField" />
+        <TextField fx:id="m" layoutX="482.0" layoutY="150.0" prefHeight="32.0" prefWidth="45.0" promptText="mm" styleClass="textField" />
+        <TextField fx:id="y" layoutX="385.0" layoutY="148.0" prefHeight="32.0" prefWidth="91.0" promptText="yy" styleClass="textField" />
+        <CheckBox fx:id="medical" layoutX="450.0" layoutY="219.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="84.0" text="Medical Day" textFill="WHITE" />
+        <Label layoutX="47.0" layoutY="209.0" prefHeight="36.0" prefWidth="97.0" text="Cause of the visit" textFill="WHITE">
+            <font>
+                <Font name="AppleMyungjo Regular" size="13.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="diagnosisC" layoutX="155.0" layoutY="213.0" prefHeight="32.0" prefWidth="193.0" promptText="Cause of the visit" styleClass="textField" />
+        <Button fx:id="add1" layoutX="351.0" layoutY="211.0" mnemonicParsing="false" onAction="#add" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
+        <CheckBox fx:id="ramcos" layoutX="449.0" layoutY="263.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="153.0" text="This patient exist on Datos" textFill="WHITE" />
+        <ComboBox fx:id="address" layoutX="139.0" layoutY="100.0" prefHeight="32.0" prefWidth="123.0" promptText="address" styleClass="textField" />
+        <Button fx:id="add11" layoutX="263.0" layoutY="100.0" mnemonicParsing="false" onAction="#add1" prefHeight="32.0" prefWidth="57.0" styleClass="addButton" text="add one" />
     </children>
 </AnchorPane>
