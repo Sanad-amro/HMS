@@ -290,7 +290,7 @@ public class Patients {
             boolean matchesFirstField = (newValue == null || newValue.isEmpty()) ||
                     patient.getName().toLowerCase().contains(newValue.toLowerCase()) ||
                     patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase()) ||
-                    patient.getPatientId()==Integer.parseInt(newValue);
+                    String.valueOf(patient.getPatientId()).equals(newValue);
 
             // Check the second search field
             boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||

@@ -41,7 +41,7 @@ public class Transaction {
     @FXML
     Label n;
     @FXML
-    TextField searchField;
+    TextField searchField,searchField11;
     @FXML
     TextField searchField1;
     @FXML
@@ -144,7 +144,9 @@ public class Transaction {
         num=0;
 
         String newValue = searchField.getText();
-        String newValue2 = searchField1.getText();
+        String newValue2 = searchField11.getText();
+        String newValue3 = searchField1.getText();
+
 
         // Combine predicates to filter the list once
         filteredList.setPredicate(transactionsl -> {
@@ -154,8 +156,8 @@ public class Transaction {
                     transactionsl.getName().toLowerCase().contains(newValue.toLowerCase());
 
             // Check the second search field
-            boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||
-                    transactionsl.getPatient_name().contains(newValue2) ;
+            boolean matchesSecondField = (newValue3 == null || newValue3.isEmpty()) ||
+                    transactionsl.getPatient_name().contains(newValue3) ;
 
             boolean medpat = (newValue2 == null || newValue2.isEmpty()) ||
                     transactionsl.getD_name().contains(newValue2) ;

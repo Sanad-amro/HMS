@@ -30,7 +30,10 @@ public class View {
 
     Session session;
 
-
+    @FXML
+    TableView<Session> appTable;
+    @FXML
+    TableColumn<Session, String> created_at;
     @FXML
     TextField patient_id;
     @FXML
@@ -130,8 +133,14 @@ public class View {
     String address;
     String patientName;
 
+    List<Session> sessions= Session.getAllSessions();
+    ObservableList<Session> sessionObservableList= FXCollections.observableArrayList(sessions);
+    FilteredList<Session> filteredList=new FilteredList<>(sessionObservableList, d -> true);
 
     private void pop(){
+        filteredList=new FilteredList<>(sessionObservableList, d -> true);
+        filteredList=new FilteredList<>(sessionObservableList, d -> d.getPatientId()==session.getPatientId());
+        appTable.setItems(filteredList                 );
 
 
 
@@ -233,6 +242,24 @@ public class View {
     }
     ////////////////////////////////////////////////////////////////////////////////initialize ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void initialize() throws IOException {
+        created_at.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        appTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Session>() {
+            @Override
+            public void changed(ObservableValue<? extends Session> observableValue, Session session1, Session storedSession) {
+                if(storedSession != null){
+                     session= storedSession;
+                    System.out.println("Selected Nigga ");
+
+                    pop();
+
+                }
+                else {
+                    session= storedSession;
+
+                    System.out.println("Selected Appointment doesn't have an id");
+                }
+            }
+        });
 
         success.setVisible(false);
         diagnosisC.setItems(Diagnosis.getAllItems());
@@ -438,6 +465,7 @@ public class View {
                 }
             }
         });
+        appTable.setItems(filteredList);
     }
     @FXML
     private void blankClicked(MouseEvent event){
@@ -619,6 +647,7 @@ public class View {
             default:
                 break;
         }
+
     }
 
     public void setSession(Session sessionById) {

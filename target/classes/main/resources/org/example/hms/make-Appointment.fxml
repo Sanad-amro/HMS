@@ -63,12 +63,6 @@
          </font>
       </Label>
       <TextField fx:id="heart_rate" layoutX="497.0" layoutY="170.0" styleClass="textField" />
-      <Label layoutX="6.0" layoutY="226.0" prefHeight="36.0" prefWidth="142.0" text="systolic blood pressure" textFill="WHITE">
-         <font>
-            <Font name="AppleMyungjo Regular" size="13.0" />
-         </font>
-      </Label>
-      <TextField fx:id="systolic_blood_pressure" layoutX="148.0" layoutY="231.0" styleClass="textField" />
       <Label layoutX="388.0" layoutY="231.0" prefHeight="36.0" prefWidth="103.0" text="blood pressure" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />
@@ -93,12 +87,6 @@
          </font>
       </Label>
       <TextField fx:id="random_blood_glucose" layoutX="883.0" layoutY="109.0" styleClass="textField" />
-      <Label layoutX="706.0" layoutY="160.0" prefHeight="36.0" prefWidth="150.0" text="diastolic blood pressure" textFill="WHITE">
-         <font>
-            <Font name="AppleMyungjo Regular" size="13.0" />
-         </font>
-      </Label>
-      <TextField fx:id="diastolic_blood_pressure" layoutX="881.0" layoutY="170.0" styleClass="textField" />
       <Label layoutX="733.0" layoutY="229.0" prefHeight="36.0" prefWidth="97.0" text="Cause of the visit" textFill="WHITE">
          <font>
             <Font name="AppleMyungjo Regular" size="13.0" />

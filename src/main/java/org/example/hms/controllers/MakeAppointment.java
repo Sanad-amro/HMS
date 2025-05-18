@@ -31,7 +31,6 @@ public class MakeAppointment {
     Patient patient;
     Doctor doctor;
 
-
     @FXML
     TextField yearT;
     @FXML
@@ -104,16 +103,16 @@ public class MakeAppointment {
     ArrayList<Given> givens=new ArrayList<>();
 
 
-    private String chief_complaint = "FREE";
-    private String medical_history = "FREE";
-    private String medical_and_surgical_history = "FREE";
-    private String obstetric_history = "FREE";
-    private String gynecological_history = "FREE";
-    private String doctor_and_midwife_note = "FREE";
-    private String nutritionist_note = "FREE";
-    private String physiotherapist_note = "FREE";
-    private String midWifeNote="FREE";
-    private String psychologistNote = "FREE";
+   // private String chief_complaint = "FREE";
+   // private String medical_history = "FREE";
+   // private String medical_and_surgical_history = "FREE";
+   // private String obstetric_history = "FREE";
+   // private String gynecological_history = "FREE";
+   // private String doctor_and_midwife_note = "FREE";
+   // private String nutritionist_note = "FREE";
+   // private String physiotherapist_note = "FREE";
+   // private String midWifeNote="FREE";
+   // private String psychologistNote = "FREE";
 
 
     public Doctor getDoctor() {
@@ -457,18 +456,8 @@ public class MakeAppointment {
             }
 
         }));
-        systolic_blood_pressure.textProperty().addListener(((observableValue, s, t1) -> {
-            if (!t1.matches("\\d*")) {
-                systolic_blood_pressure.setText(s);
-            }
 
-        }));
-        diastolic_blood_pressure.textProperty().addListener(((observableValue, s, t1) -> {
-            if (!t1.matches("\\d*")) {
-                diastolic_blood_pressure.setText(s);
-            }
 
-        }));
         heart_rate.textProperty().addListener(((observableValue, s, t1) -> {
             if (!t1.matches("\\d*")) {
                 heart_rate.setText(s);
@@ -620,14 +609,13 @@ public class MakeAppointment {
          String gynecologicalHistory = t5.getText();
          String doctorAndMidwifeNote = t6.getText();
          String diagnosis = diagnosisC.getValue();
-         String currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
          String prescribedMedications = givnesS;
          String nutritionistNote = t7.getText();
          String physiotherapistNote = t8.getText();
          String addedBy=added_by.getText();
-         midWifeNote=t9.getText();
-         psychologistNote=t10.getText();
-
+         String midWifeNote=t9.getText();
+         String psychologistNote=t10.getText();
+         String currentMedications =current_medications.getText().isEmpty()? null:current_medications.getText();
          String address= patient.getAddress();
 
         String visit = day + "/" + month + "/"+year;

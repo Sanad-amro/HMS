@@ -267,18 +267,18 @@ public class Appointments {
             boolean matchesFirstField = (newValue == null || newValue.isEmpty()) ||
                     patient.getName().toLowerCase().contains(newValue.toLowerCase()) ||
                     patient.getPhoneNumber().toLowerCase().contains(newValue.toLowerCase()) ||
-                    patient.getPatientId()==Integer.parseInt(newValue);
+                    String.valueOf(patient.getPatientId()).equals(newValue);
 
             // Check the second search field
             boolean matchesSecondField = (newValue2 == null || newValue2.isEmpty()) ||
                     session.getAddedBy().contains(newValue2) ;
 
 
-            boolean genC = (gen.isSelected() && !session.getDoctorAndMidwifeNote().equals("FREE")) || !gen.isSelected();
+            boolean genC = (gen.isSelected() && (!session.getDoctorAndMidwifeNote().equals("FREE") || session.getDoctorAndMidwifeNote()!=null) ) || !gen.isSelected();
 
-            boolean nurseC = (nurse.isSelected() && !session.getNutritionistNote().equals("FREE")) || !nurse.isSelected();
-            boolean sycoC = (syco.isSelected() && !session.getPsychologistNote().equals("FREE")) || !syco.isSelected();
-            boolean phisC = (phis.isSelected() && !session.getPhysiotherapistNote().equals("FREE")) || !phis.isSelected();
+            boolean nurseC = (nurse.isSelected() && (!session.getNutritionistNote().equals("FREE")) || session.getNutritionistNote()!=null) || !nurse.isSelected();
+            boolean sycoC = (syco.isSelected() && (!session.getPsychologistNote().equals("FREE")) || session.getPsychologistNote()!=null) || !syco.isSelected();
+            boolean phisC = ((phis.isSelected() && !session.getPhysiotherapistNote().equals("FREE")) || session.getPhysiotherapistNote()!=null ) || !phis.isSelected();
 
             boolean causeB=false;
             if (cause.getValue()=="None")
